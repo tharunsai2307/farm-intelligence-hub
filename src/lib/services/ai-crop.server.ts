@@ -253,8 +253,15 @@ export async function analyzeCrop(
       ? Buffer.from(bytes).toString("base64")
       : btoa(String.fromCharCode(...bytes));
 
-  const prediction = await callRoboflow(base64);
+  let prediction = await callRoboflow(base64);
+  let modelName: "roboflow" | "gemini-vision" = "roboflow";
+  if (!prediction) {
+    // Fallback: Lovable AI Gemini Vision analyses the image directly.
+    prediction = await callGeminiVision(base64, input.crop_type ?? null);
+    modelName = "gemini-vision";
+  }
   if (!prediction) return fail(AI_CROP_ERRORS.PROVIDER_FAILED);
+
 
   const llm = await callLlmExplain(
     prediction,

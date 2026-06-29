@@ -83,13 +83,15 @@ function Landing() {
   return (
     <div className="landing-home min-h-screen bg-background pb-24 text-foreground sm:pb-0">
       <SiteHeader />
-      <Hero />
-      <ImpactSection />
-      <ProblemSection />
-      <SolutionSection />
-      <FeatureGrid />
-      <Workflow />
-      <FinalCTA />
+      <main id="main">
+        <Hero />
+        <ImpactSection />
+        <ProblemSection />
+        <SolutionSection />
+        <FeatureGrid />
+        <Workflow />
+        <FinalCTA />
+      </main>
       <SiteFooter />
       <MobileStickyCTA />
     </div>

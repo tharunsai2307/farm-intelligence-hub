@@ -255,7 +255,6 @@ function PlotSheet({
   label?: string;
 }) {
   const form = useForm<PlotFormValues>({
-    resolver: zodResolver(plotForm),
     defaultValues: {
       name: "",
       crop: "",

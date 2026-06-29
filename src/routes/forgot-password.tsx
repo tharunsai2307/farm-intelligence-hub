@@ -16,7 +16,16 @@ const schema = z.object({ email: z.string().email("Enter a valid email") });
 type Values = z.infer<typeof schema>;
 
 export const Route = createFileRoute("/forgot-password")({
-  head: () => ({ meta: [{ title: "Reset password — AgriTwin OS" }] }),
+  head: () => ({
+    meta: [
+      { title: "Reset password — AgriTwin OS" },
+      { name: "description", content: "Request a password reset link for your AgriTwin OS account." },
+      { property: "og:title", content: "Reset password — AgriTwin OS" },
+      { property: "og:description", content: "Get a secure link to reset your AgriTwin OS password." },
+      { property: "og:url", content: "/forgot-password" },
+    ],
+    links: [{ rel: "canonical", href: "/forgot-password" }],
+  }),
   component: ForgotPage,
 });
 

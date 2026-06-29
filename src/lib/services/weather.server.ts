@@ -77,6 +77,8 @@ type OneCallResponse = {
 async function fetchOneCall(lat: number, lon: number): Promise<OneCallResponse | null> {
   const key = apiKey();
   if (!key) return null;
+
+  // 1) Try One Call 3.0 (paid plan).
   const url = new URL("https://api.openweathermap.org/data/3.0/onecall");
   url.searchParams.set("lat", String(lat));
   url.searchParams.set("lon", String(lon));
@@ -84,12 +86,94 @@ async function fetchOneCall(lat: number, lon: number): Promise<OneCallResponse |
   url.searchParams.set("exclude", "minutely,hourly");
   url.searchParams.set("appid", key);
   const res = await fetch(url.toString());
-  if (!res.ok) {
-    console.error("[weather] OneCall failed", res.status, await res.text().catch(() => ""));
+  if (res.ok) return (await res.json()) as OneCallResponse;
+
+  const errText = await res.text().catch(() => "");
+  console.error("[weather] OneCall 3.0 failed", res.status, errText);
+
+  // 2) Fallback to free 2.5 endpoints (no paid subscription required).
+  if (res.status === 401 || res.status === 403 || res.status === 404) {
+    return await fetchLegacy(lat, lon, key);
+  }
+  return null;
+}
+
+/**
+ * Fallback: assemble a OneCall-shaped response from free 2.5 endpoints.
+ * - /data/2.5/weather  → current
+ * - /data/2.5/forecast → 3-hourly forecast, condensed into daily buckets
+ */
+async function fetchLegacy(lat: number, lon: number, key: string): Promise<OneCallResponse | null> {
+  const base = "https://api.openweathermap.org/data/2.5";
+  const qs = `lat=${lat}&lon=${lon}&units=metric&appid=${encodeURIComponent(key)}`;
+  const [cw, fc] = await Promise.all([
+    fetch(`${base}/weather?${qs}`),
+    fetch(`${base}/forecast?${qs}`),
+  ]);
+  if (!cw.ok && !fc.ok) {
+    console.error("[weather] legacy 2.5 failed", cw.status, fc.status);
     return null;
   }
-  return (await res.json()) as OneCallResponse;
+  const out: OneCallResponse = {};
+  if (cw.ok) {
+    const j = (await cw.json()) as {
+      dt: number;
+      main?: { temp: number; humidity: number; pressure: number };
+      wind?: { speed: number };
+      rain?: { "1h"?: number };
+      weather?: Array<{ main: string; description: string }>;
+    };
+    out.current = {
+      dt: j.dt,
+      temp: j.main?.temp ?? 0,
+      humidity: j.main?.humidity ?? 0,
+      pressure: j.main?.pressure ?? 0,
+      uvi: 0,
+      wind_speed: j.wind?.speed ?? 0,
+      rain: j.rain ? { "1h": j.rain["1h"] } : undefined,
+      weather: j.weather,
+    };
+  }
+  if (fc.ok) {
+    const j = (await fc.json()) as {
+      list: Array<{
+        dt: number;
+        main: { temp_min: number; temp_max: number; humidity: number };
+        wind: { speed: number };
+        pop?: number;
+        rain?: { "3h"?: number };
+        weather: Array<{ main: string; description: string }>;
+      }>;
+    };
+    const byDay = new Map<string, ReturnType<() => NonNullable<OneCallResponse["daily"]>[number]>>();
+    for (const it of j.list) {
+      const dayKey = new Date(it.dt * 1000).toISOString().slice(0, 10);
+      const existing = byDay.get(dayKey);
+      const rain = it.rain?.["3h"] ?? 0;
+      if (!existing) {
+        byDay.set(dayKey, {
+          dt: it.dt,
+          temp: { min: it.main.temp_min, max: it.main.temp_max },
+          humidity: it.main.humidity,
+          pop: it.pop ?? 0,
+          rain,
+          wind_speed: it.wind.speed,
+          weather: it.weather,
+        });
+      } else {
+        existing.temp.min = Math.min(existing.temp.min, it.main.temp_min);
+        existing.temp.max = Math.max(existing.temp.max, it.main.temp_max);
+        existing.humidity = Math.round((existing.humidity + it.main.humidity) / 2);
+        existing.pop = Math.max(existing.pop, it.pop ?? 0);
+        existing.rain = (existing.rain ?? 0) + rain;
+        existing.wind_speed = Math.max(existing.wind_speed, it.wind.speed);
+      }
+    }
+    out.daily = Array.from(byDay.values()).slice(0, 7);
+  }
+  return out;
 }
+
 
 export type CurrentWeather = {
   temperature: number | null;

@@ -23,6 +23,7 @@ import { Route as ApiWeatherSyncRouteImport } from './routes/api/weather/sync'
 import { Route as ApiWeatherForecastRouteImport } from './routes/api/weather/forecast'
 import { Route as ApiWeatherCurrentRouteImport } from './routes/api/weather/current'
 import { Route as ApiWeatherAlertsRouteImport } from './routes/api/weather/alerts'
+import { Route as ApiAiAnalyzeRouteImport } from './routes/api/ai/analyze'
 import { Route as AuthenticatedOnboardingProfileRouteImport } from './routes/_authenticated/onboarding.profile'
 import { Route as AuthenticatedOnboardingFarmRouteImport } from './routes/_authenticated/onboarding.farm'
 import { Route as AuthenticatedAppYieldPredictionRouteImport } from './routes/_authenticated/app.yield-prediction'
@@ -36,9 +37,12 @@ import { Route as AuthenticatedAppDigitalTwinRouteImport } from './routes/_authe
 import { Route as AuthenticatedAppDashboardRouteImport } from './routes/_authenticated/app.dashboard'
 import { Route as AuthenticatedAppAssistantRouteImport } from './routes/_authenticated/app.assistant'
 import { Route as AuthenticatedAppFarmIndexRouteImport } from './routes/_authenticated/app.farm.index'
+import { Route as AuthenticatedAppCropHealthIndexRouteImport } from './routes/_authenticated/app.crop-health.index'
 import { Route as AuthenticatedAppFarmRecordsRouteImport } from './routes/_authenticated/app.farm.records'
 import { Route as AuthenticatedAppFarmPlotsRouteImport } from './routes/_authenticated/app.farm.plots'
 import { Route as AuthenticatedAppFarmLocationRouteImport } from './routes/_authenticated/app.farm.location'
+import { Route as AuthenticatedAppCropHealthHistoryRouteImport } from './routes/_authenticated/app.crop-health.history'
+import { Route as AuthenticatedAppCropHealthDetailsIdRouteImport } from './routes/_authenticated/app.crop-health.details.$id'
 
 const VerifyEmailRoute = VerifyEmailRouteImport.update({
   id: '/verify-email',
@@ -108,6 +112,11 @@ const ApiWeatherCurrentRoute = ApiWeatherCurrentRouteImport.update({
 const ApiWeatherAlertsRoute = ApiWeatherAlertsRouteImport.update({
   id: '/api/weather/alerts',
   path: '/api/weather/alerts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAiAnalyzeRoute = ApiAiAnalyzeRouteImport.update({
+  id: '/api/ai/analyze',
+  path: '/api/ai/analyze',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedOnboardingProfileRoute =
@@ -185,6 +194,12 @@ const AuthenticatedAppFarmIndexRoute =
     path: '/app/farm/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAppCropHealthIndexRoute =
+  AuthenticatedAppCropHealthIndexRouteImport.update({
+    id: '/app/crop-health/',
+    path: '/app/crop-health/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAppFarmRecordsRoute =
   AuthenticatedAppFarmRecordsRouteImport.update({
     id: '/app/farm/records',
@@ -201,6 +216,18 @@ const AuthenticatedAppFarmLocationRoute =
   AuthenticatedAppFarmLocationRouteImport.update({
     id: '/app/farm/location',
     path: '/app/farm/location',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAppCropHealthHistoryRoute =
+  AuthenticatedAppCropHealthHistoryRouteImport.update({
+    id: '/app/crop-health/history',
+    path: '/app/crop-health/history',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAppCropHealthDetailsIdRoute =
+  AuthenticatedAppCropHealthDetailsIdRouteImport.update({
+    id: '/app/crop-health/details/$id',
+    path: '/app/crop-health/details/$id',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 
@@ -224,16 +251,20 @@ export interface FileRoutesByFullPath {
   '/app/yield-prediction': typeof AuthenticatedAppYieldPredictionRoute
   '/onboarding/farm': typeof AuthenticatedOnboardingFarmRoute
   '/onboarding/profile': typeof AuthenticatedOnboardingProfileRoute
+  '/api/ai/analyze': typeof ApiAiAnalyzeRoute
   '/api/weather/alerts': typeof ApiWeatherAlertsRoute
   '/api/weather/current': typeof ApiWeatherCurrentRoute
   '/api/weather/forecast': typeof ApiWeatherForecastRoute
   '/api/weather/sync': typeof ApiWeatherSyncRoute
   '/app/': typeof AuthenticatedAppIndexRoute
   '/onboarding/': typeof AuthenticatedOnboardingIndexRoute
+  '/app/crop-health/history': typeof AuthenticatedAppCropHealthHistoryRoute
   '/app/farm/location': typeof AuthenticatedAppFarmLocationRoute
   '/app/farm/plots': typeof AuthenticatedAppFarmPlotsRoute
   '/app/farm/records': typeof AuthenticatedAppFarmRecordsRoute
+  '/app/crop-health/': typeof AuthenticatedAppCropHealthIndexRoute
   '/app/farm/': typeof AuthenticatedAppFarmIndexRoute
+  '/app/crop-health/details/$id': typeof AuthenticatedAppCropHealthDetailsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -255,16 +286,20 @@ export interface FileRoutesByTo {
   '/app/yield-prediction': typeof AuthenticatedAppYieldPredictionRoute
   '/onboarding/farm': typeof AuthenticatedOnboardingFarmRoute
   '/onboarding/profile': typeof AuthenticatedOnboardingProfileRoute
+  '/api/ai/analyze': typeof ApiAiAnalyzeRoute
   '/api/weather/alerts': typeof ApiWeatherAlertsRoute
   '/api/weather/current': typeof ApiWeatherCurrentRoute
   '/api/weather/forecast': typeof ApiWeatherForecastRoute
   '/api/weather/sync': typeof ApiWeatherSyncRoute
   '/app': typeof AuthenticatedAppIndexRoute
   '/onboarding': typeof AuthenticatedOnboardingIndexRoute
+  '/app/crop-health/history': typeof AuthenticatedAppCropHealthHistoryRoute
   '/app/farm/location': typeof AuthenticatedAppFarmLocationRoute
   '/app/farm/plots': typeof AuthenticatedAppFarmPlotsRoute
   '/app/farm/records': typeof AuthenticatedAppFarmRecordsRoute
+  '/app/crop-health': typeof AuthenticatedAppCropHealthIndexRoute
   '/app/farm': typeof AuthenticatedAppFarmIndexRoute
+  '/app/crop-health/details/$id': typeof AuthenticatedAppCropHealthDetailsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -288,16 +323,20 @@ export interface FileRoutesById {
   '/_authenticated/app/yield-prediction': typeof AuthenticatedAppYieldPredictionRoute
   '/_authenticated/onboarding/farm': typeof AuthenticatedOnboardingFarmRoute
   '/_authenticated/onboarding/profile': typeof AuthenticatedOnboardingProfileRoute
+  '/api/ai/analyze': typeof ApiAiAnalyzeRoute
   '/api/weather/alerts': typeof ApiWeatherAlertsRoute
   '/api/weather/current': typeof ApiWeatherCurrentRoute
   '/api/weather/forecast': typeof ApiWeatherForecastRoute
   '/api/weather/sync': typeof ApiWeatherSyncRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/_authenticated/onboarding/': typeof AuthenticatedOnboardingIndexRoute
+  '/_authenticated/app/crop-health/history': typeof AuthenticatedAppCropHealthHistoryRoute
   '/_authenticated/app/farm/location': typeof AuthenticatedAppFarmLocationRoute
   '/_authenticated/app/farm/plots': typeof AuthenticatedAppFarmPlotsRoute
   '/_authenticated/app/farm/records': typeof AuthenticatedAppFarmRecordsRoute
+  '/_authenticated/app/crop-health/': typeof AuthenticatedAppCropHealthIndexRoute
   '/_authenticated/app/farm/': typeof AuthenticatedAppFarmIndexRoute
+  '/_authenticated/app/crop-health/details/$id': typeof AuthenticatedAppCropHealthDetailsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -321,16 +360,20 @@ export interface FileRouteTypes {
     | '/app/yield-prediction'
     | '/onboarding/farm'
     | '/onboarding/profile'
+    | '/api/ai/analyze'
     | '/api/weather/alerts'
     | '/api/weather/current'
     | '/api/weather/forecast'
     | '/api/weather/sync'
     | '/app/'
     | '/onboarding/'
+    | '/app/crop-health/history'
     | '/app/farm/location'
     | '/app/farm/plots'
     | '/app/farm/records'
+    | '/app/crop-health/'
     | '/app/farm/'
+    | '/app/crop-health/details/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -352,16 +395,20 @@ export interface FileRouteTypes {
     | '/app/yield-prediction'
     | '/onboarding/farm'
     | '/onboarding/profile'
+    | '/api/ai/analyze'
     | '/api/weather/alerts'
     | '/api/weather/current'
     | '/api/weather/forecast'
     | '/api/weather/sync'
     | '/app'
     | '/onboarding'
+    | '/app/crop-health/history'
     | '/app/farm/location'
     | '/app/farm/plots'
     | '/app/farm/records'
+    | '/app/crop-health'
     | '/app/farm'
+    | '/app/crop-health/details/$id'
   id:
     | '__root__'
     | '/'
@@ -384,16 +431,20 @@ export interface FileRouteTypes {
     | '/_authenticated/app/yield-prediction'
     | '/_authenticated/onboarding/farm'
     | '/_authenticated/onboarding/profile'
+    | '/api/ai/analyze'
     | '/api/weather/alerts'
     | '/api/weather/current'
     | '/api/weather/forecast'
     | '/api/weather/sync'
     | '/_authenticated/app/'
     | '/_authenticated/onboarding/'
+    | '/_authenticated/app/crop-health/history'
     | '/_authenticated/app/farm/location'
     | '/_authenticated/app/farm/plots'
     | '/_authenticated/app/farm/records'
+    | '/_authenticated/app/crop-health/'
     | '/_authenticated/app/farm/'
+    | '/_authenticated/app/crop-health/details/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -405,6 +456,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   VerifyEmailRoute: typeof VerifyEmailRoute
+  ApiAiAnalyzeRoute: typeof ApiAiAnalyzeRoute
   ApiWeatherAlertsRoute: typeof ApiWeatherAlertsRoute
   ApiWeatherCurrentRoute: typeof ApiWeatherCurrentRoute
   ApiWeatherForecastRoute: typeof ApiWeatherForecastRoute
@@ -511,6 +563,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiWeatherAlertsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/ai/analyze': {
+      id: '/api/ai/analyze'
+      path: '/api/ai/analyze'
+      fullPath: '/api/ai/analyze'
+      preLoaderRoute: typeof ApiAiAnalyzeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/onboarding/profile': {
       id: '/_authenticated/onboarding/profile'
       path: '/onboarding/profile'
@@ -602,6 +661,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppFarmIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/app/crop-health/': {
+      id: '/_authenticated/app/crop-health/'
+      path: '/app/crop-health'
+      fullPath: '/app/crop-health/'
+      preLoaderRoute: typeof AuthenticatedAppCropHealthIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/app/farm/records': {
       id: '/_authenticated/app/farm/records'
       path: '/app/farm/records'
@@ -623,6 +689,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppFarmLocationRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/app/crop-health/history': {
+      id: '/_authenticated/app/crop-health/history'
+      path: '/app/crop-health/history'
+      fullPath: '/app/crop-health/history'
+      preLoaderRoute: typeof AuthenticatedAppCropHealthHistoryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/app/crop-health/details/$id': {
+      id: '/_authenticated/app/crop-health/details/$id'
+      path: '/app/crop-health/details/$id'
+      fullPath: '/app/crop-health/details/$id'
+      preLoaderRoute: typeof AuthenticatedAppCropHealthDetailsIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -641,10 +721,13 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedOnboardingProfileRoute: typeof AuthenticatedOnboardingProfileRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
   AuthenticatedOnboardingIndexRoute: typeof AuthenticatedOnboardingIndexRoute
+  AuthenticatedAppCropHealthHistoryRoute: typeof AuthenticatedAppCropHealthHistoryRoute
   AuthenticatedAppFarmLocationRoute: typeof AuthenticatedAppFarmLocationRoute
   AuthenticatedAppFarmPlotsRoute: typeof AuthenticatedAppFarmPlotsRoute
   AuthenticatedAppFarmRecordsRoute: typeof AuthenticatedAppFarmRecordsRoute
+  AuthenticatedAppCropHealthIndexRoute: typeof AuthenticatedAppCropHealthIndexRoute
   AuthenticatedAppFarmIndexRoute: typeof AuthenticatedAppFarmIndexRoute
+  AuthenticatedAppCropHealthDetailsIdRoute: typeof AuthenticatedAppCropHealthDetailsIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -662,10 +745,15 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedOnboardingProfileRoute: AuthenticatedOnboardingProfileRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
   AuthenticatedOnboardingIndexRoute: AuthenticatedOnboardingIndexRoute,
+  AuthenticatedAppCropHealthHistoryRoute:
+    AuthenticatedAppCropHealthHistoryRoute,
   AuthenticatedAppFarmLocationRoute: AuthenticatedAppFarmLocationRoute,
   AuthenticatedAppFarmPlotsRoute: AuthenticatedAppFarmPlotsRoute,
   AuthenticatedAppFarmRecordsRoute: AuthenticatedAppFarmRecordsRoute,
+  AuthenticatedAppCropHealthIndexRoute: AuthenticatedAppCropHealthIndexRoute,
   AuthenticatedAppFarmIndexRoute: AuthenticatedAppFarmIndexRoute,
+  AuthenticatedAppCropHealthDetailsIdRoute:
+    AuthenticatedAppCropHealthDetailsIdRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -680,6 +768,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   VerifyEmailRoute: VerifyEmailRoute,
+  ApiAiAnalyzeRoute: ApiAiAnalyzeRoute,
   ApiWeatherAlertsRoute: ApiWeatherAlertsRoute,
   ApiWeatherCurrentRoute: ApiWeatherCurrentRoute,
   ApiWeatherForecastRoute: ApiWeatherForecastRoute,

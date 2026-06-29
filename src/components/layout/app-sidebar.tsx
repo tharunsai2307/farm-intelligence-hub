@@ -44,7 +44,7 @@ export const NAV_ITEMS = [
   { title: "FarmOS", url: "/app/farmos", icon: Tractor, group: "Operations", ready: false },
   { title: "Marketplace", url: "/app/marketplace", icon: ShoppingBag, group: "Operations", ready: false },
   { title: "Reports", url: "/app/reports", icon: FileBarChart2, group: "Operations", ready: false },
-  { title: "AI Assistant", url: "/app/assistant", icon: Bot, group: "Operations", ready: false },
+  { title: "AgriMind AI", url: "/app/agrimind", icon: Bot, group: "Intelligence", ready: true },
   { title: "Settings", url: "/app/settings", icon: Settings, group: "Account", ready: true },
 ] as const;
 

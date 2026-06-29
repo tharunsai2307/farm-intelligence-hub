@@ -407,6 +407,81 @@ export type Database = {
           },
         ]
       }
+      farm_recommendations: {
+        Row: {
+          accepted: boolean
+          confidence: string
+          created_at: string
+          dismissed: boolean
+          farm_id: string
+          id: string
+          language: string
+          plot_id: string | null
+          reason: string
+          recommendation: string
+          recommendation_type: string
+          source_modules: string[]
+          status: string
+          title: string
+          translations: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          accepted?: boolean
+          confidence?: string
+          created_at?: string
+          dismissed?: boolean
+          farm_id: string
+          id?: string
+          language?: string
+          plot_id?: string | null
+          reason: string
+          recommendation: string
+          recommendation_type: string
+          source_modules?: string[]
+          status?: string
+          title: string
+          translations?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          accepted?: boolean
+          confidence?: string
+          created_at?: string
+          dismissed?: boolean
+          farm_id?: string
+          id?: string
+          language?: string
+          plot_id?: string | null
+          reason?: string
+          recommendation?: string
+          recommendation_type?: string
+          source_modules?: string[]
+          status?: string
+          title?: string
+          translations?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "farm_recommendations_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "farm_recommendations_plot_id_fkey"
+            columns: ["plot_id"]
+            isOneToOne: false
+            referencedRelation: "farm_plots"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       farms: {
         Row: {
           area_hectares: number | null
@@ -606,6 +681,7 @@ export type Database = {
           location: string | null
           onboarded: boolean
           phone: string | null
+          preferred_language: string | null
           state: string | null
           updated_at: string
           user_role: string | null
@@ -622,6 +698,7 @@ export type Database = {
           location?: string | null
           onboarded?: boolean
           phone?: string | null
+          preferred_language?: string | null
           state?: string | null
           updated_at?: string
           user_role?: string | null
@@ -638,6 +715,7 @@ export type Database = {
           location?: string | null
           onboarded?: boolean
           phone?: string | null
+          preferred_language?: string | null
           state?: string | null
           updated_at?: string
           user_role?: string | null

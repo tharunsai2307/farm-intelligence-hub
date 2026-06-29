@@ -32,6 +32,7 @@ import { EmptyState } from "@/components/common/empty-state";
 import { CardSkeleton } from "@/components/common/loading-skeleton";
 import { ErrorState } from "@/components/common/error-state";
 import { DataSourceStatusBadge } from "@/components/common/data-source-status-badge";
+import { AgriMindInsightsWidget } from "@/components/dashboard/agrimind-insights-widget";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
@@ -124,6 +125,8 @@ function DashboardPage() {
             farm={primary}
             availability={summaryQ.data?.availability}
           />
+
+          <AgriMindInsightsWidget farmId={primary.id} />
 
           <QuickActions />
 

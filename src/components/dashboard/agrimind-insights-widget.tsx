@@ -1,13 +1,15 @@
 import { Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Brain, ArrowRight, Sparkles } from "lucide-react";
+import { toast } from "sonner";
+import { Brain, ArrowRight, Sparkles, ClipboardPlus } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getLatestAgriMindRecommendation } from "@/lib/services/agrimind.service";
+import { taskFromRecommendation } from "@/lib/services/farmos.service";
 
 /**
  * Dashboard widget — shows the most recent AgriMind recommendation for the
@@ -19,6 +21,20 @@ export function AgriMindInsightsWidget({ farmId }: { farmId: string }) {
     queryKey: ["agrimind", "latest", farmId],
     queryFn: () => latestFn({ data: { farm_id: farmId } }),
     enabled: !!farmId,
+  });
+
+  const qc = useQueryClient();
+  const createTask = useMutation({
+    mutationFn: async (id: string) => {
+      const res = await taskFromRecommendation({ data: { recommendation_id: id } });
+      if (!res.success) throw new Error(res.error);
+    },
+    onSuccess: () => {
+      toast.success("Task created from recommendation");
+      qc.invalidateQueries({ queryKey: ["tasks"] });
+      qc.invalidateQueries({ queryKey: ["farmos-overview"] });
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Failed"),
   });
 
   const rec = q.data?.success ? q.data.data : null;
@@ -54,6 +70,12 @@ export function AgriMindInsightsWidget({ farmId }: { farmId: string }) {
             <p className="line-clamp-2 text-sm text-muted-foreground">
               {rec.recommendation}
             </p>
+            <div className="flex justify-end pt-1">
+              <Button size="sm" variant="outline" onClick={() => createTask.mutate(rec.id)} disabled={createTask.isPending}>
+                <ClipboardPlus className="mr-2 h-3.5 w-3.5" />
+                {createTask.isPending ? "Creating…" : "Create task"}
+              </Button>
+            </div>
           </div>
         ) : (
           <div className="flex items-center justify-between gap-3 text-sm">

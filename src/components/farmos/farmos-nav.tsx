@@ -22,7 +22,7 @@ export function FarmOSNav() {
         return (
           <Link
             key={t.href}
-            to={t.href}
+            to={t.href as any}
             className={cn(
               "flex items-center gap-2 rounded-md px-3 py-1.5 text-sm transition",
               active ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-accent hover:text-foreground",

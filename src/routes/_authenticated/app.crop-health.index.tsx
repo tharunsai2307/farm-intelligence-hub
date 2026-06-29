@@ -24,7 +24,16 @@ import { analyzeCropImage, getAiCropStatus } from "@/lib/services/ai-crop.servic
 import { validateCropImage } from "@/lib/storage/upload-validation";
 
 export const Route = createFileRoute("/_authenticated/app/crop-health/")({
-  head: () => ({ meta: [{ title: "AI Crop Intelligence — AgriTwin OS" }] }),
+  head: () => ({
+    meta: [
+      { title: "AI Crop Intelligence — AgriTwin OS" },
+      { name: "description", content: "Upload a leaf photo to detect diseases and get AI-generated treatment plans powered by computer vision and Gemini." },
+      { name: "robots", content: "noindex, nofollow" },
+      { property: "og:title", content: "AI Crop Intelligence — AgriTwin OS" },
+      { property: "og:description", content: "Detect crop diseases from photos with computer vision and AI treatment plans." },
+      { property: "og:url", content: "https://agri-twin-os.lovable.app/app/crop-health" },
+    ],
+  }),
   component: CropHealthPage,
 });
 

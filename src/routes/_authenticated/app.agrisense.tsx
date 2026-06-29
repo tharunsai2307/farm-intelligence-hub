@@ -92,7 +92,16 @@ import type {
 import { deriveDeviceHealth } from "@/lib/services/agrisense.server";
 
 export const Route = createFileRoute("/_authenticated/app/agrisense")({
-  head: () => ({ meta: [{ title: "AgriSense — AgriTwin OS" }] }),
+  head: () => ({
+    meta: [
+      { title: "AgriSense — AgriTwin OS" },
+      { name: "description", content: "Real-time telemetry from IoT sensors, satellite, and drone sources normalized into your farm's Digital Twin." },
+      { name: "robots", content: "noindex, nofollow" },
+      { property: "og:title", content: "AgriSense — AgriTwin OS" },
+      { property: "og:description", content: "Live sensor, satellite, and drone telemetry unified for your Digital Twin." },
+      { property: "og:url", content: "https://agri-twin-os.lovable.app/app/agrisense" },
+    ],
+  }),
   component: AgriSensePage,
 });
 

@@ -17,7 +17,16 @@ import { listFarmPlots } from "@/lib/services/farm-plots.functions";
 import { FarmLocationMap, type MapMarker } from "@/components/farm/farm-location-map";
 
 export const Route = createFileRoute("/_authenticated/app/farm/location")({
-  head: () => ({ meta: [{ title: "Farm Location — AgriTwin OS" }] }),
+  head: () => ({
+    meta: [
+      { title: "Farm Location — AgriTwin OS" },
+      { name: "description", content: "Pin your farm's GPS coordinates on a free satellite map and manage plot boundaries for accurate AI insights." },
+      { name: "robots", content: "noindex, nofollow" },
+      { property: "og:title", content: "Farm Location — AgriTwin OS" },
+      { property: "og:description", content: "Pin GPS coordinates and manage plot boundaries on a satellite map." },
+      { property: "og:url", content: "https://agri-twin-os.lovable.app/app/farm/location" },
+    ],
+  }),
   component: LocationPage,
 });
 

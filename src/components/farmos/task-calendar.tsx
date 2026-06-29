@@ -65,11 +65,11 @@ export function TaskCalendar({
           <h2 className="text-lg font-semibold">{month.toLocaleString(undefined, { month: "long", year: "numeric" })}</h2>
         </div>
         <div className="flex gap-1">
-          <Button size="icon" variant="outline" onClick={() => onMonthChange(new Date(month.getFullYear(), month.getMonth() - 1, 1))}>
+          <Button size="icon" variant="outline" aria-label="Previous month" onClick={() => onMonthChange(new Date(month.getFullYear(), month.getMonth() - 1, 1))}>
             <ChevronLeft className="h-4 w-4" />
           </Button>
           <Button size="sm" variant="outline" onClick={() => onMonthChange(new Date())}>Today</Button>
-          <Button size="icon" variant="outline" onClick={() => onMonthChange(new Date(month.getFullYear(), month.getMonth() + 1, 1))}>
+          <Button size="icon" variant="outline" aria-label="Next month" onClick={() => onMonthChange(new Date(month.getFullYear(), month.getMonth() + 1, 1))}>
             <ChevronRight className="h-4 w-4" />
           </Button>
         </div>

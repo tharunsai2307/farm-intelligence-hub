@@ -43,12 +43,10 @@ export const getCropAnalysis = createServerFn({ method: "GET" })
   .handler(async ({ data, context }) => {
     const { getAnalysisById, createSignedImageUrl } = await import("./ai-crop.server");
     const result = await getAnalysisById(context.supabase, data.id);
-    if (!result.success) return result;
-    const signedUrl = await createSignedImageUrl(
-      context.supabase,
-      result.data.image_path,
-    );
-    return ok({ ...result.data, signed_image_url: signedUrl });
+    if (!result.success || !result.data) return result;
+    const row = result.data;
+    const signedUrl = await createSignedImageUrl(context.supabase, row.image_path);
+    return ok({ ...row, signed_image_url: signedUrl });
   });
 
 export const getSignedAnalysisImage = createServerFn({ method: "GET" })

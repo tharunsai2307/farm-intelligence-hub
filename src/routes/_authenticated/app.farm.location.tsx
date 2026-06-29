@@ -103,7 +103,7 @@ function LocationPage() {
     <div className="mx-auto max-w-7xl">
       <PageHeader
         title="Farm Location"
-        description="Set the real GPS coordinates of your farm. Mapbox renders only when a public token is configured."
+        description="Set the real GPS coordinates of your farm. Tap the satellite map or use your current location — no API key required."
       />
 
       {farmQ.isLoading && <CardSkeleton />}

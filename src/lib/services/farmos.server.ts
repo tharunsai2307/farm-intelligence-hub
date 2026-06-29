@@ -191,7 +191,7 @@ export async function upsertTask(
   userId: string,
   payload: Partial<TaskRow> & { farm_id: string; title: string },
 ): Promise<ServiceResult<TaskRow>> {
-  const row: Partial<TaskRow> & { user_id: string } = { ...payload, user_id: userId };
+  const row: any = { ...payload, user_id: userId };
   if (payload.status === "completed" && !payload.completed_at) {
     row.completed_at = new Date().toISOString();
   }
@@ -215,12 +215,12 @@ export async function createTaskFromRecommendation(
 ): Promise<ServiceResult<TaskRow>> {
   const { data: rec, error: recErr } = await supabase
     .from("farm_recommendations")
-    .select("id, farm_id, plot_id, module, summary, body, severity")
+    .select("id, farm_id, plot_id, recommendation_type, title, recommendation, source_modules, confidence")
     .eq("id", args.recommendation_id)
     .maybeSingle();
   if (recErr || !rec) return fail(recErr?.message ?? "Recommendation not found");
 
-  // Heuristic mapping: module → task_type
+  // Heuristic mapping: recommendation_type / first source module → task_type
   const moduleToType: Record<string, TaskRow["task_type"]> = {
     irrigation: "irrigation",
     crop_health: "spraying",
@@ -228,22 +228,25 @@ export async function createTaskFromRecommendation(
     soil: "fertilizer_application",
     pest: "spraying",
     harvest: "harvest",
+    fertilizer: "fertilizer_application",
+    spraying: "spraying",
+    inspection: "inspection",
   };
-  const task_type = moduleToType[String(rec.module ?? "")] ?? "manual_work";
+  const key = String(rec.recommendation_type ?? rec.source_modules?.[0] ?? "").toLowerCase();
+  const task_type = moduleToType[key] ?? "manual_work";
 
-  const severityToPriority: Record<string, TaskRow["priority"]> = {
-    critical: "urgent",
+  const confToPriority: Record<string, TaskRow["priority"]> = {
     high: "high",
     medium: "medium",
     low: "low",
   };
-  const priority = severityToPriority[String(rec.severity ?? "")] ?? "medium";
+  const priority = confToPriority[String(rec.confidence ?? "").toLowerCase()] ?? "medium";
 
   return upsertTask(supabase, userId, {
     farm_id: rec.farm_id,
     plot_id: rec.plot_id ?? null,
-    title: rec.summary ?? "AgriMind recommendation",
-    description: rec.body ?? null,
+    title: rec.title ?? "AgriMind recommendation",
+    description: rec.recommendation ?? null,
     task_type,
     priority,
     status: "pending",
@@ -345,7 +348,7 @@ export interface CalendarItem {
   starts_at: string;
   ends_at: string | null;
   ref_id: string;
-  meta?: Record<string, unknown>;
+  meta?: Record<string, string | number | null>;
 }
 
 export async function listCalendar(

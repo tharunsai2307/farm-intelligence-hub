@@ -83,6 +83,8 @@ import {
   renameSensorDevice,
 } from "@/lib/services/agrisense.service";
 import { getCurrentWeatherByFarm } from "@/lib/services/weather.service";
+import { getAiCropStatus } from "@/lib/services/ai-crop.service";
+import { getAgriMindStatus } from "@/lib/services/agrimind.service";
 import { supabase } from "@/integrations/supabase/client";
 import { getDataSourceStatuses } from "@/lib/env";
 import type {

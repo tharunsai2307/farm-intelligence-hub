@@ -107,15 +107,18 @@ function LoginPage() {
           <Login3DScene />
         </div>
 
+        {/* Animated accent orb */}
+        <div className="login-orb" style={{ top: "18%", right: "-6%" }} aria-hidden />
+
         <div className="relative z-10 space-y-8 max-w-md">
           <div>
-            <p className="text-xs uppercase tracking-[0.22em] text-[oklch(0.755_0.115_88)]/80 mb-3">
+            <p className="text-xs uppercase tracking-[0.22em] text-[oklch(0.92_0.12_88)]/90 mb-3">
               Welcome back
             </p>
-            <h2 className="font-serif text-4xl xl:text-5xl leading-[1.05] tracking-tight">
-              Decisions, grounded in <em className="italic text-[oklch(0.83_0.115_88)]">real</em> field data.
+            <h2 className="font-serif text-4xl xl:text-5xl leading-[1.05] tracking-tight login-shimmer-text">
+              Decisions, grounded in real field data.
             </h2>
-            <p className="text-sm text-[oklch(0.92_0.06_142)]/75 mt-4 leading-relaxed">
+            <p className="text-sm text-[oklch(0.98_0.012_150)]/85 mt-4 leading-relaxed">
               Weather intelligence, crop vision, soil signals and AgriMind recommendations — unified in one calm operating surface.
             </p>
           </div>
@@ -123,11 +126,12 @@ function LoginPage() {
           <div className="login-stat-rule" />
 
           <div className="grid grid-cols-3 gap-6">
-            <Feature icon={LineChart} label="Live telemetry" />
-            <Feature icon={Sparkles} label="AgriMind AI" />
-            <Feature icon={ShieldCheck} label="Private &amp; secure" />
+            <Feature icon={LineChart} label="Live telemetry" delay={0} />
+            <Feature icon={Sparkles} label="AgriMind AI" delay={0.6} />
+            <Feature icon={ShieldCheck} label="Private &amp; secure" delay={1.2} />
           </div>
         </div>
+
 
         <p className="relative z-10 text-xs text-[oklch(0.92_0.06_142)]/55">
           © {new Date().getFullYear()} AgriTwin OS · Crafted by Tharun Sai

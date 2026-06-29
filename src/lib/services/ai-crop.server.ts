@@ -28,8 +28,12 @@ export const AI_CROP_ERRORS = {
 } as const;
 
 export function isAiCropConfigured(): boolean {
-  return Boolean(process.env.ROBOFLOW_API_KEY && process.env.ROBOFLOW_MODEL_ID);
+  return Boolean(
+    (process.env.ROBOFLOW_API_KEY && process.env.ROBOFLOW_MODEL_ID) ||
+      process.env.LOVABLE_API_KEY,
+  );
 }
+
 
 export type RoboflowPrediction = {
   class: string;

@@ -74,9 +74,11 @@ export function ImageUploader({ value, onChange, disabled }: ImageUploaderProps)
               className="absolute right-2 top-2"
               onClick={() => accept(null)}
               disabled={disabled}
+              aria-label="Remove selected crop image"
             >
               <X className="mr-1 h-4 w-4" /> Remove
             </Button>
+
             <p className="mt-3 text-center text-xs text-muted-foreground">
               {value.name} · {(value.size / 1024 / 1024).toFixed(2)} MB
             </p>

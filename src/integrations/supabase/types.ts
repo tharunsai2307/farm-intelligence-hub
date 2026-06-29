@@ -14,6 +14,90 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_audit_log: {
+        Row: {
+          action: string
+          actor_id: string | null
+          created_at: string
+          id: string
+          ip_address: string | null
+          payload: Json | null
+          target_id: string | null
+          target_table: string | null
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          payload?: Json | null
+          target_id?: string | null
+          target_table?: string | null
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          payload?: Json | null
+          target_id?: string | null
+          target_table?: string | null
+        }
+        Relationships: []
+      }
+      buyer_profiles: {
+        Row: {
+          bio: string | null
+          business_name: string
+          business_type: string | null
+          city: string | null
+          created_at: string
+          district: string | null
+          gstin: string | null
+          id: string
+          phone: string | null
+          preferred_commodities: string[] | null
+          state: string | null
+          updated_at: string
+          user_id: string
+          verified: boolean
+        }
+        Insert: {
+          bio?: string | null
+          business_name: string
+          business_type?: string | null
+          city?: string | null
+          created_at?: string
+          district?: string | null
+          gstin?: string | null
+          id?: string
+          phone?: string | null
+          preferred_commodities?: string[] | null
+          state?: string | null
+          updated_at?: string
+          user_id: string
+          verified?: boolean
+        }
+        Update: {
+          bio?: string | null
+          business_name?: string
+          business_type?: string | null
+          city?: string | null
+          created_at?: string
+          district?: string | null
+          gstin?: string | null
+          id?: string
+          phone?: string | null
+          preferred_commodities?: string[] | null
+          state?: string | null
+          updated_at?: string
+          user_id?: string
+          verified?: boolean
+        }
+        Relationships: []
+      }
       calendar_events: {
         Row: {
           all_day: boolean
@@ -83,6 +167,62 @@ export type Database = {
             columns: ["related_task_id"]
             isOneToOne: false
             referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      carbon_records: {
+        Row: {
+          activity: string | null
+          created_at: string
+          created_by: string | null
+          details: Json | null
+          emissions_kg_co2e: number
+          farm_id: string
+          id: string
+          occurred_on: string
+          quantity: number | null
+          sequestration_kg_co2e: number
+          source: Database["public"]["Enums"]["carbon_source"]
+          unit: string | null
+          updated_at: string
+        }
+        Insert: {
+          activity?: string | null
+          created_at?: string
+          created_by?: string | null
+          details?: Json | null
+          emissions_kg_co2e?: number
+          farm_id: string
+          id?: string
+          occurred_on: string
+          quantity?: number | null
+          sequestration_kg_co2e?: number
+          source: Database["public"]["Enums"]["carbon_source"]
+          unit?: string | null
+          updated_at?: string
+        }
+        Update: {
+          activity?: string | null
+          created_at?: string
+          created_by?: string | null
+          details?: Json | null
+          emissions_kg_co2e?: number
+          farm_id?: string
+          id?: string
+          occurred_on?: string
+          quantity?: number | null
+          sequestration_kg_co2e?: number
+          source?: Database["public"]["Enums"]["carbon_source"]
+          unit?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "carbon_records_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
             referencedColumns: ["id"]
           },
         ]
@@ -560,6 +700,97 @@ export type Database = {
           },
         ]
       }
+      farm_collaborators: {
+        Row: {
+          accepted_at: string
+          created_at: string
+          farm_id: string
+          id: string
+          invited_by: string | null
+          role: Database["public"]["Enums"]["collaborator_role"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          accepted_at?: string
+          created_at?: string
+          farm_id: string
+          id?: string
+          invited_by?: string | null
+          role?: Database["public"]["Enums"]["collaborator_role"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          accepted_at?: string
+          created_at?: string
+          farm_id?: string
+          id?: string
+          invited_by?: string | null
+          role?: Database["public"]["Enums"]["collaborator_role"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "farm_collaborators_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      farm_invitations: {
+        Row: {
+          accepted_at: string | null
+          created_at: string
+          email: string
+          expires_at: string
+          farm_id: string
+          id: string
+          invited_by: string
+          role: Database["public"]["Enums"]["collaborator_role"]
+          status: Database["public"]["Enums"]["invitation_status"]
+          token: string
+          updated_at: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          created_at?: string
+          email: string
+          expires_at?: string
+          farm_id: string
+          id?: string
+          invited_by: string
+          role?: Database["public"]["Enums"]["collaborator_role"]
+          status?: Database["public"]["Enums"]["invitation_status"]
+          token?: string
+          updated_at?: string
+        }
+        Update: {
+          accepted_at?: string | null
+          created_at?: string
+          email?: string
+          expires_at?: string
+          farm_id?: string
+          id?: string
+          invited_by?: string
+          role?: Database["public"]["Enums"]["collaborator_role"]
+          status?: Database["public"]["Enums"]["invitation_status"]
+          token?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "farm_invitations_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       farm_locations: {
         Row: {
           created_at: string
@@ -831,6 +1062,69 @@ export type Database = {
         }
         Relationships: []
       }
+      government_schemes: {
+        Row: {
+          active: boolean
+          agency: string | null
+          application_url: string | null
+          benefits: string | null
+          category: Database["public"]["Enums"]["scheme_category"]
+          created_at: string
+          description: string | null
+          documents_required: string[] | null
+          eligibility: Json | null
+          external_id: string | null
+          helpline: string | null
+          id: string
+          last_synced_at: string
+          level: string | null
+          name: string
+          source: string
+          state: string | null
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          agency?: string | null
+          application_url?: string | null
+          benefits?: string | null
+          category?: Database["public"]["Enums"]["scheme_category"]
+          created_at?: string
+          description?: string | null
+          documents_required?: string[] | null
+          eligibility?: Json | null
+          external_id?: string | null
+          helpline?: string | null
+          id?: string
+          last_synced_at?: string
+          level?: string | null
+          name: string
+          source?: string
+          state?: string | null
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          agency?: string | null
+          application_url?: string | null
+          benefits?: string | null
+          category?: Database["public"]["Enums"]["scheme_category"]
+          created_at?: string
+          description?: string | null
+          documents_required?: string[] | null
+          eligibility?: Json | null
+          external_id?: string | null
+          helpline?: string | null
+          id?: string
+          last_synced_at?: string
+          level?: string | null
+          name?: string
+          source?: string
+          state?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       harvest_records: {
         Row: {
           actual_harvest_date: string | null
@@ -905,6 +1199,126 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      insurance_policies: {
+        Row: {
+          created_at: string
+          crop: string | null
+          end_date: string | null
+          farm_id: string
+          id: string
+          notes: string | null
+          policy_no: string | null
+          premium_paid: number | null
+          product_id: string | null
+          season: string | null
+          start_date: string | null
+          status: Database["public"]["Enums"]["application_status"]
+          sum_insured: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          crop?: string | null
+          end_date?: string | null
+          farm_id: string
+          id?: string
+          notes?: string | null
+          policy_no?: string | null
+          premium_paid?: number | null
+          product_id?: string | null
+          season?: string | null
+          start_date?: string | null
+          status?: Database["public"]["Enums"]["application_status"]
+          sum_insured?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          crop?: string | null
+          end_date?: string | null
+          farm_id?: string
+          id?: string
+          notes?: string | null
+          policy_no?: string | null
+          premium_paid?: number | null
+          product_id?: string | null
+          season?: string | null
+          start_date?: string | null
+          status?: Database["public"]["Enums"]["application_status"]
+          sum_insured?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "insurance_policies_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "insurance_policies_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "insurance_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      insurance_products: {
+        Row: {
+          active: boolean
+          application_url: string | null
+          coverage_details: string | null
+          created_at: string
+          crops_covered: string[] | null
+          documents_required: string[] | null
+          id: string
+          name: string
+          premium_rate_pct: number | null
+          provider: string
+          scheme_code: string | null
+          source: string
+          states_covered: string[] | null
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          application_url?: string | null
+          coverage_details?: string | null
+          created_at?: string
+          crops_covered?: string[] | null
+          documents_required?: string[] | null
+          id?: string
+          name: string
+          premium_rate_pct?: number | null
+          provider: string
+          scheme_code?: string | null
+          source?: string
+          states_covered?: string[] | null
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          application_url?: string | null
+          coverage_details?: string | null
+          created_at?: string
+          crops_covered?: string[] | null
+          documents_required?: string[] | null
+          id?: string
+          name?: string
+          premium_rate_pct?: number | null
+          provider?: string
+          scheme_code?: string | null
+          source?: string
+          states_covered?: string[] | null
+          updated_at?: string
+        }
+        Relationships: []
       }
       inventory_items: {
         Row: {
@@ -1040,6 +1454,437 @@ export type Database = {
           },
         ]
       }
+      loan_applications: {
+        Row: {
+          created_at: string
+          farm_id: string | null
+          id: string
+          loan_product_id: string
+          notes: string | null
+          purpose: string | null
+          reference_no: string | null
+          requested_amount: number
+          status: Database["public"]["Enums"]["application_status"]
+          tenure_months: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          farm_id?: string | null
+          id?: string
+          loan_product_id: string
+          notes?: string | null
+          purpose?: string | null
+          reference_no?: string | null
+          requested_amount: number
+          status?: Database["public"]["Enums"]["application_status"]
+          tenure_months?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          farm_id?: string | null
+          id?: string
+          loan_product_id?: string
+          notes?: string | null
+          purpose?: string | null
+          reference_no?: string | null
+          requested_amount?: number
+          status?: Database["public"]["Enums"]["application_status"]
+          tenure_months?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "loan_applications_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loan_applications_loan_product_id_fkey"
+            columns: ["loan_product_id"]
+            isOneToOne: false
+            referencedRelation: "loan_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      loan_products: {
+        Row: {
+          active: boolean
+          application_url: string | null
+          created_at: string
+          description: string | null
+          documents_required: string[] | null
+          eligibility: Json | null
+          id: string
+          interest_rate_max: number | null
+          interest_rate_min: number | null
+          lender: string
+          loan_type: string
+          max_amount: number | null
+          min_amount: number | null
+          name: string
+          source: string
+          tenure_months_max: number | null
+          tenure_months_min: number | null
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          application_url?: string | null
+          created_at?: string
+          description?: string | null
+          documents_required?: string[] | null
+          eligibility?: Json | null
+          id?: string
+          interest_rate_max?: number | null
+          interest_rate_min?: number | null
+          lender: string
+          loan_type: string
+          max_amount?: number | null
+          min_amount?: number | null
+          name: string
+          source?: string
+          tenure_months_max?: number | null
+          tenure_months_min?: number | null
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          application_url?: string | null
+          created_at?: string
+          description?: string | null
+          documents_required?: string[] | null
+          eligibility?: Json | null
+          id?: string
+          interest_rate_max?: number | null
+          interest_rate_min?: number | null
+          lender?: string
+          loan_type?: string
+          max_amount?: number | null
+          min_amount?: number | null
+          name?: string
+          source?: string
+          tenure_months_max?: number | null
+          tenure_months_min?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      logistics_plans: {
+        Row: {
+          carrier_name: string | null
+          carrier_phone: string | null
+          created_at: string
+          created_by: string
+          distance_km: number | null
+          dropoff_address: string
+          dropoff_lat: number | null
+          dropoff_lng: number | null
+          estimated_cost: number | null
+          farm_id: string
+          id: string
+          order_id: string | null
+          pickup_address: string
+          pickup_lat: number | null
+          pickup_lng: number | null
+          scheduled_at: string | null
+          status: Database["public"]["Enums"]["logistics_status"]
+          updated_at: string
+          vehicle_type: string | null
+          weight_kg: number | null
+        }
+        Insert: {
+          carrier_name?: string | null
+          carrier_phone?: string | null
+          created_at?: string
+          created_by: string
+          distance_km?: number | null
+          dropoff_address: string
+          dropoff_lat?: number | null
+          dropoff_lng?: number | null
+          estimated_cost?: number | null
+          farm_id: string
+          id?: string
+          order_id?: string | null
+          pickup_address: string
+          pickup_lat?: number | null
+          pickup_lng?: number | null
+          scheduled_at?: string | null
+          status?: Database["public"]["Enums"]["logistics_status"]
+          updated_at?: string
+          vehicle_type?: string | null
+          weight_kg?: number | null
+        }
+        Update: {
+          carrier_name?: string | null
+          carrier_phone?: string | null
+          created_at?: string
+          created_by?: string
+          distance_km?: number | null
+          dropoff_address?: string
+          dropoff_lat?: number | null
+          dropoff_lng?: number | null
+          estimated_cost?: number | null
+          farm_id?: string
+          id?: string
+          order_id?: string | null
+          pickup_address?: string
+          pickup_lat?: number | null
+          pickup_lng?: number | null
+          scheduled_at?: string | null
+          status?: Database["public"]["Enums"]["logistics_status"]
+          updated_at?: string
+          vehicle_type?: string | null
+          weight_kg?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "logistics_plans_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "logistics_plans_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      market_prices: {
+        Row: {
+          arrival_date: string
+          commodity: string
+          created_at: string
+          district: string | null
+          grade: string | null
+          id: string
+          market: string
+          max_price: number | null
+          min_price: number | null
+          modal_price: number | null
+          raw: Json | null
+          source: string
+          state: string
+          unit: string
+          variety: string | null
+        }
+        Insert: {
+          arrival_date: string
+          commodity: string
+          created_at?: string
+          district?: string | null
+          grade?: string | null
+          id?: string
+          market: string
+          max_price?: number | null
+          min_price?: number | null
+          modal_price?: number | null
+          raw?: Json | null
+          source?: string
+          state: string
+          unit?: string
+          variety?: string | null
+        }
+        Update: {
+          arrival_date?: string
+          commodity?: string
+          created_at?: string
+          district?: string | null
+          grade?: string | null
+          id?: string
+          market?: string
+          max_price?: number | null
+          min_price?: number | null
+          modal_price?: number | null
+          raw?: Json | null
+          source?: string
+          state?: string
+          unit?: string
+          variety?: string | null
+        }
+        Relationships: []
+      }
+      marketplace_listings: {
+        Row: {
+          available_from: string | null
+          available_until: string | null
+          commodity: string
+          created_at: string
+          currency: string
+          description: string | null
+          farm_id: string
+          grade: string | null
+          harvest_date: string | null
+          id: string
+          image_urls: string[] | null
+          owner_id: string
+          pickup_address: string | null
+          pickup_district: string | null
+          pickup_lat: number | null
+          pickup_lng: number | null
+          pickup_state: string | null
+          price_per_unit: number
+          quantity: number
+          status: Database["public"]["Enums"]["listing_status"]
+          title: string
+          unit: string
+          updated_at: string
+          variety: string | null
+          views_count: number
+        }
+        Insert: {
+          available_from?: string | null
+          available_until?: string | null
+          commodity: string
+          created_at?: string
+          currency?: string
+          description?: string | null
+          farm_id: string
+          grade?: string | null
+          harvest_date?: string | null
+          id?: string
+          image_urls?: string[] | null
+          owner_id: string
+          pickup_address?: string | null
+          pickup_district?: string | null
+          pickup_lat?: number | null
+          pickup_lng?: number | null
+          pickup_state?: string | null
+          price_per_unit: number
+          quantity: number
+          status?: Database["public"]["Enums"]["listing_status"]
+          title: string
+          unit?: string
+          updated_at?: string
+          variety?: string | null
+          views_count?: number
+        }
+        Update: {
+          available_from?: string | null
+          available_until?: string | null
+          commodity?: string
+          created_at?: string
+          currency?: string
+          description?: string | null
+          farm_id?: string
+          grade?: string | null
+          harvest_date?: string | null
+          id?: string
+          image_urls?: string[] | null
+          owner_id?: string
+          pickup_address?: string | null
+          pickup_district?: string | null
+          pickup_lat?: number | null
+          pickup_lng?: number | null
+          pickup_state?: string | null
+          price_per_unit?: number
+          quantity?: number
+          status?: Database["public"]["Enums"]["listing_status"]
+          title?: string
+          unit?: string
+          updated_at?: string
+          variety?: string | null
+          views_count?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketplace_listings_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      marketplace_orders: {
+        Row: {
+          buyer_id: string
+          created_at: string
+          currency: string
+          delivery_address: string | null
+          delivery_date: string | null
+          delivery_district: string | null
+          delivery_state: string | null
+          farm_id: string
+          id: string
+          listing_id: string
+          notes: string | null
+          quantity: number
+          seller_id: string
+          status: Database["public"]["Enums"]["order_status"]
+          total_amount: number
+          unit: string
+          unit_price: number
+          updated_at: string
+        }
+        Insert: {
+          buyer_id: string
+          created_at?: string
+          currency?: string
+          delivery_address?: string | null
+          delivery_date?: string | null
+          delivery_district?: string | null
+          delivery_state?: string | null
+          farm_id: string
+          id?: string
+          listing_id: string
+          notes?: string | null
+          quantity: number
+          seller_id: string
+          status?: Database["public"]["Enums"]["order_status"]
+          total_amount: number
+          unit: string
+          unit_price: number
+          updated_at?: string
+        }
+        Update: {
+          buyer_id?: string
+          created_at?: string
+          currency?: string
+          delivery_address?: string | null
+          delivery_date?: string | null
+          delivery_district?: string | null
+          delivery_state?: string | null
+          farm_id?: string
+          id?: string
+          listing_id?: string
+          notes?: string | null
+          quantity?: number
+          seller_id?: string
+          status?: Database["public"]["Enums"]["order_status"]
+          total_amount?: number
+          unit?: string
+          unit_price?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketplace_orders_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketplace_orders_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notifications: {
         Row: {
           body: string | null
@@ -1124,6 +1969,48 @@ export type Database = {
         }
         Relationships: []
       }
+      push_subscriptions: {
+        Row: {
+          active: boolean
+          auth: string
+          created_at: string
+          device_label: string | null
+          endpoint: string
+          id: string
+          last_used_at: string | null
+          p256dh: string
+          updated_at: string
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          active?: boolean
+          auth: string
+          created_at?: string
+          device_label?: string | null
+          endpoint: string
+          id?: string
+          last_used_at?: string | null
+          p256dh: string
+          updated_at?: string
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          active?: boolean
+          auth?: string
+          created_at?: string
+          device_label?: string | null
+          endpoint?: string
+          id?: string
+          last_used_at?: string | null
+          p256dh?: string
+          updated_at?: string
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       satellite_records: {
         Row: {
           created_at: string
@@ -1173,6 +2060,63 @@ export type Database = {
             columns: ["farm_id"]
             isOneToOne: false
             referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      scheme_applications: {
+        Row: {
+          created_at: string
+          decided_at: string | null
+          farm_id: string | null
+          id: string
+          notes: string | null
+          reference_no: string | null
+          scheme_id: string
+          status: Database["public"]["Enums"]["application_status"]
+          submitted_at: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          decided_at?: string | null
+          farm_id?: string | null
+          id?: string
+          notes?: string | null
+          reference_no?: string | null
+          scheme_id: string
+          status?: Database["public"]["Enums"]["application_status"]
+          submitted_at?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          decided_at?: string | null
+          farm_id?: string | null
+          id?: string
+          notes?: string | null
+          reference_no?: string | null
+          scheme_id?: string
+          status?: Database["public"]["Enums"]["application_status"]
+          submitted_at?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scheme_applications_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "scheme_applications_scheme_id_fkey"
+            columns: ["scheme_id"]
+            isOneToOne: false
+            referencedRelation: "government_schemes"
             referencedColumns: ["id"]
           },
         ]
@@ -1382,6 +2326,65 @@ export type Database = {
           },
         ]
       }
+      sustainability_scores: {
+        Row: {
+          biodiversity_score: number | null
+          breakdown: Json | null
+          carbon_score: number | null
+          computed_by: string
+          created_at: string
+          farm_id: string
+          id: string
+          overall_score: number
+          period_end: string
+          period_start: string
+          rating: string | null
+          soil_score: number | null
+          updated_at: string
+          water_score: number | null
+        }
+        Insert: {
+          biodiversity_score?: number | null
+          breakdown?: Json | null
+          carbon_score?: number | null
+          computed_by?: string
+          created_at?: string
+          farm_id: string
+          id?: string
+          overall_score: number
+          period_end: string
+          period_start: string
+          rating?: string | null
+          soil_score?: number | null
+          updated_at?: string
+          water_score?: number | null
+        }
+        Update: {
+          biodiversity_score?: number | null
+          breakdown?: Json | null
+          carbon_score?: number | null
+          computed_by?: string
+          created_at?: string
+          farm_id?: string
+          id?: string
+          overall_score?: number
+          period_end?: string
+          period_start?: string
+          rating?: string | null
+          soil_score?: number | null
+          updated_at?: string
+          water_score?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sustainability_scores_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tasks: {
         Row: {
           completed_at: string | null
@@ -1525,6 +2528,144 @@ export type Database = {
           theme?: string
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      warehouse_bookings: {
+        Row: {
+          commodity: string
+          created_at: string
+          currency: string
+          end_date: string
+          farm_id: string | null
+          id: string
+          notes: string | null
+          quantity_kg: number
+          rate_per_kg_per_day: number
+          start_date: string
+          status: Database["public"]["Enums"]["booking_status"]
+          total_cost: number
+          updated_at: string
+          user_id: string
+          warehouse_id: string
+        }
+        Insert: {
+          commodity: string
+          created_at?: string
+          currency?: string
+          end_date: string
+          farm_id?: string | null
+          id?: string
+          notes?: string | null
+          quantity_kg: number
+          rate_per_kg_per_day: number
+          start_date: string
+          status?: Database["public"]["Enums"]["booking_status"]
+          total_cost: number
+          updated_at?: string
+          user_id: string
+          warehouse_id: string
+        }
+        Update: {
+          commodity?: string
+          created_at?: string
+          currency?: string
+          end_date?: string
+          farm_id?: string | null
+          id?: string
+          notes?: string | null
+          quantity_kg?: number
+          rate_per_kg_per_day?: number
+          start_date?: string
+          status?: Database["public"]["Enums"]["booking_status"]
+          total_cost?: number
+          updated_at?: string
+          user_id?: string
+          warehouse_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "warehouse_bookings_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "warehouse_bookings_warehouse_id_fkey"
+            columns: ["warehouse_id"]
+            isOneToOne: false
+            referencedRelation: "warehouses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      warehouses: {
+        Row: {
+          active: boolean
+          address: string
+          available_kg: number
+          capacity_kg: number
+          contact_phone: string | null
+          created_at: string
+          currency: string
+          description: string | null
+          district: string | null
+          features: string[] | null
+          id: string
+          lat: number | null
+          lng: number | null
+          name: string
+          owner_id: string
+          pincode: string | null
+          rate_per_kg_per_day: number
+          state: string
+          type: Database["public"]["Enums"]["warehouse_type"]
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          address: string
+          available_kg: number
+          capacity_kg: number
+          contact_phone?: string | null
+          created_at?: string
+          currency?: string
+          description?: string | null
+          district?: string | null
+          features?: string[] | null
+          id?: string
+          lat?: number | null
+          lng?: number | null
+          name: string
+          owner_id: string
+          pincode?: string | null
+          rate_per_kg_per_day?: number
+          state: string
+          type?: Database["public"]["Enums"]["warehouse_type"]
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          address?: string
+          available_kg?: number
+          capacity_kg?: number
+          contact_phone?: string | null
+          created_at?: string
+          currency?: string
+          description?: string | null
+          district?: string | null
+          features?: string[] | null
+          id?: string
+          lat?: number | null
+          lng?: number | null
+          name?: string
+          owner_id?: string
+          pincode?: string | null
+          rate_per_kg_per_day?: number
+          state?: string
+          type?: Database["public"]["Enums"]["warehouse_type"]
+          updated_at?: string
         }
         Relationships: []
       }
@@ -1816,6 +2957,8 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      can_access_farm: { Args: { _farm_id: string }; Returns: boolean }
+      can_manage_farm: { Args: { _farm_id: string }; Returns: boolean }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1827,7 +2970,21 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "agronomist" | "farmer"
+      application_status:
+        | "draft"
+        | "submitted"
+        | "under_review"
+        | "approved"
+        | "rejected"
+        | "disbursed"
+        | "closed"
       attendance_status: "present" | "absent" | "half_day" | "leave"
+      booking_status:
+        | "pending"
+        | "confirmed"
+        | "active"
+        | "completed"
+        | "cancelled"
       calendar_event_type:
         | "task"
         | "harvest"
@@ -1836,6 +2993,18 @@ export type Database = {
         | "observation"
         | "irrigation"
         | "custom"
+      carbon_source:
+        | "fertilizer"
+        | "fuel"
+        | "electricity"
+        | "irrigation"
+        | "livestock"
+        | "residue_burning"
+        | "sequestration_cover"
+        | "sequestration_trees"
+        | "sequestration_soil"
+        | "other"
+      collaborator_role: "manager" | "worker" | "viewer"
       drone_survey_status:
         | "planned"
         | "in_progress"
@@ -1876,12 +3045,37 @@ export type Database = {
         | "spare_parts"
         | "storage_materials"
         | "other"
+      invitation_status: "pending" | "accepted" | "revoked" | "expired"
+      listing_status: "draft" | "active" | "sold" | "withdrawn" | "expired"
+      logistics_status:
+        | "planned"
+        | "dispatched"
+        | "in_transit"
+        | "delivered"
+        | "cancelled"
+      order_status:
+        | "pending"
+        | "confirmed"
+        | "in_transit"
+        | "delivered"
+        | "cancelled"
+        | "disputed"
       payment_method:
         | "cash"
         | "bank_transfer"
         | "upi"
         | "card"
         | "credit"
+        | "other"
+      scheme_category:
+        | "subsidy"
+        | "insurance"
+        | "credit"
+        | "equipment"
+        | "irrigation"
+        | "training"
+        | "market_support"
+        | "sustainability"
         | "other"
       sensor_device_status:
         | "online"
@@ -1909,6 +3103,12 @@ export type Database = {
         | "maintenance"
         | "manual_work"
         | "other"
+      warehouse_type:
+        | "cold_storage"
+        | "dry_storage"
+        | "silo"
+        | "open_yard"
+        | "controlled_atmosphere"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -2037,7 +3237,23 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "agronomist", "farmer"],
+      application_status: [
+        "draft",
+        "submitted",
+        "under_review",
+        "approved",
+        "rejected",
+        "disbursed",
+        "closed",
+      ],
       attendance_status: ["present", "absent", "half_day", "leave"],
+      booking_status: [
+        "pending",
+        "confirmed",
+        "active",
+        "completed",
+        "cancelled",
+      ],
       calendar_event_type: [
         "task",
         "harvest",
@@ -2047,6 +3263,19 @@ export const Constants = {
         "irrigation",
         "custom",
       ],
+      carbon_source: [
+        "fertilizer",
+        "fuel",
+        "electricity",
+        "irrigation",
+        "livestock",
+        "residue_burning",
+        "sequestration_cover",
+        "sequestration_trees",
+        "sequestration_soil",
+        "other",
+      ],
+      collaborator_role: ["manager", "worker", "viewer"],
       drone_survey_status: [
         "planned",
         "in_progress",
@@ -2092,12 +3321,40 @@ export const Constants = {
         "storage_materials",
         "other",
       ],
+      invitation_status: ["pending", "accepted", "revoked", "expired"],
+      listing_status: ["draft", "active", "sold", "withdrawn", "expired"],
+      logistics_status: [
+        "planned",
+        "dispatched",
+        "in_transit",
+        "delivered",
+        "cancelled",
+      ],
+      order_status: [
+        "pending",
+        "confirmed",
+        "in_transit",
+        "delivered",
+        "cancelled",
+        "disputed",
+      ],
       payment_method: [
         "cash",
         "bank_transfer",
         "upi",
         "card",
         "credit",
+        "other",
+      ],
+      scheme_category: [
+        "subsidy",
+        "insurance",
+        "credit",
+        "equipment",
+        "irrigation",
+        "training",
+        "market_support",
+        "sustainability",
         "other",
       ],
       sensor_device_status: [
@@ -2128,6 +3385,13 @@ export const Constants = {
         "maintenance",
         "manual_work",
         "other",
+      ],
+      warehouse_type: [
+        "cold_storage",
+        "dry_storage",
+        "silo",
+        "open_yard",
+        "controlled_atmosphere",
       ],
     },
   },

@@ -387,7 +387,7 @@ function AgriSensePage() {
               <div className="surface-card p-4">
                 {weatherQ.isLoading ? (
                   <p className="text-sm text-muted-foreground">Checking…</p>
-                ) : weatherQ.data?.success ? (
+                ) : weatherQ.data?.success && weatherQ.data.data ? (
                   <div>
                     <p className="text-sm font-medium">Live weather available</p>
                     <p className="mt-1 text-xs text-muted-foreground">

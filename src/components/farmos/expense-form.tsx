@@ -241,8 +241,8 @@ export function ExpenseChart({
                   <TableCell className="text-right font-medium">{e.currency} {Number(e.amount).toFixed(2)}</TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-1">
-                      <ExpenseForm farmId={farmId} initial={e} trigger={<Button size="icon" variant="ghost" className="h-7 w-7"><Pencil className="h-3.5 w-3.5" /></Button>} />
-                      <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => del.mutate(e.id)}><Trash2 className="h-3.5 w-3.5 text-destructive" /></Button>
+                      <ExpenseForm farmId={farmId} initial={e} trigger={<Button size="icon" variant="ghost" aria-label="Edit expense" className="h-7 w-7"><Pencil className="h-3.5 w-3.5" /></Button>} />
+                      <Button size="icon" variant="ghost" aria-label="Delete expense" className="h-7 w-7" onClick={() => del.mutate(e.id)}><Trash2 className="h-3.5 w-3.5 text-destructive" /></Button>
                     </div>
                   </TableCell>
                 </TableRow>

@@ -48,6 +48,13 @@ async function callRoboflow(base64: string): Promise<RoboflowPrediction | null> 
   const apiKey = process.env.ROBOFLOW_API_KEY;
   const modelId = process.env.ROBOFLOW_MODEL_ID;
   if (!apiKey || !modelId) return null;
+  // Roboflow hosted inference expects "<project-slug>/<version>" model ids.
+  // Some users paste a workflow/API id instead — skip and let Gemini handle it.
+  if (!/^[a-z0-9-]+\/\d+$/i.test(modelId)) {
+    console.warn("[ai-crop] ROBOFLOW_MODEL_ID is not in 'slug/version' form — skipping Roboflow");
+    return null;
+  }
+
 
   // Try classify endpoint first (works for plant-disease classification models).
   // Roboflow's serverless endpoint handles both detection and classification.
@@ -111,31 +118,33 @@ async function callGeminiVision(
   cropType: string | null,
 ): Promise<RoboflowPrediction | null> {
   const key = process.env.LOVABLE_API_KEY;
-  if (!key) return null;
+  if (!key) {
+    console.error("[ai-crop] gemini-vision: LOVABLE_API_KEY missing");
+    return null;
+  }
   try {
     const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: { "Content-Type": "application/json", "Lovable-API-Key": key },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
+        model: "google/gemini-2.5-flash",
         messages: [
           {
             role: "system",
             content:
-              "You are a plant pathology classifier. Given a crop photo, identify the most likely disease or 'healthy'. Reply ONLY as JSON: {\"label\": string, \"confidence\": number between 0 and 1}.",
+              'You are a plant pathology classifier. Identify the most likely disease in the crop image, or return "healthy". Reply ONLY as compact JSON: {"label": string, "confidence": number between 0 and 1}.',
           },
           {
             role: "user",
             content: [
               {
                 type: "text",
-                text: `Crop (user-provided): ${cropType ?? "unknown"}. Classify the disease.`,
+                text: `Crop (user-provided): ${cropType ?? "unknown"}. Classify the disease and return JSON only.`,
               },
               { type: "image_url", image_url: { url: `data:image/jpeg;base64,${base64}` } },
             ],
           },
         ],
-        response_format: { type: "json_object" },
       }),
     });
     if (!res.ok) {
@@ -143,9 +152,15 @@ async function callGeminiVision(
       return null;
     }
     const j = (await res.json()) as { choices?: Array<{ message?: { content?: string } }> };
-    const raw = j.choices?.[0]?.message?.content;
-    if (!raw) return null;
-    const parsed = JSON.parse(raw) as { label?: string; confidence?: number };
+    const raw = j.choices?.[0]?.message?.content ?? "";
+    // Strip code fences if model wrapped JSON.
+    const cleaned = raw.replace(/^```(?:json)?\s*|\s*```$/g, "").trim();
+    const match = cleaned.match(/\{[\s\S]*\}/);
+    if (!match) {
+      console.error("[ai-crop] gemini-vision: no JSON in response", raw.slice(0, 200));
+      return null;
+    }
+    const parsed = JSON.parse(match[0]) as { label?: string; confidence?: number };
     if (!parsed.label) return null;
     const conf = Math.max(0, Math.min(1, Number(parsed.confidence ?? 0.6)));
     return { class: String(parsed.label), confidence: conf, raw: parsed };
@@ -154,6 +169,7 @@ async function callGeminiVision(
     return null;
   }
 }
+
 
 export type LlmExplanation = {
   disease_name: string;
@@ -217,7 +233,7 @@ Write a farmer-friendly explanation in ${langName}. Output JSON with:
         "Lovable-API-Key": key,
       },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
+        model: "google/gemini-2.5-flash",
         messages: [
           { role: "system", content: sys },
           { role: "user", content: user },
@@ -353,7 +369,7 @@ export async function analyzeCrop(
       llm: llm ?? null,
     } as unknown as Database["public"]["Tables"]["crop_analysis"]["Insert"]["raw_response"],
     model_name: modelName,
-    model_version: modelName === "roboflow" ? modelId : "google/gemini-3-flash-preview",
+    model_version: modelName === "roboflow" ? modelId : "google/gemini-2.5-flash",
 
     processing_time_ms: processingMs,
     status: "completed",
@@ -378,7 +394,7 @@ export async function analyzeCrop(
     explanation: insertRow.explanation ?? "",
     recommendation,
     model_name: modelName,
-    model_version: modelName === "roboflow" ? modelId : "google/gemini-3-flash-preview",
+    model_version: modelName === "roboflow" ? modelId : "google/gemini-2.5-flash",
 
     processing_time_ms: processingMs,
   });

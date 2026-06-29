@@ -446,7 +446,7 @@ export async function setRecommendationStatus(
   id: string,
   patch: { accepted?: boolean; dismissed?: boolean },
 ): Promise<ServiceResult<AgriMindRecommendation>> {
-  const update: Record<string, unknown> = {};
+  const update: Database["public"]["Tables"]["farm_recommendations"]["Update"] = {};
   if (typeof patch.accepted === "boolean") {
     update.accepted = patch.accepted;
     update.status = patch.accepted ? "accepted" : "active";

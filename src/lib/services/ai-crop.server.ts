@@ -352,8 +352,9 @@ export async function analyzeCrop(
       cv: prediction.raw,
       llm: llm ?? null,
     } as unknown as Database["public"]["Tables"]["crop_analysis"]["Insert"]["raw_response"],
-    model_name: "roboflow",
-    model_version: modelId,
+    model_name: modelName,
+    model_version: modelName === "roboflow" ? modelId : "google/gemini-3-flash-preview",
+
     processing_time_ms: processingMs,
     status: "completed",
   };

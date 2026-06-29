@@ -38,7 +38,7 @@ function DetailsPage() {
   if (q.isLoading) {
     return <div className="p-8 text-sm text-muted-foreground">Loading…</div>;
   }
-  if (!q.data?.success) {
+  if (!q.data?.success || !q.data.data) {
     return (
       <div className="mx-auto max-w-2xl p-6">
         <Alert variant="destructive">

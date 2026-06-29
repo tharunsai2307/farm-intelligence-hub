@@ -28,7 +28,7 @@ function HistoryPage() {
     queryFn: () => fn({ data: {} }),
   });
 
-  const rows = q.data?.success ? q.data.data : [];
+  const rows = q.data?.success && q.data.data ? q.data.data : [];
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-6">

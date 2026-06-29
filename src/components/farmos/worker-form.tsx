@@ -126,8 +126,8 @@ export function WorkerCard({ worker }: { worker: WorkerRow }) {
         )}
       </dl>
       <div className="mt-3 flex justify-end gap-1">
-        <WorkerForm farmId={worker.farm_id} initial={worker} trigger={<Button size="icon" variant="ghost"><Pencil className="h-4 w-4" /></Button>} />
-        <Button size="icon" variant="ghost" onClick={() => del.mutate()} disabled={del.isPending}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+        <WorkerForm farmId={worker.farm_id} initial={worker} trigger={<Button size="icon" variant="ghost" aria-label="Edit worker"><Pencil className="h-4 w-4" /></Button>} />
+        <Button size="icon" variant="ghost" aria-label="Delete worker" onClick={() => del.mutate()} disabled={del.isPending}><Trash2 className="h-4 w-4 text-destructive" /></Button>
       </div>
     </div>
   );

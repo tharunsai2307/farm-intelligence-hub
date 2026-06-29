@@ -238,9 +238,9 @@ export function InventoryTable({
                   <InventoryForm
                     farmId={farmId}
                     initial={i}
-                    trigger={<Button size="icon" variant="ghost"><Pencil className="h-4 w-4" /></Button>}
+                    trigger={<Button size="icon" variant="ghost" aria-label="Edit inventory item"><Pencil className="h-4 w-4" /></Button>}
                   />
-                  <Button size="icon" variant="ghost" onClick={() => del.mutate(i.id)} disabled={del.isPending}>
+                  <Button size="icon" variant="ghost" aria-label="Delete inventory item" onClick={() => del.mutate(i.id)} disabled={del.isPending}>
                     <Trash2 className="h-4 w-4 text-destructive" />
                   </Button>
                 </div>

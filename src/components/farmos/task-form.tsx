@@ -205,8 +205,8 @@ export function TaskBoard({ tasks, farmId }: { tasks: TaskRow[]; farmId: string 
                     <Progress className="mt-2 h-1.5" value={t.progress} />
                   )}
                   <div className="mt-2 flex justify-end gap-1">
-                    <TaskForm farmId={farmId} initial={t} trigger={<Button size="icon" variant="ghost" className="h-7 w-7"><Pencil className="h-3.5 w-3.5" /></Button>} />
-                    <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => del.mutate(t.id)}>
+                    <TaskForm farmId={farmId} initial={t} trigger={<Button size="icon" variant="ghost" aria-label="Edit task" className="h-7 w-7"><Pencil className="h-3.5 w-3.5" /></Button>} />
+                    <Button size="icon" variant="ghost" aria-label="Delete task" className="h-7 w-7" onClick={() => del.mutate(t.id)}>
                       <Trash2 className="h-3.5 w-3.5 text-destructive" />
                     </Button>
                   </div>

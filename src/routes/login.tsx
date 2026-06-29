@@ -150,6 +150,11 @@ function LoginPage() {
             </div>
           </div>
 
+          {/* Mobile 3D scene */}
+          <div className="lg:hidden h-48 -mx-2 mb-6 rounded-2xl overflow-hidden border border-border bg-gradient-to-br from-[oklch(0.36_0.085_162)] to-[oklch(0.24_0.06_162)]">
+            <Login3DScene />
+          </div>
+
           <div className="login-card p-7 sm:p-9">
             <div className="mb-7">
               <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground mb-2">

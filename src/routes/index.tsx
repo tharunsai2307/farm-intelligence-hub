@@ -34,13 +34,13 @@ export const Route = createFileRoute("/")({
   },
   head: () => ({
     meta: [
-      { title: "AgriTwin OS — AI Digital Twin for Smart Farms" },
+      { title: "AgriTwin OS — AI Digital Twin for Farms" },
       {
         name: "description",
         content:
           "AgriTwin OS unifies crop, soil, water, weather, and operations data into one AI-powered digital twin built for modern farmers.",
       },
-      { property: "og:title", content: "AgriTwin OS — AI Digital Twin for Smart Farms" },
+      { property: "og:title", content: "AgriTwin OS — AI Digital Twin for Farms" },
       {
         property: "og:description",
         content:
@@ -56,13 +56,14 @@ export const Route = createFileRoute("/")({
           "@context": "https://schema.org",
           "@type": "WebSite",
           name: "AgriTwin OS",
-          url: "/",
+          url: "https://agri-twin-os.lovable.app/",
           description:
             "AI-powered Digital Twin platform for modern agriculture.",
         }),
       },
     ],
   }),
+
   component: Landing,
 });
 

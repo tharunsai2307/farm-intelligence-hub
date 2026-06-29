@@ -80,38 +80,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "AgriTwin OS — Smart Farming OS" },
-      {
-        name: "description",
-        content:
-          "AI-powered Digital Twin platform that helps farmers monitor, predict, and optimize their farms with real data.",
-      },
       { name: "author", content: "AgriTwin OS" },
       { property: "og:site_name", content: "AgriTwin OS" },
-      { property: "og:title", content: "AgriTwin OS — Smart Farming OS" },
-      {
-        property: "og:description",
-        content:
-          "AI-powered Digital Twin platform for modern agriculture. Monitor crops, water, soil, and operations from one OS.",
-      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "stylesheet", href: appCss }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          name: "AgriTwin OS",
-          description:
-            "AI-powered Digital Twin platform for modern agriculture.",
-          url: "/",
-        }),
-      },
-    ],
   }),
+
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,

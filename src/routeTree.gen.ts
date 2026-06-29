@@ -25,6 +25,13 @@ import { Route as ApiWeatherSyncRouteImport } from './routes/api/weather/sync'
 import { Route as ApiWeatherForecastRouteImport } from './routes/api/weather/forecast'
 import { Route as ApiWeatherCurrentRouteImport } from './routes/api/weather/current'
 import { Route as ApiWeatherAlertsRouteImport } from './routes/api/weather/alerts'
+import { Route as ApiFarmosWorkersRouteImport } from './routes/api/farmos/workers'
+import { Route as ApiFarmosTasksRouteImport } from './routes/api/farmos/tasks'
+import { Route as ApiFarmosInventoryRouteImport } from './routes/api/farmos/inventory'
+import { Route as ApiFarmosHarvestRouteImport } from './routes/api/farmos/harvest'
+import { Route as ApiFarmosExpensesRouteImport } from './routes/api/farmos/expenses'
+import { Route as ApiFarmosEquipmentRouteImport } from './routes/api/farmos/equipment'
+import { Route as ApiFarmosCalendarRouteImport } from './routes/api/farmos/calendar'
 import { Route as ApiAiAnalyzeRouteImport } from './routes/api/ai/analyze'
 import { Route as ApiAgrisenseSensorsRouteImport } from './routes/api/agrisense/sensors'
 import { Route as ApiAgrisenseSatelliteRouteImport } from './routes/api/agrisense/satellite'
@@ -133,6 +140,41 @@ const ApiWeatherCurrentRoute = ApiWeatherCurrentRouteImport.update({
 const ApiWeatherAlertsRoute = ApiWeatherAlertsRouteImport.update({
   id: '/api/weather/alerts',
   path: '/api/weather/alerts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiFarmosWorkersRoute = ApiFarmosWorkersRouteImport.update({
+  id: '/api/farmos/workers',
+  path: '/api/farmos/workers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiFarmosTasksRoute = ApiFarmosTasksRouteImport.update({
+  id: '/api/farmos/tasks',
+  path: '/api/farmos/tasks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiFarmosInventoryRoute = ApiFarmosInventoryRouteImport.update({
+  id: '/api/farmos/inventory',
+  path: '/api/farmos/inventory',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiFarmosHarvestRoute = ApiFarmosHarvestRouteImport.update({
+  id: '/api/farmos/harvest',
+  path: '/api/farmos/harvest',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiFarmosExpensesRoute = ApiFarmosExpensesRouteImport.update({
+  id: '/api/farmos/expenses',
+  path: '/api/farmos/expenses',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiFarmosEquipmentRoute = ApiFarmosEquipmentRouteImport.update({
+  id: '/api/farmos/equipment',
+  path: '/api/farmos/equipment',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiFarmosCalendarRoute = ApiFarmosCalendarRouteImport.update({
+  id: '/api/farmos/calendar',
+  path: '/api/farmos/calendar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiAiAnalyzeRoute = ApiAiAnalyzeRouteImport.update({
@@ -331,6 +373,13 @@ export interface FileRoutesByFullPath {
   '/api/agrisense/satellite': typeof ApiAgrisenseSatelliteRoute
   '/api/agrisense/sensors': typeof ApiAgrisenseSensorsRoute
   '/api/ai/analyze': typeof ApiAiAnalyzeRoute
+  '/api/farmos/calendar': typeof ApiFarmosCalendarRoute
+  '/api/farmos/equipment': typeof ApiFarmosEquipmentRoute
+  '/api/farmos/expenses': typeof ApiFarmosExpensesRoute
+  '/api/farmos/harvest': typeof ApiFarmosHarvestRoute
+  '/api/farmos/inventory': typeof ApiFarmosInventoryRoute
+  '/api/farmos/tasks': typeof ApiFarmosTasksRoute
+  '/api/farmos/workers': typeof ApiFarmosWorkersRoute
   '/api/weather/alerts': typeof ApiWeatherAlertsRoute
   '/api/weather/current': typeof ApiWeatherCurrentRoute
   '/api/weather/forecast': typeof ApiWeatherForecastRoute
@@ -377,6 +426,13 @@ export interface FileRoutesByTo {
   '/api/agrisense/satellite': typeof ApiAgrisenseSatelliteRoute
   '/api/agrisense/sensors': typeof ApiAgrisenseSensorsRoute
   '/api/ai/analyze': typeof ApiAiAnalyzeRoute
+  '/api/farmos/calendar': typeof ApiFarmosCalendarRoute
+  '/api/farmos/equipment': typeof ApiFarmosEquipmentRoute
+  '/api/farmos/expenses': typeof ApiFarmosExpensesRoute
+  '/api/farmos/harvest': typeof ApiFarmosHarvestRoute
+  '/api/farmos/inventory': typeof ApiFarmosInventoryRoute
+  '/api/farmos/tasks': typeof ApiFarmosTasksRoute
+  '/api/farmos/workers': typeof ApiFarmosWorkersRoute
   '/api/weather/alerts': typeof ApiWeatherAlertsRoute
   '/api/weather/current': typeof ApiWeatherCurrentRoute
   '/api/weather/forecast': typeof ApiWeatherForecastRoute
@@ -425,6 +481,13 @@ export interface FileRoutesById {
   '/api/agrisense/satellite': typeof ApiAgrisenseSatelliteRoute
   '/api/agrisense/sensors': typeof ApiAgrisenseSensorsRoute
   '/api/ai/analyze': typeof ApiAiAnalyzeRoute
+  '/api/farmos/calendar': typeof ApiFarmosCalendarRoute
+  '/api/farmos/equipment': typeof ApiFarmosEquipmentRoute
+  '/api/farmos/expenses': typeof ApiFarmosExpensesRoute
+  '/api/farmos/harvest': typeof ApiFarmosHarvestRoute
+  '/api/farmos/inventory': typeof ApiFarmosInventoryRoute
+  '/api/farmos/tasks': typeof ApiFarmosTasksRoute
+  '/api/farmos/workers': typeof ApiFarmosWorkersRoute
   '/api/weather/alerts': typeof ApiWeatherAlertsRoute
   '/api/weather/current': typeof ApiWeatherCurrentRoute
   '/api/weather/forecast': typeof ApiWeatherForecastRoute
@@ -473,6 +536,13 @@ export interface FileRouteTypes {
     | '/api/agrisense/satellite'
     | '/api/agrisense/sensors'
     | '/api/ai/analyze'
+    | '/api/farmos/calendar'
+    | '/api/farmos/equipment'
+    | '/api/farmos/expenses'
+    | '/api/farmos/harvest'
+    | '/api/farmos/inventory'
+    | '/api/farmos/tasks'
+    | '/api/farmos/workers'
     | '/api/weather/alerts'
     | '/api/weather/current'
     | '/api/weather/forecast'
@@ -519,6 +589,13 @@ export interface FileRouteTypes {
     | '/api/agrisense/satellite'
     | '/api/agrisense/sensors'
     | '/api/ai/analyze'
+    | '/api/farmos/calendar'
+    | '/api/farmos/equipment'
+    | '/api/farmos/expenses'
+    | '/api/farmos/harvest'
+    | '/api/farmos/inventory'
+    | '/api/farmos/tasks'
+    | '/api/farmos/workers'
     | '/api/weather/alerts'
     | '/api/weather/current'
     | '/api/weather/forecast'
@@ -566,6 +643,13 @@ export interface FileRouteTypes {
     | '/api/agrisense/satellite'
     | '/api/agrisense/sensors'
     | '/api/ai/analyze'
+    | '/api/farmos/calendar'
+    | '/api/farmos/equipment'
+    | '/api/farmos/expenses'
+    | '/api/farmos/harvest'
+    | '/api/farmos/inventory'
+    | '/api/farmos/tasks'
+    | '/api/farmos/workers'
     | '/api/weather/alerts'
     | '/api/weather/current'
     | '/api/weather/forecast'
@@ -601,6 +685,13 @@ export interface RootRouteChildren {
   ApiAgrisenseSatelliteRoute: typeof ApiAgrisenseSatelliteRoute
   ApiAgrisenseSensorsRoute: typeof ApiAgrisenseSensorsRoute
   ApiAiAnalyzeRoute: typeof ApiAiAnalyzeRoute
+  ApiFarmosCalendarRoute: typeof ApiFarmosCalendarRoute
+  ApiFarmosEquipmentRoute: typeof ApiFarmosEquipmentRoute
+  ApiFarmosExpensesRoute: typeof ApiFarmosExpensesRoute
+  ApiFarmosHarvestRoute: typeof ApiFarmosHarvestRoute
+  ApiFarmosInventoryRoute: typeof ApiFarmosInventoryRoute
+  ApiFarmosTasksRoute: typeof ApiFarmosTasksRoute
+  ApiFarmosWorkersRoute: typeof ApiFarmosWorkersRoute
   ApiWeatherAlertsRoute: typeof ApiWeatherAlertsRoute
   ApiWeatherCurrentRoute: typeof ApiWeatherCurrentRoute
   ApiWeatherForecastRoute: typeof ApiWeatherForecastRoute
@@ -719,6 +810,55 @@ declare module '@tanstack/react-router' {
       path: '/api/weather/alerts'
       fullPath: '/api/weather/alerts'
       preLoaderRoute: typeof ApiWeatherAlertsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/farmos/workers': {
+      id: '/api/farmos/workers'
+      path: '/api/farmos/workers'
+      fullPath: '/api/farmos/workers'
+      preLoaderRoute: typeof ApiFarmosWorkersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/farmos/tasks': {
+      id: '/api/farmos/tasks'
+      path: '/api/farmos/tasks'
+      fullPath: '/api/farmos/tasks'
+      preLoaderRoute: typeof ApiFarmosTasksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/farmos/inventory': {
+      id: '/api/farmos/inventory'
+      path: '/api/farmos/inventory'
+      fullPath: '/api/farmos/inventory'
+      preLoaderRoute: typeof ApiFarmosInventoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/farmos/harvest': {
+      id: '/api/farmos/harvest'
+      path: '/api/farmos/harvest'
+      fullPath: '/api/farmos/harvest'
+      preLoaderRoute: typeof ApiFarmosHarvestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/farmos/expenses': {
+      id: '/api/farmos/expenses'
+      path: '/api/farmos/expenses'
+      fullPath: '/api/farmos/expenses'
+      preLoaderRoute: typeof ApiFarmosExpensesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/farmos/equipment': {
+      id: '/api/farmos/equipment'
+      path: '/api/farmos/equipment'
+      fullPath: '/api/farmos/equipment'
+      preLoaderRoute: typeof ApiFarmosEquipmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/farmos/calendar': {
+      id: '/api/farmos/calendar'
+      path: '/api/farmos/calendar'
+      fullPath: '/api/farmos/calendar'
+      preLoaderRoute: typeof ApiFarmosCalendarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/ai/analyze': {
@@ -1002,6 +1142,13 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAgrisenseSatelliteRoute: ApiAgrisenseSatelliteRoute,
   ApiAgrisenseSensorsRoute: ApiAgrisenseSensorsRoute,
   ApiAiAnalyzeRoute: ApiAiAnalyzeRoute,
+  ApiFarmosCalendarRoute: ApiFarmosCalendarRoute,
+  ApiFarmosEquipmentRoute: ApiFarmosEquipmentRoute,
+  ApiFarmosExpensesRoute: ApiFarmosExpensesRoute,
+  ApiFarmosHarvestRoute: ApiFarmosHarvestRoute,
+  ApiFarmosInventoryRoute: ApiFarmosInventoryRoute,
+  ApiFarmosTasksRoute: ApiFarmosTasksRoute,
+  ApiFarmosWorkersRoute: ApiFarmosWorkersRoute,
   ApiWeatherAlertsRoute: ApiWeatherAlertsRoute,
   ApiWeatherCurrentRoute: ApiWeatherCurrentRoute,
   ApiWeatherForecastRoute: ApiWeatherForecastRoute,

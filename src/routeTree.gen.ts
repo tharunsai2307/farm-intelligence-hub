@@ -32,6 +32,10 @@ import { Route as AuthenticatedAppDigitalTwinRouteImport } from './routes/_authe
 import { Route as AuthenticatedAppDashboardRouteImport } from './routes/_authenticated/app.dashboard'
 import { Route as AuthenticatedAppCropHealthRouteImport } from './routes/_authenticated/app.crop-health'
 import { Route as AuthenticatedAppAssistantRouteImport } from './routes/_authenticated/app.assistant'
+import { Route as AuthenticatedAppFarmIndexRouteImport } from './routes/_authenticated/app.farm.index'
+import { Route as AuthenticatedAppFarmRecordsRouteImport } from './routes/_authenticated/app.farm.records'
+import { Route as AuthenticatedAppFarmPlotsRouteImport } from './routes/_authenticated/app.farm.plots'
+import { Route as AuthenticatedAppFarmLocationRouteImport } from './routes/_authenticated/app.farm.location'
 
 const VerifyEmailRoute = VerifyEmailRouteImport.update({
   id: '/verify-email',
@@ -158,6 +162,30 @@ const AuthenticatedAppAssistantRoute =
     path: '/app/assistant',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAppFarmIndexRoute =
+  AuthenticatedAppFarmIndexRouteImport.update({
+    id: '/app/farm/',
+    path: '/app/farm/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAppFarmRecordsRoute =
+  AuthenticatedAppFarmRecordsRouteImport.update({
+    id: '/app/farm/records',
+    path: '/app/farm/records',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAppFarmPlotsRoute =
+  AuthenticatedAppFarmPlotsRouteImport.update({
+    id: '/app/farm/plots',
+    path: '/app/farm/plots',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAppFarmLocationRoute =
+  AuthenticatedAppFarmLocationRouteImport.update({
+    id: '/app/farm/location',
+    path: '/app/farm/location',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -182,6 +210,10 @@ export interface FileRoutesByFullPath {
   '/onboarding/profile': typeof AuthenticatedOnboardingProfileRoute
   '/app/': typeof AuthenticatedAppIndexRoute
   '/onboarding/': typeof AuthenticatedOnboardingIndexRoute
+  '/app/farm/location': typeof AuthenticatedAppFarmLocationRoute
+  '/app/farm/plots': typeof AuthenticatedAppFarmPlotsRoute
+  '/app/farm/records': typeof AuthenticatedAppFarmRecordsRoute
+  '/app/farm/': typeof AuthenticatedAppFarmIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -206,6 +238,10 @@ export interface FileRoutesByTo {
   '/onboarding/profile': typeof AuthenticatedOnboardingProfileRoute
   '/app': typeof AuthenticatedAppIndexRoute
   '/onboarding': typeof AuthenticatedOnboardingIndexRoute
+  '/app/farm/location': typeof AuthenticatedAppFarmLocationRoute
+  '/app/farm/plots': typeof AuthenticatedAppFarmPlotsRoute
+  '/app/farm/records': typeof AuthenticatedAppFarmRecordsRoute
+  '/app/farm': typeof AuthenticatedAppFarmIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -232,6 +268,10 @@ export interface FileRoutesById {
   '/_authenticated/onboarding/profile': typeof AuthenticatedOnboardingProfileRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/_authenticated/onboarding/': typeof AuthenticatedOnboardingIndexRoute
+  '/_authenticated/app/farm/location': typeof AuthenticatedAppFarmLocationRoute
+  '/_authenticated/app/farm/plots': typeof AuthenticatedAppFarmPlotsRoute
+  '/_authenticated/app/farm/records': typeof AuthenticatedAppFarmRecordsRoute
+  '/_authenticated/app/farm/': typeof AuthenticatedAppFarmIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -258,6 +298,10 @@ export interface FileRouteTypes {
     | '/onboarding/profile'
     | '/app/'
     | '/onboarding/'
+    | '/app/farm/location'
+    | '/app/farm/plots'
+    | '/app/farm/records'
+    | '/app/farm/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -282,6 +326,10 @@ export interface FileRouteTypes {
     | '/onboarding/profile'
     | '/app'
     | '/onboarding'
+    | '/app/farm/location'
+    | '/app/farm/plots'
+    | '/app/farm/records'
+    | '/app/farm'
   id:
     | '__root__'
     | '/'
@@ -307,6 +355,10 @@ export interface FileRouteTypes {
     | '/_authenticated/onboarding/profile'
     | '/_authenticated/app/'
     | '/_authenticated/onboarding/'
+    | '/_authenticated/app/farm/location'
+    | '/_authenticated/app/farm/plots'
+    | '/_authenticated/app/farm/records'
+    | '/_authenticated/app/farm/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -483,6 +535,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppAssistantRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/app/farm/': {
+      id: '/_authenticated/app/farm/'
+      path: '/app/farm'
+      fullPath: '/app/farm/'
+      preLoaderRoute: typeof AuthenticatedAppFarmIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/app/farm/records': {
+      id: '/_authenticated/app/farm/records'
+      path: '/app/farm/records'
+      fullPath: '/app/farm/records'
+      preLoaderRoute: typeof AuthenticatedAppFarmRecordsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/app/farm/plots': {
+      id: '/_authenticated/app/farm/plots'
+      path: '/app/farm/plots'
+      fullPath: '/app/farm/plots'
+      preLoaderRoute: typeof AuthenticatedAppFarmPlotsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/app/farm/location': {
+      id: '/_authenticated/app/farm/location'
+      path: '/app/farm/location'
+      fullPath: '/app/farm/location'
+      preLoaderRoute: typeof AuthenticatedAppFarmLocationRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -502,6 +582,10 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedOnboardingProfileRoute: typeof AuthenticatedOnboardingProfileRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
   AuthenticatedOnboardingIndexRoute: typeof AuthenticatedOnboardingIndexRoute
+  AuthenticatedAppFarmLocationRoute: typeof AuthenticatedAppFarmLocationRoute
+  AuthenticatedAppFarmPlotsRoute: typeof AuthenticatedAppFarmPlotsRoute
+  AuthenticatedAppFarmRecordsRoute: typeof AuthenticatedAppFarmRecordsRoute
+  AuthenticatedAppFarmIndexRoute: typeof AuthenticatedAppFarmIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -520,6 +604,10 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedOnboardingProfileRoute: AuthenticatedOnboardingProfileRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
   AuthenticatedOnboardingIndexRoute: AuthenticatedOnboardingIndexRoute,
+  AuthenticatedAppFarmLocationRoute: AuthenticatedAppFarmLocationRoute,
+  AuthenticatedAppFarmPlotsRoute: AuthenticatedAppFarmPlotsRoute,
+  AuthenticatedAppFarmRecordsRoute: AuthenticatedAppFarmRecordsRoute,
+  AuthenticatedAppFarmIndexRoute: AuthenticatedAppFarmIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

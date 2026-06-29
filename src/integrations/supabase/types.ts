@@ -46,6 +46,66 @@ export type Database = {
           },
         ]
       }
+      crop_observations: {
+        Row: {
+          created_at: string
+          crop_stage: string | null
+          deleted_at: string | null
+          farm_id: string
+          id: string
+          image_url: string | null
+          notes: string | null
+          plot_id: string | null
+          recorded_at: string
+          updated_at: string
+          user_id: string
+          visual_condition: string | null
+        }
+        Insert: {
+          created_at?: string
+          crop_stage?: string | null
+          deleted_at?: string | null
+          farm_id: string
+          id?: string
+          image_url?: string | null
+          notes?: string | null
+          plot_id?: string | null
+          recorded_at?: string
+          updated_at?: string
+          user_id: string
+          visual_condition?: string | null
+        }
+        Update: {
+          created_at?: string
+          crop_stage?: string | null
+          deleted_at?: string | null
+          farm_id?: string
+          id?: string
+          image_url?: string | null
+          notes?: string | null
+          plot_id?: string | null
+          recorded_at?: string
+          updated_at?: string
+          user_id?: string
+          visual_condition?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crop_observations_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crop_observations_plot_id_fkey"
+            columns: ["plot_id"]
+            isOneToOne: false
+            referencedRelation: "farm_plots"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       crops: {
         Row: {
           created_at: string
@@ -127,6 +187,71 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "farm_locations_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      farm_plots: {
+        Row: {
+          area: number | null
+          area_unit: string | null
+          created_at: string
+          crop: string | null
+          crop_variety: string | null
+          deleted_at: string | null
+          farm_id: string
+          id: string
+          irrigation_type: string | null
+          latitude: number | null
+          longitude: number | null
+          name: string
+          notes: string | null
+          soil_type: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          area?: number | null
+          area_unit?: string | null
+          created_at?: string
+          crop?: string | null
+          crop_variety?: string | null
+          deleted_at?: string | null
+          farm_id: string
+          id?: string
+          irrigation_type?: string | null
+          latitude?: number | null
+          longitude?: number | null
+          name: string
+          notes?: string | null
+          soil_type?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          area?: number | null
+          area_unit?: string | null
+          created_at?: string
+          crop?: string | null
+          crop_variety?: string | null
+          deleted_at?: string | null
+          farm_id?: string
+          id?: string
+          irrigation_type?: string | null
+          latitude?: number | null
+          longitude?: number | null
+          name?: string
+          notes?: string | null
+          soil_type?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "farm_plots_farm_id_fkey"
             columns: ["farm_id"]
             isOneToOne: false
             referencedRelation: "farms"
@@ -227,29 +352,50 @@ export type Database = {
       irrigation_records: {
         Row: {
           created_at: string
+          deleted_at: string | null
+          duration_minutes: number | null
           ended_at: string | null
+          energy_used: number | null
           farm_id: string
           id: string
           method: string | null
+          notes: string | null
+          plot_id: string | null
           started_at: string
+          updated_at: string
+          user_id: string | null
           volume_liters: number | null
         }
         Insert: {
           created_at?: string
+          deleted_at?: string | null
+          duration_minutes?: number | null
           ended_at?: string | null
+          energy_used?: number | null
           farm_id: string
           id?: string
           method?: string | null
+          notes?: string | null
+          plot_id?: string | null
           started_at?: string
+          updated_at?: string
+          user_id?: string | null
           volume_liters?: number | null
         }
         Update: {
           created_at?: string
+          deleted_at?: string | null
+          duration_minutes?: number | null
           ended_at?: string | null
+          energy_used?: number | null
           farm_id?: string
           id?: string
           method?: string | null
+          notes?: string | null
+          plot_id?: string | null
           started_at?: string
+          updated_at?: string
+          user_id?: string | null
           volume_liters?: number | null
         }
         Relationships: [
@@ -258,6 +404,13 @@ export type Database = {
             columns: ["farm_id"]
             isOneToOne: false
             referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "irrigation_records_plot_id_fkey"
+            columns: ["plot_id"]
+            isOneToOne: false
+            referencedRelation: "farm_plots"
             referencedColumns: ["id"]
           },
         ]
@@ -346,39 +499,57 @@ export type Database = {
       soil_records: {
         Row: {
           created_at: string
+          deleted_at: string | null
           farm_id: string
           id: string
           moisture: number | null
           nitrogen: number | null
+          notes: string | null
           organic_matter: number | null
           ph: number | null
           phosphorus: number | null
+          plot_id: string | null
           potassium: number | null
           recorded_at: string
+          temperature: number | null
+          updated_at: string
+          user_id: string | null
         }
         Insert: {
           created_at?: string
+          deleted_at?: string | null
           farm_id: string
           id?: string
           moisture?: number | null
           nitrogen?: number | null
+          notes?: string | null
           organic_matter?: number | null
           ph?: number | null
           phosphorus?: number | null
+          plot_id?: string | null
           potassium?: number | null
           recorded_at?: string
+          temperature?: number | null
+          updated_at?: string
+          user_id?: string | null
         }
         Update: {
           created_at?: string
+          deleted_at?: string | null
           farm_id?: string
           id?: string
           moisture?: number | null
           nitrogen?: number | null
+          notes?: string | null
           organic_matter?: number | null
           ph?: number | null
           phosphorus?: number | null
+          plot_id?: string | null
           potassium?: number | null
           recorded_at?: string
+          temperature?: number | null
+          updated_at?: string
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -386,6 +557,13 @@ export type Database = {
             columns: ["farm_id"]
             isOneToOne: false
             referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "soil_records_plot_id_fkey"
+            columns: ["plot_id"]
+            isOneToOne: false
+            referencedRelation: "farm_plots"
             referencedColumns: ["id"]
           },
         ]

@@ -56,7 +56,17 @@ import { listAgriMindRecommendations } from "@/lib/services/agrimind.service";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authenticated/app/digital-twin")({
-  head: () => ({ meta: [{ title: "Digital Farm Twin — AgriTwin OS" }] }),
+  head: () => ({
+    meta: [
+      { title: "Digital Farm Twin — AgriTwin OS" },
+      { name: "description", content: "Living digital replica of your farm: plots, sensors, satellite signals, and AI-driven recommendations updated in real time." },
+      { name: "robots", content: "noindex, nofollow" },
+      { property: "og:title", content: "Digital Farm Twin — AgriTwin OS" },
+      { property: "og:description", content: "A real-time digital twin of your farm combining IoT, satellite, and AI insight into one operational view." },
+      { property: "og:url", content: "https://agri-twin-os.lovable.app/app/digital-twin" },
+    ],
+    links: [{ rel: "canonical", href: "https://agri-twin-os.lovable.app/app/digital-twin" }],
+  }),
   component: DigitalTwinPage,
 });
 

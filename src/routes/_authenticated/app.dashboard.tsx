@@ -46,7 +46,17 @@ import {
 } from "@/lib/services/records.functions";
 
 export const Route = createFileRoute("/_authenticated/app/dashboard")({
-  head: () => ({ meta: [{ title: "Dashboard — AgriTwin OS" }] }),
+  head: () => ({
+    meta: [
+      { title: "Farm Dashboard — AgriTwin OS" },
+      { name: "description", content: "Real-time overview of your farms: plots, soil, irrigation, weather alerts, and AI recommendations in one place." },
+      { name: "robots", content: "noindex, nofollow" },
+      { property: "og:title", content: "Farm Dashboard — AgriTwin OS" },
+      { property: "og:description", content: "Real-time overview of your farms: plots, soil, irrigation, weather, and AI recommendations." },
+      { property: "og:url", content: "https://agri-twin-os.lovable.app/app/dashboard" },
+    ],
+    links: [{ rel: "canonical", href: "https://agri-twin-os.lovable.app/app/dashboard" }],
+  }),
   component: DashboardPage,
 });
 

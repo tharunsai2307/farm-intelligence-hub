@@ -44,8 +44,13 @@ function LoginPage() {
   });
 
   const goNext = () => {
-    const dest = search.redirect ?? "/app/dashboard";
-    navigate({ to: dest, replace: true });
+    const raw = search.redirect;
+    // Only allow same-origin relative paths to prevent open redirects.
+    const safeDest =
+      raw && raw.startsWith("/") && !raw.startsWith("//") && !raw.startsWith("/\\")
+        ? raw
+        : "/app/dashboard";
+    navigate({ to: safeDest, replace: true });
   };
 
   const onSubmit = async (values: Values) => {

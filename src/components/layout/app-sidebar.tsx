@@ -35,6 +35,7 @@ import { Badge } from "@/components/ui/badge";
 export const NAV_ITEMS = [
   { title: "Dashboard", url: "/app/dashboard", icon: LayoutDashboard, group: "Overview", ready: true },
   { title: "Digital Twin", url: "/app/digital-twin", icon: Boxes, group: "Overview", ready: true },
+  { title: "AgriSense", url: "/app/agrisense", icon: Radio, group: "Overview", ready: true },
   { title: "Farm Plots", url: "/app/farm/plots", icon: MapPinned, group: "My Farm", ready: true },
   { title: "Location", url: "/app/farm/location", icon: MapPin, group: "My Farm", ready: true },
   { title: "Records", url: "/app/farm/records", icon: FlaskConical, group: "My Farm", ready: true },

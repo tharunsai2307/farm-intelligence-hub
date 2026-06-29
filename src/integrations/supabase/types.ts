@@ -301,6 +301,71 @@ export type Database = {
           },
         ]
       }
+      drone_surveys: {
+        Row: {
+          coverage_area: number | null
+          coverage_area_unit: string | null
+          created_at: string
+          farm_id: string
+          geojson_url: string | null
+          id: string
+          image_count: number
+          metadata: Json
+          notes: string | null
+          orthomosaic_url: string | null
+          pilot: string | null
+          report_url: string | null
+          status: Database["public"]["Enums"]["drone_survey_status"]
+          survey_date: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          coverage_area?: number | null
+          coverage_area_unit?: string | null
+          created_at?: string
+          farm_id: string
+          geojson_url?: string | null
+          id?: string
+          image_count?: number
+          metadata?: Json
+          notes?: string | null
+          orthomosaic_url?: string | null
+          pilot?: string | null
+          report_url?: string | null
+          status?: Database["public"]["Enums"]["drone_survey_status"]
+          survey_date: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          coverage_area?: number | null
+          coverage_area_unit?: string | null
+          created_at?: string
+          farm_id?: string
+          geojson_url?: string | null
+          id?: string
+          image_count?: number
+          metadata?: Json
+          notes?: string | null
+          orthomosaic_url?: string | null
+          pilot?: string | null
+          report_url?: string | null
+          status?: Database["public"]["Enums"]["drone_survey_status"]
+          survey_date?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "drone_surveys_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       farm_locations: {
         Row: {
           created_at: string
@@ -722,6 +787,192 @@ export type Database = {
         }
         Relationships: []
       }
+      satellite_records: {
+        Row: {
+          created_at: string
+          farm_id: string
+          id: string
+          image_date: string
+          image_url: string | null
+          metadata: Json
+          moisture_index: number | null
+          ndvi: number | null
+          provider: string
+          resolution: string | null
+          user_id: string
+          vegetation_index: number | null
+        }
+        Insert: {
+          created_at?: string
+          farm_id: string
+          id?: string
+          image_date: string
+          image_url?: string | null
+          metadata?: Json
+          moisture_index?: number | null
+          ndvi?: number | null
+          provider: string
+          resolution?: string | null
+          user_id: string
+          vegetation_index?: number | null
+        }
+        Update: {
+          created_at?: string
+          farm_id?: string
+          id?: string
+          image_date?: string
+          image_url?: string | null
+          metadata?: Json
+          moisture_index?: number | null
+          ndvi?: number | null
+          provider?: string
+          resolution?: string | null
+          user_id?: string
+          vegetation_index?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "satellite_records_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sensor_devices: {
+        Row: {
+          battery_level: number | null
+          created_at: string
+          device_name: string
+          device_type: Database["public"]["Enums"]["sensor_device_type"]
+          farm_id: string
+          firmware_version: string | null
+          id: string
+          last_seen: string | null
+          manufacturer: string | null
+          metadata: Json
+          plot_id: string | null
+          serial_number: string | null
+          status: Database["public"]["Enums"]["sensor_device_status"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          battery_level?: number | null
+          created_at?: string
+          device_name: string
+          device_type?: Database["public"]["Enums"]["sensor_device_type"]
+          farm_id: string
+          firmware_version?: string | null
+          id?: string
+          last_seen?: string | null
+          manufacturer?: string | null
+          metadata?: Json
+          plot_id?: string | null
+          serial_number?: string | null
+          status?: Database["public"]["Enums"]["sensor_device_status"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          battery_level?: number | null
+          created_at?: string
+          device_name?: string
+          device_type?: Database["public"]["Enums"]["sensor_device_type"]
+          farm_id?: string
+          firmware_version?: string | null
+          id?: string
+          last_seen?: string | null
+          manufacturer?: string | null
+          metadata?: Json
+          plot_id?: string | null
+          serial_number?: string | null
+          status?: Database["public"]["Enums"]["sensor_device_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sensor_devices_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sensor_devices_plot_id_fkey"
+            columns: ["plot_id"]
+            isOneToOne: false
+            referencedRelation: "farm_plots"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sensor_readings: {
+        Row: {
+          created_at: string
+          device_id: string
+          farm_id: string
+          id: string
+          metadata: Json
+          plot_id: string | null
+          recorded_at: string
+          sensor_type: string
+          unit: string | null
+          user_id: string
+          value: number
+        }
+        Insert: {
+          created_at?: string
+          device_id: string
+          farm_id: string
+          id?: string
+          metadata?: Json
+          plot_id?: string | null
+          recorded_at?: string
+          sensor_type: string
+          unit?: string | null
+          user_id: string
+          value: number
+        }
+        Update: {
+          created_at?: string
+          device_id?: string
+          farm_id?: string
+          id?: string
+          metadata?: Json
+          plot_id?: string | null
+          recorded_at?: string
+          sensor_type?: string
+          unit?: string | null
+          user_id?: string
+          value?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sensor_readings_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "sensor_devices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sensor_readings_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sensor_readings_plot_id_fkey"
+            columns: ["plot_id"]
+            isOneToOne: false
+            referencedRelation: "farm_plots"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       soil_records: {
         Row: {
           created_at: string
@@ -1047,6 +1298,27 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "agronomist" | "farmer"
+      drone_survey_status:
+        | "planned"
+        | "in_progress"
+        | "completed"
+        | "failed"
+        | "cancelled"
+      sensor_device_status:
+        | "online"
+        | "offline"
+        | "low_battery"
+        | "maintenance"
+        | "unknown"
+      sensor_device_type:
+        | "esp32"
+        | "arduino"
+        | "lora"
+        | "mqtt"
+        | "weather_station"
+        | "soil_probe"
+        | "camera"
+        | "other"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1175,6 +1447,30 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "agronomist", "farmer"],
+      drone_survey_status: [
+        "planned",
+        "in_progress",
+        "completed",
+        "failed",
+        "cancelled",
+      ],
+      sensor_device_status: [
+        "online",
+        "offline",
+        "low_battery",
+        "maintenance",
+        "unknown",
+      ],
+      sensor_device_type: [
+        "esp32",
+        "arduino",
+        "lora",
+        "mqtt",
+        "weather_station",
+        "soil_probe",
+        "camera",
+        "other",
+      ],
     },
   },
 } as const

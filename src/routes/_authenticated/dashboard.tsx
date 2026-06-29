@@ -7,7 +7,7 @@ import { EmptyState } from "@/components/common/empty-state";
 import { CardSkeleton } from "@/components/common/loading-skeleton";
 import { ErrorState } from "@/components/common/error-state";
 import { Button } from "@/components/ui/button";
-import { listFarms } from "@/lib/services/farms.functions";
+import { listFarms, type FarmRow } from "@/lib/services/farms.functions";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard — AgriTwin OS" }] }),
@@ -20,7 +20,7 @@ function DashboardPage() {
     queryFn: () => listFarms(),
   });
 
-  const farms = data?.items ?? [];
+  const farms: FarmRow[] = data?.items ?? [];
 
   return (
     <div className="mx-auto max-w-7xl">

@@ -115,6 +115,16 @@ This project is built and maintained with [Lovable](https://lovable.dev).
 - **Live editor**: edits made in Lovable sync to this repo automatically.
 - **Local development**: clone, edit, push — changes sync back to Lovable.
 
+---
+
+## Author
+
+**Created and developed by Tharun Sai**  
+[LinkedIn](https://www.linkedin.com/in/tharun-sai-gangadhar-p-a32245396/)
+
+---
+
 ## License
 
 Proprietary — AgriTwin OS. All rights reserved.
+

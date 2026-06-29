@@ -141,6 +141,14 @@ function AgriSensePage() {
     queryKey: ["agrisense", "satellite-status"],
     queryFn: () => getSatelliteStatus(),
   });
+  const aiCropStatusQ = useQuery({
+    queryKey: ["agrisense", "ai-crop-status"],
+    queryFn: () => getAiCropStatus(),
+  });
+  const agrimindStatusQ = useQuery({
+    queryKey: ["agrisense", "agrimind-status"],
+    queryFn: () => getAgriMindStatus(),
+  });
   const dronesQ = useQuery({
     queryKey: ["agrisense", "drone", farmId],
     queryFn: () => listDroneSurveysFn({ data: { farm_id: farmId! } }),

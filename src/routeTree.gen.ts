@@ -34,6 +34,7 @@ import { Route as ApiFarmosEquipmentRouteImport } from './routes/api/farmos/equi
 import { Route as ApiFarmosCalendarRouteImport } from './routes/api/farmos/calendar'
 import { Route as ApiAiAnalyzeRouteImport } from './routes/api/ai/analyze'
 import { Route as ApiAgrisenseSensorsRouteImport } from './routes/api/agrisense/sensors'
+import { Route as ApiAgrisenseSatelliteImageRouteImport } from './routes/api/agrisense/satellite-image'
 import { Route as ApiAgrisenseSatelliteRouteImport } from './routes/api/agrisense/satellite'
 import { Route as ApiAgrisenseRegisterDeviceRouteImport } from './routes/api/agrisense/register-device'
 import { Route as ApiAgrisenseRealtimeRouteImport } from './routes/api/agrisense/realtime'
@@ -195,6 +196,12 @@ const ApiAgrisenseSensorsRoute = ApiAgrisenseSensorsRouteImport.update({
   path: '/api/agrisense/sensors',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAgrisenseSatelliteImageRoute =
+  ApiAgrisenseSatelliteImageRouteImport.update({
+    id: '/api/agrisense/satellite-image',
+    path: '/api/agrisense/satellite-image',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiAgrisenseSatelliteRoute = ApiAgrisenseSatelliteRouteImport.update({
   id: '/api/agrisense/satellite',
   path: '/api/agrisense/satellite',
@@ -427,6 +434,7 @@ export interface FileRoutesByFullPath {
   '/api/agrisense/realtime': typeof ApiAgrisenseRealtimeRoute
   '/api/agrisense/register-device': typeof ApiAgrisenseRegisterDeviceRoute
   '/api/agrisense/satellite': typeof ApiAgrisenseSatelliteRoute
+  '/api/agrisense/satellite-image': typeof ApiAgrisenseSatelliteImageRoute
   '/api/agrisense/sensors': typeof ApiAgrisenseSensorsRoute
   '/api/ai/analyze': typeof ApiAiAnalyzeRoute
   '/api/farmos/calendar': typeof ApiFarmosCalendarRoute
@@ -487,6 +495,7 @@ export interface FileRoutesByTo {
   '/api/agrisense/realtime': typeof ApiAgrisenseRealtimeRoute
   '/api/agrisense/register-device': typeof ApiAgrisenseRegisterDeviceRoute
   '/api/agrisense/satellite': typeof ApiAgrisenseSatelliteRoute
+  '/api/agrisense/satellite-image': typeof ApiAgrisenseSatelliteImageRoute
   '/api/agrisense/sensors': typeof ApiAgrisenseSensorsRoute
   '/api/ai/analyze': typeof ApiAiAnalyzeRoute
   '/api/farmos/calendar': typeof ApiFarmosCalendarRoute
@@ -550,6 +559,7 @@ export interface FileRoutesById {
   '/api/agrisense/realtime': typeof ApiAgrisenseRealtimeRoute
   '/api/agrisense/register-device': typeof ApiAgrisenseRegisterDeviceRoute
   '/api/agrisense/satellite': typeof ApiAgrisenseSatelliteRoute
+  '/api/agrisense/satellite-image': typeof ApiAgrisenseSatelliteImageRoute
   '/api/agrisense/sensors': typeof ApiAgrisenseSensorsRoute
   '/api/ai/analyze': typeof ApiAiAnalyzeRoute
   '/api/farmos/calendar': typeof ApiFarmosCalendarRoute
@@ -613,6 +623,7 @@ export interface FileRouteTypes {
     | '/api/agrisense/realtime'
     | '/api/agrisense/register-device'
     | '/api/agrisense/satellite'
+    | '/api/agrisense/satellite-image'
     | '/api/agrisense/sensors'
     | '/api/ai/analyze'
     | '/api/farmos/calendar'
@@ -673,6 +684,7 @@ export interface FileRouteTypes {
     | '/api/agrisense/realtime'
     | '/api/agrisense/register-device'
     | '/api/agrisense/satellite'
+    | '/api/agrisense/satellite-image'
     | '/api/agrisense/sensors'
     | '/api/ai/analyze'
     | '/api/farmos/calendar'
@@ -735,6 +747,7 @@ export interface FileRouteTypes {
     | '/api/agrisense/realtime'
     | '/api/agrisense/register-device'
     | '/api/agrisense/satellite'
+    | '/api/agrisense/satellite-image'
     | '/api/agrisense/sensors'
     | '/api/ai/analyze'
     | '/api/farmos/calendar'
@@ -785,6 +798,7 @@ export interface RootRouteChildren {
   ApiAgrisenseRealtimeRoute: typeof ApiAgrisenseRealtimeRoute
   ApiAgrisenseRegisterDeviceRoute: typeof ApiAgrisenseRegisterDeviceRoute
   ApiAgrisenseSatelliteRoute: typeof ApiAgrisenseSatelliteRoute
+  ApiAgrisenseSatelliteImageRoute: typeof ApiAgrisenseSatelliteImageRoute
   ApiAgrisenseSensorsRoute: typeof ApiAgrisenseSensorsRoute
   ApiAiAnalyzeRoute: typeof ApiAiAnalyzeRoute
   ApiFarmosCalendarRoute: typeof ApiFarmosCalendarRoute
@@ -975,6 +989,13 @@ declare module '@tanstack/react-router' {
       path: '/api/agrisense/sensors'
       fullPath: '/api/agrisense/sensors'
       preLoaderRoute: typeof ApiAgrisenseSensorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/agrisense/satellite-image': {
+      id: '/api/agrisense/satellite-image'
+      path: '/api/agrisense/satellite-image'
+      fullPath: '/api/agrisense/satellite-image'
+      preLoaderRoute: typeof ApiAgrisenseSatelliteImageRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/agrisense/satellite': {
@@ -1326,6 +1347,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAgrisenseRealtimeRoute: ApiAgrisenseRealtimeRoute,
   ApiAgrisenseRegisterDeviceRoute: ApiAgrisenseRegisterDeviceRoute,
   ApiAgrisenseSatelliteRoute: ApiAgrisenseSatelliteRoute,
+  ApiAgrisenseSatelliteImageRoute: ApiAgrisenseSatelliteImageRoute,
   ApiAgrisenseSensorsRoute: ApiAgrisenseSensorsRoute,
   ApiAiAnalyzeRoute: ApiAiAnalyzeRoute,
   ApiFarmosCalendarRoute: ApiFarmosCalendarRoute,
@@ -1343,13 +1365,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

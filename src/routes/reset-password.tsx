@@ -21,7 +21,7 @@ const schema = z
 
 type Values = z.infer<typeof schema>;
 
-export const Route = createFileRoute("/auth/reset-password")({
+export const Route = createFileRoute("/reset-password")({
   head: () => ({ meta: [{ title: "Set a new password — AgriTwin OS" }] }),
   component: ResetPage,
 });

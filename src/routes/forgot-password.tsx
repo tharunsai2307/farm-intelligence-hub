@@ -15,7 +15,7 @@ import { AuthLayout } from "@/components/auth/auth-layout";
 const schema = z.object({ email: z.string().email("Enter a valid email") });
 type Values = z.infer<typeof schema>;
 
-export const Route = createFileRoute("/auth/forgot")({
+export const Route = createFileRoute("/forgot-password")({
   head: () => ({ meta: [{ title: "Reset password — AgriTwin OS" }] }),
   component: ForgotPage,
 });

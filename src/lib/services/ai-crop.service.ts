@@ -61,7 +61,7 @@ export const getSignedAnalysisImage = createServerFn({ method: "GET" })
     return ok({ url });
   });
 
-export const getAiCropStatus = createServerFn({ method: "GET" }).handler(async () => {
+export const getAiCropStatus = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth]).handler(async () => {
   const configured = Boolean(
     process.env.ROBOFLOW_API_KEY && process.env.ROBOFLOW_MODEL_ID,
   );

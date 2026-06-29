@@ -64,7 +64,7 @@ export const getWeatherAlerts = createServerFn({ method: "GET" })
     return fn(context.supabase, data.farmId);
   });
 
-export const getWeatherSourceStatus = createServerFn({ method: "GET" }).handler(async () => {
+export const getWeatherSourceStatus = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth]).handler(async () => {
   const configured = Boolean(
     process.env.OPENWEATHER_API_KEY || process.env.WEATHER_API_KEY,
   );

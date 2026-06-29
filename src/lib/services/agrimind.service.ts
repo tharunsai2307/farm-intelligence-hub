@@ -92,7 +92,7 @@ export const speakAgriText = createServerFn({ method: "POST" })
     return speakText(data.text, data.language);
   });
 
-export const getAgriMindStatus = createServerFn({ method: "GET" }).handler(async () => {
+export const getAgriMindStatus = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth]).handler(async () => {
   const configured = Boolean(process.env.LOVABLE_API_KEY);
   const result: ServiceResult<{ configured: boolean; provider: string }> = configured
     ? ok({ configured: true, provider: "lovable-ai" })

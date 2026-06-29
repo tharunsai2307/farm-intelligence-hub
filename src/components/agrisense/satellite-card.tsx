@@ -6,19 +6,21 @@ import type { SatelliteRecordRow } from "@/lib/services/agrisense.server";
 /**
  * SatelliteCard
  *
- * Renders the last imported satellite scene's headline metrics or, when no
- * provider is configured and no records exist, the canonical
- * "Satellite service unavailable." message. NDVI/moisture are never
- * synthesized.
+ * Renders the last imported satellite scene's headline metrics. When the
+ * provider is configured but no scene has been imported yet, shows a live
+ * Google Maps Static satellite tile centred on the farm's GPS coordinates
+ * (proxied through /api/agrisense/satellite-image so the key stays server-side).
  */
 export function SatelliteCard({
   records,
   configured,
   provider,
+  farmId,
 }: {
   records: SatelliteRecordRow[];
   configured: boolean;
   provider?: string | null;
+  farmId?: string | null;
 }) {
   const latest = records[0];
 

@@ -259,7 +259,7 @@ function Alerts({
 // helper type extraction
 function useDummy() {
   return undefined as unknown as {
-    weather_api: "not_configured";
+    weather_api: "configured" | "not_configured";
     soil_sensors: "not_configured" | "no_records" | "has_records";
     crop_images: "no_records" | "has_records";
     irrigation_records: "no_records" | "has_records";
@@ -269,6 +269,7 @@ function useDummy() {
     farm_location: "missing" | "set";
   };
 }
+
 
 function QuickActions() {
   const items = [

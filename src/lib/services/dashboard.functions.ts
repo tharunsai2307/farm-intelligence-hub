@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 export type DataAvailabilityStatus = {
-  weather_api: "not_configured";
+  weather_api: "configured" | "not_configured";
   soil_sensors: "not_configured" | "no_records" | "has_records";
   crop_images: "no_records" | "has_records";
   irrigation_records: "no_records" | "has_records";
@@ -11,6 +11,7 @@ export type DataAvailabilityStatus = {
   reports: "not_available";
   farm_location: "missing" | "set";
 };
+
 
 export type ActivityItem = {
   id: string;
@@ -115,8 +116,11 @@ export const getDashboardSummary = createServerFn({ method: "GET" })
     }
     recent.sort((a, b) => (a.timestamp < b.timestamp ? 1 : -1));
 
+    const weatherConfigured = Boolean(
+      process.env.OPENWEATHER_API_KEY || process.env.WEATHER_API_KEY,
+    );
     const availability: DataAvailabilityStatus = {
-      weather_api: "not_configured",
+      weather_api: weatherConfigured ? "configured" : "not_configured",
       soil_sensors: (soil.count ?? 0) > 0 ? "has_records" : "no_records",
       crop_images: (observations.count ?? 0) > 0 ? "has_records" : "no_records",
       irrigation_records: (irrigation.count ?? 0) > 0 ? "has_records" : "no_records",
@@ -125,6 +129,7 @@ export const getDashboardSummary = createServerFn({ method: "GET" })
       reports: "not_available",
       farm_location: (farmLocations.count ?? 0) > 0 ? "set" : "missing",
     };
+
 
     return {
       counts: {

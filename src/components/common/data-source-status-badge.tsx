@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 
 export type DataStatus =
   | "connected"
+  | "configured"
   | "has_records"
   | "set"
   | "no_records"
@@ -16,6 +17,7 @@ const MAP: Record<
   { label: string; tone: "success" | "warning" | "muted"; icon: LucideIcon }
 > = {
   connected: { label: "Connected", tone: "success", icon: CheckCircle2 },
+  configured: { label: "Configured", tone: "success", icon: CheckCircle2 },
   has_records: { label: "Has records", tone: "success", icon: CheckCircle2 },
   set: { label: "Set", tone: "success", icon: CheckCircle2 },
   no_records: { label: "No records", tone: "warning", icon: CircleAlert },
@@ -24,6 +26,7 @@ const MAP: Record<
   not_configured: { label: "Not configured", tone: "muted", icon: MinusCircle },
   not_available: { label: "Phase 2", tone: "muted", icon: MinusCircle },
 };
+
 
 export function DataSourceStatusBadge({ status }: { status: DataStatus }) {
   const m = MAP[status];

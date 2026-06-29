@@ -62,11 +62,12 @@ export const getSignedAnalysisImage = createServerFn({ method: "GET" })
   });
 
 export const getAiCropStatus = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth]).handler(async () => {
-  const configured = Boolean(
-    process.env.ROBOFLOW_API_KEY && process.env.ROBOFLOW_MODEL_ID,
-  );
+  const hasRoboflow = Boolean(process.env.ROBOFLOW_API_KEY && process.env.ROBOFLOW_MODEL_ID);
+  const hasGemini = Boolean(process.env.LOVABLE_API_KEY);
+  const configured = hasRoboflow || hasGemini;
+  const provider = hasRoboflow ? "roboflow" : hasGemini ? "gemini-vision" : "none";
   const result: ServiceResult<{ configured: boolean; provider: string }> = configured
-    ? { success: true, data: { configured: true, provider: "roboflow" }, error: null }
+    ? { success: true, data: { configured: true, provider }, error: null }
     : fail("AI Crop Analysis service is currently unavailable.");
   return result;
 });

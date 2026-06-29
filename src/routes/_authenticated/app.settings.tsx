@@ -16,6 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 import { getMyProfile, updateMyProfile, type ProfileRow } from "@/lib/services/profile.functions";
 import { getMySettings, updateMySettings, type SettingsRow, type SettingsPatch } from "@/lib/services/settings.functions";
+import { getWeatherSourceStatus } from "@/lib/services/weather.service";
 import { useTheme } from "@/components/theme/theme-provider";
 
 export const Route = createFileRoute("/_authenticated/app/settings")({

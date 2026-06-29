@@ -125,6 +125,8 @@ function DashboardPage() {
             availability={summaryQ.data?.availability}
           />
 
+          <AgriMindInsightsWidget farmId={primary.id} />
+
           <QuickActions />
 
           <DataAvailability availability={summaryQ.data?.availability} />

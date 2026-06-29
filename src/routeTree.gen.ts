@@ -26,6 +26,11 @@ import { Route as ApiWeatherForecastRouteImport } from './routes/api/weather/for
 import { Route as ApiWeatherCurrentRouteImport } from './routes/api/weather/current'
 import { Route as ApiWeatherAlertsRouteImport } from './routes/api/weather/alerts'
 import { Route as ApiAiAnalyzeRouteImport } from './routes/api/ai/analyze'
+import { Route as ApiAgrisenseSensorsRouteImport } from './routes/api/agrisense/sensors'
+import { Route as ApiAgrisenseSatelliteRouteImport } from './routes/api/agrisense/satellite'
+import { Route as ApiAgrisenseRegisterDeviceRouteImport } from './routes/api/agrisense/register-device'
+import { Route as ApiAgrisenseRealtimeRouteImport } from './routes/api/agrisense/realtime'
+import { Route as ApiAgrisenseDroneRouteImport } from './routes/api/agrisense/drone'
 import { Route as ApiAgrimindRecommendRouteImport } from './routes/api/agrimind/recommend'
 import { Route as ApiAgrimindLatestRouteImport } from './routes/api/agrimind/latest'
 import { Route as ApiAgrimindHistoryRouteImport } from './routes/api/agrimind/history'
@@ -132,6 +137,32 @@ const ApiWeatherAlertsRoute = ApiWeatherAlertsRouteImport.update({
 const ApiAiAnalyzeRoute = ApiAiAnalyzeRouteImport.update({
   id: '/api/ai/analyze',
   path: '/api/ai/analyze',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAgrisenseSensorsRoute = ApiAgrisenseSensorsRouteImport.update({
+  id: '/api/agrisense/sensors',
+  path: '/api/agrisense/sensors',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAgrisenseSatelliteRoute = ApiAgrisenseSatelliteRouteImport.update({
+  id: '/api/agrisense/satellite',
+  path: '/api/agrisense/satellite',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAgrisenseRegisterDeviceRoute =
+  ApiAgrisenseRegisterDeviceRouteImport.update({
+    id: '/api/agrisense/register-device',
+    path: '/api/agrisense/register-device',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiAgrisenseRealtimeRoute = ApiAgrisenseRealtimeRouteImport.update({
+  id: '/api/agrisense/realtime',
+  path: '/api/agrisense/realtime',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAgrisenseDroneRoute = ApiAgrisenseDroneRouteImport.update({
+  id: '/api/agrisense/drone',
+  path: '/api/agrisense/drone',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiAgrimindRecommendRoute = ApiAgrimindRecommendRouteImport.update({
@@ -286,6 +317,11 @@ export interface FileRoutesByFullPath {
   '/api/agrimind/history': typeof ApiAgrimindHistoryRoute
   '/api/agrimind/latest': typeof ApiAgrimindLatestRoute
   '/api/agrimind/recommend': typeof ApiAgrimindRecommendRoute
+  '/api/agrisense/drone': typeof ApiAgrisenseDroneRoute
+  '/api/agrisense/realtime': typeof ApiAgrisenseRealtimeRoute
+  '/api/agrisense/register-device': typeof ApiAgrisenseRegisterDeviceRoute
+  '/api/agrisense/satellite': typeof ApiAgrisenseSatelliteRoute
+  '/api/agrisense/sensors': typeof ApiAgrisenseSensorsRoute
   '/api/ai/analyze': typeof ApiAiAnalyzeRoute
   '/api/weather/alerts': typeof ApiWeatherAlertsRoute
   '/api/weather/current': typeof ApiWeatherCurrentRoute
@@ -326,6 +362,11 @@ export interface FileRoutesByTo {
   '/api/agrimind/history': typeof ApiAgrimindHistoryRoute
   '/api/agrimind/latest': typeof ApiAgrimindLatestRoute
   '/api/agrimind/recommend': typeof ApiAgrimindRecommendRoute
+  '/api/agrisense/drone': typeof ApiAgrisenseDroneRoute
+  '/api/agrisense/realtime': typeof ApiAgrisenseRealtimeRoute
+  '/api/agrisense/register-device': typeof ApiAgrisenseRegisterDeviceRoute
+  '/api/agrisense/satellite': typeof ApiAgrisenseSatelliteRoute
+  '/api/agrisense/sensors': typeof ApiAgrisenseSensorsRoute
   '/api/ai/analyze': typeof ApiAiAnalyzeRoute
   '/api/weather/alerts': typeof ApiWeatherAlertsRoute
   '/api/weather/current': typeof ApiWeatherCurrentRoute
@@ -368,6 +409,11 @@ export interface FileRoutesById {
   '/api/agrimind/history': typeof ApiAgrimindHistoryRoute
   '/api/agrimind/latest': typeof ApiAgrimindLatestRoute
   '/api/agrimind/recommend': typeof ApiAgrimindRecommendRoute
+  '/api/agrisense/drone': typeof ApiAgrisenseDroneRoute
+  '/api/agrisense/realtime': typeof ApiAgrisenseRealtimeRoute
+  '/api/agrisense/register-device': typeof ApiAgrisenseRegisterDeviceRoute
+  '/api/agrisense/satellite': typeof ApiAgrisenseSatelliteRoute
+  '/api/agrisense/sensors': typeof ApiAgrisenseSensorsRoute
   '/api/ai/analyze': typeof ApiAiAnalyzeRoute
   '/api/weather/alerts': typeof ApiWeatherAlertsRoute
   '/api/weather/current': typeof ApiWeatherCurrentRoute
@@ -410,6 +456,11 @@ export interface FileRouteTypes {
     | '/api/agrimind/history'
     | '/api/agrimind/latest'
     | '/api/agrimind/recommend'
+    | '/api/agrisense/drone'
+    | '/api/agrisense/realtime'
+    | '/api/agrisense/register-device'
+    | '/api/agrisense/satellite'
+    | '/api/agrisense/sensors'
     | '/api/ai/analyze'
     | '/api/weather/alerts'
     | '/api/weather/current'
@@ -450,6 +501,11 @@ export interface FileRouteTypes {
     | '/api/agrimind/history'
     | '/api/agrimind/latest'
     | '/api/agrimind/recommend'
+    | '/api/agrisense/drone'
+    | '/api/agrisense/realtime'
+    | '/api/agrisense/register-device'
+    | '/api/agrisense/satellite'
+    | '/api/agrisense/sensors'
     | '/api/ai/analyze'
     | '/api/weather/alerts'
     | '/api/weather/current'
@@ -491,6 +547,11 @@ export interface FileRouteTypes {
     | '/api/agrimind/history'
     | '/api/agrimind/latest'
     | '/api/agrimind/recommend'
+    | '/api/agrisense/drone'
+    | '/api/agrisense/realtime'
+    | '/api/agrisense/register-device'
+    | '/api/agrisense/satellite'
+    | '/api/agrisense/sensors'
     | '/api/ai/analyze'
     | '/api/weather/alerts'
     | '/api/weather/current'
@@ -521,6 +582,11 @@ export interface RootRouteChildren {
   ApiAgrimindHistoryRoute: typeof ApiAgrimindHistoryRoute
   ApiAgrimindLatestRoute: typeof ApiAgrimindLatestRoute
   ApiAgrimindRecommendRoute: typeof ApiAgrimindRecommendRoute
+  ApiAgrisenseDroneRoute: typeof ApiAgrisenseDroneRoute
+  ApiAgrisenseRealtimeRoute: typeof ApiAgrisenseRealtimeRoute
+  ApiAgrisenseRegisterDeviceRoute: typeof ApiAgrisenseRegisterDeviceRoute
+  ApiAgrisenseSatelliteRoute: typeof ApiAgrisenseSatelliteRoute
+  ApiAgrisenseSensorsRoute: typeof ApiAgrisenseSensorsRoute
   ApiAiAnalyzeRoute: typeof ApiAiAnalyzeRoute
   ApiWeatherAlertsRoute: typeof ApiWeatherAlertsRoute
   ApiWeatherCurrentRoute: typeof ApiWeatherCurrentRoute
@@ -647,6 +713,41 @@ declare module '@tanstack/react-router' {
       path: '/api/ai/analyze'
       fullPath: '/api/ai/analyze'
       preLoaderRoute: typeof ApiAiAnalyzeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/agrisense/sensors': {
+      id: '/api/agrisense/sensors'
+      path: '/api/agrisense/sensors'
+      fullPath: '/api/agrisense/sensors'
+      preLoaderRoute: typeof ApiAgrisenseSensorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/agrisense/satellite': {
+      id: '/api/agrisense/satellite'
+      path: '/api/agrisense/satellite'
+      fullPath: '/api/agrisense/satellite'
+      preLoaderRoute: typeof ApiAgrisenseSatelliteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/agrisense/register-device': {
+      id: '/api/agrisense/register-device'
+      path: '/api/agrisense/register-device'
+      fullPath: '/api/agrisense/register-device'
+      preLoaderRoute: typeof ApiAgrisenseRegisterDeviceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/agrisense/realtime': {
+      id: '/api/agrisense/realtime'
+      path: '/api/agrisense/realtime'
+      fullPath: '/api/agrisense/realtime'
+      preLoaderRoute: typeof ApiAgrisenseRealtimeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/agrisense/drone': {
+      id: '/api/agrisense/drone'
+      path: '/api/agrisense/drone'
+      fullPath: '/api/agrisense/drone'
+      preLoaderRoute: typeof ApiAgrisenseDroneRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/agrimind/recommend': {
@@ -873,6 +974,11 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAgrimindHistoryRoute: ApiAgrimindHistoryRoute,
   ApiAgrimindLatestRoute: ApiAgrimindLatestRoute,
   ApiAgrimindRecommendRoute: ApiAgrimindRecommendRoute,
+  ApiAgrisenseDroneRoute: ApiAgrisenseDroneRoute,
+  ApiAgrisenseRealtimeRoute: ApiAgrisenseRealtimeRoute,
+  ApiAgrisenseRegisterDeviceRoute: ApiAgrisenseRegisterDeviceRoute,
+  ApiAgrisenseSatelliteRoute: ApiAgrisenseSatelliteRoute,
+  ApiAgrisenseSensorsRoute: ApiAgrisenseSensorsRoute,
   ApiAiAnalyzeRoute: ApiAiAnalyzeRoute,
   ApiWeatherAlertsRoute: ApiWeatherAlertsRoute,
   ApiWeatherCurrentRoute: ApiWeatherCurrentRoute,

@@ -377,7 +377,7 @@ function FeatureGrid() {
             </div>
             <h3 className="mt-4 font-serif text-lg font-medium tracking-tight">{title}</h3>
             <p className="mt-1 text-sm text-muted-foreground">{body}</p>
-            <p className="mt-4 text-[11px] uppercase tracking-wide text-muted-foreground/70">
+            <p className="mt-4 text-[11px] uppercase tracking-wide text-muted-foreground">
               Real data when connected.
             </p>
           </div>

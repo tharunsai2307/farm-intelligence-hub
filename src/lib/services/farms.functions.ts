@@ -29,6 +29,14 @@ export type FarmRow = {
   created_at: string;
 };
 
+export type FarmLocationRow = {
+  id: string;
+  farm_id: string;
+  label: string | null;
+  latitude: number;
+  longitude: number;
+};
+
 const FARM_COLS =
   "id, name, owner_name, area_hectares, area_unit, farm_type, country, state, district, village, pincode, primary_crop, crop_variety, sowing_date, farming_season, soil_type, irrigation_type, water_source, planting_date, expected_harvest, has_soil_sensors, has_weather_station, wants_api_connection, created_at";
 
@@ -56,6 +64,82 @@ export const getPrimaryFarm = createServerFn({ method: "GET" })
       .maybeSingle();
     if (error) throw new Error(error.message);
     return { farm: (data as FarmRow | null) ?? null };
+  });
+
+export const getFarmById = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: { id: string }) =>
+    z.object({ id: z.string().uuid() }).parse(input),
+  )
+  .handler(async ({ data, context }) => {
+    const { data: farm, error } = await context.supabase
+      .from("farms")
+      .select(FARM_COLS)
+      .eq("id", data.id)
+      .is("deleted_at", null)
+      .maybeSingle();
+    if (error) throw new Error(error.message);
+    return { farm: (farm as FarmRow | null) ?? null };
+  });
+
+export const getFarmLocation = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: { farm_id: string }) =>
+    z.object({ farm_id: z.string().uuid() }).parse(input),
+  )
+  .handler(async ({ data, context }) => {
+    const { data: loc, error } = await context.supabase
+      .from("farm_locations")
+      .select("id, farm_id, label, latitude, longitude")
+      .eq("farm_id", data.farm_id)
+      .order("created_at", { ascending: true })
+      .limit(1)
+      .maybeSingle();
+    if (error) throw new Error(error.message);
+    return { location: (loc as FarmLocationRow | null) ?? null };
+  });
+
+const updateLocationSchema = z.object({
+  farm_id: z.string().uuid(),
+  latitude: z.number().min(-90).max(90),
+  longitude: z.number().min(-180).max(180),
+  label: z.string().max(80).optional().nullable(),
+});
+
+export const updateFarmLocation = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: z.infer<typeof updateLocationSchema>) =>
+    updateLocationSchema.parse(input),
+  )
+  .handler(async ({ data, context }) => {
+    // Ensure the farm belongs to the caller (RLS will also block)
+    const { data: existing } = await context.supabase
+      .from("farm_locations")
+      .select("id")
+      .eq("farm_id", data.farm_id)
+      .limit(1)
+      .maybeSingle();
+
+    if (existing) {
+      const { error } = await context.supabase
+        .from("farm_locations")
+        .update({
+          latitude: data.latitude,
+          longitude: data.longitude,
+          label: data.label ?? "Primary",
+        })
+        .eq("id", existing.id);
+      if (error) throw new Error(error.message);
+    } else {
+      const { error } = await context.supabase.from("farm_locations").insert({
+        farm_id: data.farm_id,
+        latitude: data.latitude,
+        longitude: data.longitude,
+        label: data.label ?? "Primary",
+      });
+      if (error) throw new Error(error.message);
+    }
+    return { ok: true };
   });
 
 const createFarmSchema = z.object({

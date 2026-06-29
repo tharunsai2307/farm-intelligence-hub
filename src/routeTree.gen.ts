@@ -17,6 +17,8 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiTranslateRouteImport } from './routes/api/translate'
+import { Route as ApiTextToSpeechRouteImport } from './routes/api/text-to-speech'
 import { Route as AuthenticatedOnboardingIndexRouteImport } from './routes/_authenticated/onboarding.index'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
 import { Route as ApiWeatherSyncRouteImport } from './routes/api/weather/sync'
@@ -24,6 +26,9 @@ import { Route as ApiWeatherForecastRouteImport } from './routes/api/weather/for
 import { Route as ApiWeatherCurrentRouteImport } from './routes/api/weather/current'
 import { Route as ApiWeatherAlertsRouteImport } from './routes/api/weather/alerts'
 import { Route as ApiAiAnalyzeRouteImport } from './routes/api/ai/analyze'
+import { Route as ApiAgrimindRecommendRouteImport } from './routes/api/agrimind/recommend'
+import { Route as ApiAgrimindLatestRouteImport } from './routes/api/agrimind/latest'
+import { Route as ApiAgrimindHistoryRouteImport } from './routes/api/agrimind/history'
 import { Route as AuthenticatedOnboardingProfileRouteImport } from './routes/_authenticated/onboarding.profile'
 import { Route as AuthenticatedOnboardingFarmRouteImport } from './routes/_authenticated/onboarding.farm'
 import { Route as AuthenticatedAppYieldPredictionRouteImport } from './routes/_authenticated/app.yield-prediction'
@@ -83,6 +88,16 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiTranslateRoute = ApiTranslateRouteImport.update({
+  id: '/api/translate',
+  path: '/api/translate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiTextToSpeechRoute = ApiTextToSpeechRouteImport.update({
+  id: '/api/text-to-speech',
+  path: '/api/text-to-speech',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedOnboardingIndexRoute =
   AuthenticatedOnboardingIndexRouteImport.update({
     id: '/onboarding/',
@@ -117,6 +132,21 @@ const ApiWeatherAlertsRoute = ApiWeatherAlertsRouteImport.update({
 const ApiAiAnalyzeRoute = ApiAiAnalyzeRouteImport.update({
   id: '/api/ai/analyze',
   path: '/api/ai/analyze',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAgrimindRecommendRoute = ApiAgrimindRecommendRouteImport.update({
+  id: '/api/agrimind/recommend',
+  path: '/api/agrimind/recommend',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAgrimindLatestRoute = ApiAgrimindLatestRouteImport.update({
+  id: '/api/agrimind/latest',
+  path: '/api/agrimind/latest',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAgrimindHistoryRoute = ApiAgrimindHistoryRouteImport.update({
+  id: '/api/agrimind/history',
+  path: '/api/agrimind/history',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedOnboardingProfileRoute =
@@ -239,6 +269,8 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/verify-email': typeof VerifyEmailRoute
+  '/api/text-to-speech': typeof ApiTextToSpeechRoute
+  '/api/translate': typeof ApiTranslateRoute
   '/app/assistant': typeof AuthenticatedAppAssistantRoute
   '/app/dashboard': typeof AuthenticatedAppDashboardRoute
   '/app/digital-twin': typeof AuthenticatedAppDigitalTwinRoute
@@ -251,6 +283,9 @@ export interface FileRoutesByFullPath {
   '/app/yield-prediction': typeof AuthenticatedAppYieldPredictionRoute
   '/onboarding/farm': typeof AuthenticatedOnboardingFarmRoute
   '/onboarding/profile': typeof AuthenticatedOnboardingProfileRoute
+  '/api/agrimind/history': typeof ApiAgrimindHistoryRoute
+  '/api/agrimind/latest': typeof ApiAgrimindLatestRoute
+  '/api/agrimind/recommend': typeof ApiAgrimindRecommendRoute
   '/api/ai/analyze': typeof ApiAiAnalyzeRoute
   '/api/weather/alerts': typeof ApiWeatherAlertsRoute
   '/api/weather/current': typeof ApiWeatherCurrentRoute
@@ -274,6 +309,8 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/verify-email': typeof VerifyEmailRoute
+  '/api/text-to-speech': typeof ApiTextToSpeechRoute
+  '/api/translate': typeof ApiTranslateRoute
   '/app/assistant': typeof AuthenticatedAppAssistantRoute
   '/app/dashboard': typeof AuthenticatedAppDashboardRoute
   '/app/digital-twin': typeof AuthenticatedAppDigitalTwinRoute
@@ -286,6 +323,9 @@ export interface FileRoutesByTo {
   '/app/yield-prediction': typeof AuthenticatedAppYieldPredictionRoute
   '/onboarding/farm': typeof AuthenticatedOnboardingFarmRoute
   '/onboarding/profile': typeof AuthenticatedOnboardingProfileRoute
+  '/api/agrimind/history': typeof ApiAgrimindHistoryRoute
+  '/api/agrimind/latest': typeof ApiAgrimindLatestRoute
+  '/api/agrimind/recommend': typeof ApiAgrimindRecommendRoute
   '/api/ai/analyze': typeof ApiAiAnalyzeRoute
   '/api/weather/alerts': typeof ApiWeatherAlertsRoute
   '/api/weather/current': typeof ApiWeatherCurrentRoute
@@ -311,6 +351,8 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/verify-email': typeof VerifyEmailRoute
+  '/api/text-to-speech': typeof ApiTextToSpeechRoute
+  '/api/translate': typeof ApiTranslateRoute
   '/_authenticated/app/assistant': typeof AuthenticatedAppAssistantRoute
   '/_authenticated/app/dashboard': typeof AuthenticatedAppDashboardRoute
   '/_authenticated/app/digital-twin': typeof AuthenticatedAppDigitalTwinRoute
@@ -323,6 +365,9 @@ export interface FileRoutesById {
   '/_authenticated/app/yield-prediction': typeof AuthenticatedAppYieldPredictionRoute
   '/_authenticated/onboarding/farm': typeof AuthenticatedOnboardingFarmRoute
   '/_authenticated/onboarding/profile': typeof AuthenticatedOnboardingProfileRoute
+  '/api/agrimind/history': typeof ApiAgrimindHistoryRoute
+  '/api/agrimind/latest': typeof ApiAgrimindLatestRoute
+  '/api/agrimind/recommend': typeof ApiAgrimindRecommendRoute
   '/api/ai/analyze': typeof ApiAiAnalyzeRoute
   '/api/weather/alerts': typeof ApiWeatherAlertsRoute
   '/api/weather/current': typeof ApiWeatherCurrentRoute
@@ -348,6 +393,8 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sitemap.xml'
     | '/verify-email'
+    | '/api/text-to-speech'
+    | '/api/translate'
     | '/app/assistant'
     | '/app/dashboard'
     | '/app/digital-twin'
@@ -360,6 +407,9 @@ export interface FileRouteTypes {
     | '/app/yield-prediction'
     | '/onboarding/farm'
     | '/onboarding/profile'
+    | '/api/agrimind/history'
+    | '/api/agrimind/latest'
+    | '/api/agrimind/recommend'
     | '/api/ai/analyze'
     | '/api/weather/alerts'
     | '/api/weather/current'
@@ -383,6 +433,8 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sitemap.xml'
     | '/verify-email'
+    | '/api/text-to-speech'
+    | '/api/translate'
     | '/app/assistant'
     | '/app/dashboard'
     | '/app/digital-twin'
@@ -395,6 +447,9 @@ export interface FileRouteTypes {
     | '/app/yield-prediction'
     | '/onboarding/farm'
     | '/onboarding/profile'
+    | '/api/agrimind/history'
+    | '/api/agrimind/latest'
+    | '/api/agrimind/recommend'
     | '/api/ai/analyze'
     | '/api/weather/alerts'
     | '/api/weather/current'
@@ -419,6 +474,8 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sitemap.xml'
     | '/verify-email'
+    | '/api/text-to-speech'
+    | '/api/translate'
     | '/_authenticated/app/assistant'
     | '/_authenticated/app/dashboard'
     | '/_authenticated/app/digital-twin'
@@ -431,6 +488,9 @@ export interface FileRouteTypes {
     | '/_authenticated/app/yield-prediction'
     | '/_authenticated/onboarding/farm'
     | '/_authenticated/onboarding/profile'
+    | '/api/agrimind/history'
+    | '/api/agrimind/latest'
+    | '/api/agrimind/recommend'
     | '/api/ai/analyze'
     | '/api/weather/alerts'
     | '/api/weather/current'
@@ -456,6 +516,11 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   VerifyEmailRoute: typeof VerifyEmailRoute
+  ApiTextToSpeechRoute: typeof ApiTextToSpeechRoute
+  ApiTranslateRoute: typeof ApiTranslateRoute
+  ApiAgrimindHistoryRoute: typeof ApiAgrimindHistoryRoute
+  ApiAgrimindLatestRoute: typeof ApiAgrimindLatestRoute
+  ApiAgrimindRecommendRoute: typeof ApiAgrimindRecommendRoute
   ApiAiAnalyzeRoute: typeof ApiAiAnalyzeRoute
   ApiWeatherAlertsRoute: typeof ApiWeatherAlertsRoute
   ApiWeatherCurrentRoute: typeof ApiWeatherCurrentRoute
@@ -521,6 +586,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/translate': {
+      id: '/api/translate'
+      path: '/api/translate'
+      fullPath: '/api/translate'
+      preLoaderRoute: typeof ApiTranslateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/text-to-speech': {
+      id: '/api/text-to-speech'
+      path: '/api/text-to-speech'
+      fullPath: '/api/text-to-speech'
+      preLoaderRoute: typeof ApiTextToSpeechRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/onboarding/': {
       id: '/_authenticated/onboarding/'
       path: '/onboarding'
@@ -568,6 +647,27 @@ declare module '@tanstack/react-router' {
       path: '/api/ai/analyze'
       fullPath: '/api/ai/analyze'
       preLoaderRoute: typeof ApiAiAnalyzeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/agrimind/recommend': {
+      id: '/api/agrimind/recommend'
+      path: '/api/agrimind/recommend'
+      fullPath: '/api/agrimind/recommend'
+      preLoaderRoute: typeof ApiAgrimindRecommendRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/agrimind/latest': {
+      id: '/api/agrimind/latest'
+      path: '/api/agrimind/latest'
+      fullPath: '/api/agrimind/latest'
+      preLoaderRoute: typeof ApiAgrimindLatestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/agrimind/history': {
+      id: '/api/agrimind/history'
+      path: '/api/agrimind/history'
+      fullPath: '/api/agrimind/history'
+      preLoaderRoute: typeof ApiAgrimindHistoryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/onboarding/profile': {
@@ -768,6 +868,11 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   VerifyEmailRoute: VerifyEmailRoute,
+  ApiTextToSpeechRoute: ApiTextToSpeechRoute,
+  ApiTranslateRoute: ApiTranslateRoute,
+  ApiAgrimindHistoryRoute: ApiAgrimindHistoryRoute,
+  ApiAgrimindLatestRoute: ApiAgrimindLatestRoute,
+  ApiAgrimindRecommendRoute: ApiAgrimindRecommendRoute,
   ApiAiAnalyzeRoute: ApiAiAnalyzeRoute,
   ApiWeatherAlertsRoute: ApiWeatherAlertsRoute,
   ApiWeatherCurrentRoute: ApiWeatherCurrentRoute,

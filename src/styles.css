@@ -150,14 +150,15 @@
 
 
 .dark {
-  --background: oklch(0.16 0.015 160);
-  --foreground: oklch(0.97 0.008 140);
-  --surface: oklch(0.20 0.018 160);
-  --surface-foreground: oklch(0.97 0.008 140);
-  --card: oklch(0.22 0.02 160);
-  --card-foreground: oklch(0.97 0.008 140);
-  --popover: oklch(0.22 0.02 160);
-  --popover-foreground: oklch(0.97 0.008 140);
+  --background: oklch(0.155 0.018 162);
+  --foreground: oklch(0.97 0.010 140);
+  --surface: oklch(0.195 0.022 162);
+  --surface-foreground: oklch(0.97 0.010 140);
+  --card: oklch(0.225 0.024 162);
+  --card-foreground: oklch(0.97 0.010 140);
+  --popover: oklch(0.225 0.024 162);
+  --popover-foreground: oklch(0.97 0.010 140);
+
 
   --primary: oklch(0.72 0.15 150);
   --primary-foreground: oklch(0.16 0.015 160);

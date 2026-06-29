@@ -138,7 +138,7 @@
   /* Effects */
   --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--primary-glow) 100%);
   --gradient-surface: linear-gradient(180deg, var(--surface) 0%, var(--background) 100%);
-  --gradient-canopy: radial-gradient(120% 80% at 50% 0%, oklch(0.68 0.115 158) 0%, oklch(0.54 0.105 160) 55%, oklch(0.42 0.090 162) 100%);
+  --gradient-canopy: linear-gradient(135deg, oklch(0.955 0.030 150) 0%, oklch(0.900 0.060 154) 52%, oklch(0.820 0.090 158) 100%);
   --gradient-ambient:
     radial-gradient(60% 50% at 0% 0%, oklch(0.55 0.115 158 / 0.10) 0%, transparent 60%),
     radial-gradient(50% 40% at 100% 0%, oklch(0.755 0.115 88 / 0.08) 0%, transparent 60%),
@@ -266,6 +266,50 @@
   text-transform: uppercase;
   color: var(--color-muted-foreground);
   font-weight: 500;
+}
+
+/* Homepage is intentionally light, even when the app/user system theme is dark. */
+.landing-home {
+  --background: oklch(0.988 0.010 145);
+  --foreground: oklch(0.205 0.036 158);
+  --surface: oklch(0.972 0.020 145);
+  --surface-foreground: oklch(0.205 0.036 158);
+  --card: oklch(0.997 0.006 145);
+  --card-foreground: oklch(0.205 0.036 158);
+  --popover: oklch(0.997 0.006 145);
+  --popover-foreground: oklch(0.205 0.036 158);
+  --primary: oklch(0.43 0.105 158);
+  --primary-foreground: oklch(0.985 0.010 145);
+  --primary-glow: oklch(0.62 0.120 154);
+  --secondary: oklch(0.938 0.032 150);
+  --secondary-foreground: oklch(0.30 0.070 158);
+  --accent: oklch(0.915 0.048 145);
+  --accent-foreground: oklch(0.285 0.070 158);
+  --muted: oklch(0.950 0.018 145);
+  --muted-foreground: oklch(0.43 0.032 158);
+  --border: oklch(0.875 0.020 145);
+  --input: oklch(0.900 0.018 145);
+  --ring: oklch(0.58 0.115 154);
+  --gradient-canopy:
+    radial-gradient(70% 70% at 82% 12%, oklch(0.790 0.115 88 / 0.34) 0%, transparent 62%),
+    radial-gradient(85% 72% at 18% 12%, oklch(0.760 0.105 154 / 0.28) 0%, transparent 66%),
+    linear-gradient(135deg, oklch(0.982 0.014 145) 0%, oklch(0.925 0.048 150) 56%, oklch(0.820 0.090 158) 100%);
+  --shadow-soft: 0 1px 2px 0 oklch(0.42 0.08 158 / 0.05), 0 1px 3px 0 oklch(0.42 0.08 158 / 0.08);
+  --shadow-elevated: 0 18px 48px -24px oklch(0.42 0.08 158 / 0.20), 0 8px 20px -14px oklch(0.42 0.08 158 / 0.12);
+}
+
+.landing-canopy {
+  background-image: var(--gradient-canopy);
+}
+
+.landing-cta-panel {
+  background:
+    radial-gradient(60% 80% at 90% 0%, oklch(0.790 0.115 88 / 0.30) 0%, transparent 64%),
+    radial-gradient(70% 90% at 4% 100%, oklch(0.660 0.125 154 / 0.24) 0%, transparent 66%),
+    linear-gradient(135deg, oklch(0.970 0.018 145) 0%, oklch(0.905 0.050 150) 100%);
+  color: var(--color-foreground);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-elevated);
 }
 
 /* ============= Login — editorial split, refined motion ============= */

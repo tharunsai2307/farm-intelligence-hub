@@ -102,6 +102,11 @@ function LoginPage() {
           </div>
         </div>
 
+        {/* Real WebGL 3D scene */}
+        <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden>
+          <Login3DScene />
+        </div>
+
         <div className="relative z-10 space-y-8 max-w-md">
           <div>
             <p className="text-xs uppercase tracking-[0.22em] text-[oklch(0.755_0.115_88)]/80 mb-3">

@@ -1,9 +1,9 @@
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useNavigate, Link, useSearch, createFileRoute } from "@tanstack/react-router";
-import { Loader2, Leaf, Sprout, Sun, Cloud, Droplets } from "lucide-react";
+import { Loader2, Leaf, ShieldCheck, Sparkles, LineChart } from "lucide-react";
 import { toast } from "sonner";
 
 import { supabase } from "@/integrations/supabase/client";
@@ -40,42 +40,11 @@ function LoginPage() {
   const search = useSearch({ from: "/login" });
   const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-  const sceneRef = useRef<HTMLDivElement>(null);
 
   const form = useForm<Values>({
     resolver: zodResolver(schema),
     defaultValues: { email: "", password: "" },
   });
-
-  // 3D parallax tilt on mouse move
-  useEffect(() => {
-    const scene = sceneRef.current;
-    const card = cardRef.current;
-    if (!scene || !card) return;
-    let raf = 0;
-    const onMove = (e: MouseEvent) => {
-      const rect = scene.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        card.style.transform = `rotateY(${x * 14}deg) rotateX(${-y * 14}deg) translateZ(0)`;
-        scene.style.setProperty("--mx", `${x * 40}px`);
-        scene.style.setProperty("--my", `${y * 40}px`);
-      });
-    };
-    const onLeave = () => {
-      card.style.transform = "rotateY(0deg) rotateX(0deg)";
-    };
-    scene.addEventListener("mousemove", onMove);
-    scene.addEventListener("mouseleave", onLeave);
-    return () => {
-      scene.removeEventListener("mousemove", onMove);
-      scene.removeEventListener("mouseleave", onLeave);
-      cancelAnimationFrame(raf);
-    };
-  }, []);
 
   const goNext = () => {
     const raw = search.redirect;
@@ -114,149 +83,161 @@ function LoginPage() {
   };
 
   return (
-    <div
-      ref={sceneRef}
-      className="login3d-scene relative min-h-screen w-full overflow-hidden flex items-center justify-center px-4 py-10"
-    >
-      {/* Animated gradient backdrop */}
-      <div className="login3d-bg" aria-hidden />
-      <div className="login3d-grid" aria-hidden />
+    <div className="login-scene grid lg:grid-cols-[1.05fr_1fr]">
+      <div className="login-aurora" aria-hidden />
+      <div className="login-grid" aria-hidden />
 
-      {/* Floating 3D orbs */}
-      <div className="login3d-orb login3d-orb-1" aria-hidden />
-      <div className="login3d-orb login3d-orb-2" aria-hidden />
-      <div className="login3d-orb login3d-orb-3" aria-hidden />
+      {/* Brand pane — hidden on mobile */}
+      <aside className="login-brand hidden lg:flex flex-col justify-between p-12 xl:p-16">
+        <div className="relative z-10 flex items-center gap-3">
+          <div className="login-mark">
+            <Leaf className="h-6 w-6 text-[oklch(0.92_0.06_142)]" />
+          </div>
+          <div>
+            <p className="font-serif text-xl tracking-tight">AgriTwin OS</p>
+            <p className="text-xs uppercase tracking-[0.18em] text-[oklch(0.92_0.06_142)]/70">
+              Digital twin for agriculture
+            </p>
+          </div>
+        </div>
 
-      {/* Floating icons (parallax with --mx/--my) */}
-      <FloatingIcon Icon={Leaf} className="top-[12%] left-[8%]" depth={1.2} delay="0s" />
-      <FloatingIcon Icon={Sprout} className="bottom-[14%] left-[12%]" depth={0.8} delay="1.2s" />
-      <FloatingIcon Icon={Sun} className="top-[18%] right-[10%]" depth={1.5} delay="0.6s" />
-      <FloatingIcon Icon={Cloud} className="bottom-[20%] right-[8%]" depth={1} delay="1.8s" />
-      <FloatingIcon Icon={Droplets} className="top-[48%] left-[4%] hidden md:block" depth={0.6} delay="2.4s" />
-      <FloatingIcon Icon={Leaf} className="top-[55%] right-[5%] hidden md:block" depth={0.9} delay="3s" />
-
-      {/* 3D rotating ring */}
-      <div className="login3d-ring" aria-hidden>
-        <span /><span /><span /><span /><span /><span />
-      </div>
-
-      {/* Card */}
-      <div className="relative z-10 w-full max-w-md" style={{ perspective: "1200px" }}>
-        <div
-          ref={cardRef}
-          className="login3d-card relative rounded-3xl p-8 md:p-10 transition-transform duration-200 ease-out will-change-transform"
-        >
-          <div className="login3d-card-shine" aria-hidden />
-          <div className="flex flex-col items-center text-center mb-7">
-            <div className="login3d-logo mb-4">
-              <Leaf className="h-7 w-7 text-emerald-200" />
-            </div>
-            <h1 className="text-3xl font-serif text-white tracking-tight">
-              Sign in to <em className="italic text-[var(--gold,#c9a84c)] not-italic-fix">AgriTwin OS</em>
-            </h1>
-
-            <p className="text-sm text-emerald-100/70 mt-2">
-              Sign in to your AgriTwin OS dashboard
+        <div className="relative z-10 space-y-8 max-w-md">
+          <div>
+            <p className="text-xs uppercase tracking-[0.22em] text-[oklch(0.755_0.115_88)]/80 mb-3">
+              Welcome back
+            </p>
+            <h2 className="font-serif text-4xl xl:text-5xl leading-[1.05] tracking-tight">
+              Decisions, grounded in <em className="italic text-[oklch(0.83_0.115_88)]">real</em> field data.
+            </h2>
+            <p className="text-sm text-[oklch(0.92_0.06_142)]/75 mt-4 leading-relaxed">
+              Weather intelligence, crop vision, soil signals and AgriMind recommendations — unified in one calm operating surface.
             </p>
           </div>
 
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-emerald-50/90">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                autoComplete="email"
-                className="login3d-input"
-                placeholder="you@farm.com"
-                {...form.register("email")}
-              />
-              {form.formState.errors.email && (
-                <p className="text-xs text-rose-300">{form.formState.errors.email.message}</p>
-              )}
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password" className="text-emerald-50/90">Password</Label>
-                <Link to="/forgot-password" className="text-xs text-[var(--gold,#c9a84c)] hover:underline">
-                  Forgot?
-                </Link>
-              </div>
-              <Input
-                id="password"
-                type="password"
-                autoComplete="current-password"
-                className="login3d-input"
-                placeholder="••••••••"
-                {...form.register("password")}
-              />
-              {form.formState.errors.password && (
-                <p className="text-xs text-rose-300">{form.formState.errors.password.message}</p>
-              )}
-            </div>
-            <Button
-              type="submit"
-              className="login3d-btn w-full h-11 text-base font-medium"
-              disabled={submitting}
-            >
-              {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Sign in
-            </Button>
-          </form>
+          <div className="login-stat-rule" />
 
-          <div className="relative my-5">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t border-emerald-100/15" />
+          <div className="grid grid-cols-3 gap-6">
+            <Feature icon={LineChart} label="Live telemetry" />
+            <Feature icon={Sparkles} label="AgriMind AI" />
+            <Feature icon={ShieldCheck} label="Private &amp; secure" />
+          </div>
+        </div>
+
+        <p className="relative z-10 text-xs text-[oklch(0.92_0.06_142)]/55">
+          © {new Date().getFullYear()} AgriTwin OS · Crafted by Tharun Sai
+        </p>
+      </aside>
+
+      {/* Form pane */}
+      <main className="relative z-10 flex items-center justify-center p-6 sm:p-10">
+        <div className="w-full max-w-md">
+          {/* Mobile brand */}
+          <div className="lg:hidden flex items-center gap-3 mb-8">
+            <div className="login-mark" style={{ width: 44, height: 44, borderRadius: 12 }}>
+              <Leaf className="h-5 w-5 text-[oklch(0.92_0.06_142)]" />
             </div>
-            <div className="relative flex justify-center text-[10px] uppercase tracking-[0.2em]">
-              <span className="px-3 text-emerald-100/50 bg-transparent">or</span>
+            <div>
+              <p className="font-serif text-lg tracking-tight">AgriTwin OS</p>
+              <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                Digital twin for agriculture
+              </p>
             </div>
           </div>
 
-          <Button
-            type="button"
-            variant="outline"
-            className="login3d-google w-full h-11"
-            disabled={submitting}
-            onClick={handleGoogle}
-          >
-            <GoogleIcon className="mr-2 h-4 w-4" /> Continue with Google
-          </Button>
+          <div className="login-card p-7 sm:p-9">
+            <div className="mb-7">
+              <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground mb-2">
+                Account
+              </p>
+              <h1 className="font-serif text-3xl tracking-tight">Sign in to AgriTwin&nbsp;OS</h1>
+              <p className="text-sm text-muted-foreground mt-2">
+                Continue to your farm dashboard.
+              </p>
+            </div>
 
-          <p className="text-center text-sm text-emerald-100/70 mt-6">
-            Don't have an account?{" "}
-            <Link to="/register" className="text-[var(--gold,#c9a84c)] hover:underline">
-              Create one
-            </Link>
-          </p>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  autoComplete="email"
+                  className="login-input"
+                  placeholder="you@farm.com"
+                  {...form.register("email")}
+                />
+                {form.formState.errors.email && (
+                  <p className="text-xs text-destructive">{form.formState.errors.email.message}</p>
+                )}
+              </div>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="password">Password</Label>
+                  <Link to="/forgot-password" className="text-xs text-primary hover:underline">
+                    Forgot?
+                  </Link>
+                </div>
+                <Input
+                  id="password"
+                  type="password"
+                  autoComplete="current-password"
+                  className="login-input"
+                  placeholder="••••••••"
+                  {...form.register("password")}
+                />
+                {form.formState.errors.password && (
+                  <p className="text-xs text-destructive">{form.formState.errors.password.message}</p>
+                )}
+              </div>
+              <Button
+                type="submit"
+                className="login-cta w-full h-11 text-base font-medium"
+                disabled={submitting}
+              >
+                {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Sign in
+              </Button>
+            </form>
+
+            <div className="relative my-5">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t border-border" />
+              </div>
+              <div className="relative flex justify-center text-[10px] uppercase tracking-[0.2em]">
+                <span className="px-3 bg-card text-muted-foreground">or</span>
+              </div>
+            </div>
+
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full h-11"
+              disabled={submitting}
+              onClick={handleGoogle}
+            >
+              <GoogleIcon className="mr-2 h-4 w-4" /> Continue with Google
+            </Button>
+
+            <p className="text-center text-sm text-muted-foreground mt-6">
+              Don't have an account?{" "}
+              <Link to="/register" className="text-primary hover:underline font-medium">
+                Create one
+              </Link>
+            </p>
+          </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
 
-function FloatingIcon({
-  Icon,
-  className,
-  depth,
-  delay,
-}: {
-  Icon: typeof Leaf;
-  className?: string;
-  depth: number;
-  delay: string;
-}) {
+function Feature({ icon: Icon, label }: { icon: typeof Leaf; label: string }) {
   return (
-    <div
-      className={`login3d-float absolute ${className ?? ""}`}
-      style={{
-        // @ts-expect-error css var
-        "--depth": depth,
-        animationDelay: delay,
-      }}
-      aria-hidden
-    >
-      <Icon className="h-8 w-8 text-emerald-200/70" />
+    <div className="space-y-2">
+      <div className="h-9 w-9 rounded-lg grid place-items-center bg-[oklch(1_0_0/0.06)] border border-[oklch(0.755_0.115_88/0.25)]">
+        <Icon className="h-4 w-4 text-[oklch(0.83_0.115_88)]" />
+      </div>
+      <p className="text-xs text-[oklch(0.92_0.06_142)]/80 leading-snug">{label}</p>
     </div>
   );
 }

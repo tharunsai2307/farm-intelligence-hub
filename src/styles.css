@@ -201,8 +201,8 @@
 
   --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--primary-glow) 100%);
   --gradient-surface: linear-gradient(180deg, var(--surface) 0%, var(--background) 100%);
-  --shadow-soft: 0 1px 2px 0 oklch(0 0 0 / 0.30), 0 1px 3px 0 oklch(0 0 0 / 0.40);
-  --shadow-elevated: 0 10px 30px -10px oklch(0 0 0 / 0.50), 0 4px 12px -4px oklch(0 0 0 / 0.30);
+  --shadow-soft: 0 1px 2px 0 oklch(0.10 0.02 162 / 0.30), 0 1px 3px 0 oklch(0.10 0.02 162 / 0.35);
+  --shadow-elevated: 0 14px 40px -14px oklch(0.10 0.02 162 / 0.55), 0 6px 16px -6px oklch(0.10 0.02 162 / 0.28);
 }
 
 @layer base {
@@ -268,208 +268,153 @@
   font-weight: 500;
 }
 
-/* ============= 3D Animated Login Page ============= */
-.login3d-scene {
-  background: #03110c;
-  perspective: 1400px;
-  transform-style: preserve-3d;
-}
-.login3d-bg {
-  position: absolute; inset: -20%;
+/* ============= Login — editorial split, refined motion ============= */
+.login-scene {
+  position: relative;
+  min-height: 100svh;
+  width: 100%;
   background:
-    radial-gradient(60% 50% at 20% 30%, #0c5d3a 0%, transparent 60%),
-    radial-gradient(50% 50% at 80% 70%, #0a7a4e 0%, transparent 60%),
-    radial-gradient(80% 60% at 50% 100%, #c9a84c33 0%, transparent 70%),
-    linear-gradient(135deg, #03110c, #06241a 60%, #03110c);
-  animation: login3d-bg-shift 18s ease-in-out infinite alternate;
-  filter: saturate(1.1);
+    radial-gradient(110% 80% at 90% 10%, oklch(0.55 0.115 158 / 0.10) 0%, transparent 55%),
+    radial-gradient(80% 60% at 10% 90%, oklch(0.755 0.115 88 / 0.10) 0%, transparent 60%),
+    linear-gradient(180deg, oklch(0.985 0.008 150) 0%, oklch(0.965 0.018 150) 100%);
+  overflow: hidden;
 }
-@keyframes login3d-bg-shift {
-  0%   { transform: scale(1) translate3d(0,0,0); }
-  50%  { transform: scale(1.08) translate3d(2%, -2%, 0); }
-  100% { transform: scale(1.04) translate3d(-2%, 2%, 0); }
+
+/* Soft drifting aurora — single quiet element, no flashing */
+.login-aurora {
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(40% 30% at 30% 30%, oklch(0.55 0.115 158 / 0.22), transparent 60%),
+    radial-gradient(35% 28% at 70% 60%, oklch(0.755 0.115 88 / 0.18), transparent 60%);
+  filter: blur(40px);
+  animation: login-aurora-drift 24s ease-in-out infinite alternate;
+  pointer-events: none;
 }
-.login3d-grid {
+@keyframes login-aurora-drift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(3%, -2%, 0) scale(1.05); }
+}
+
+/* Fine editorial grid — extremely subtle, no perspective gimmick */
+.login-grid {
   position: absolute; inset: 0;
   background-image:
-    linear-gradient(rgba(201,168,76,0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(201,168,76,0.08) 1px, transparent 1px);
-  background-size: 60px 60px;
-  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
-  transform: perspective(900px) rotateX(60deg) translateY(20%);
-  transform-origin: center top;
-  animation: login3d-grid-pan 24s linear infinite;
-}
-@keyframes login3d-grid-pan {
-  from { background-position: 0 0, 0 0; }
-  to   { background-position: 0 600px, 0 600px; }
-}
-
-/* Floating orbs */
-.login3d-orb {
-  position: absolute;
-  border-radius: 9999px;
-  filter: blur(60px);
-  opacity: 0.55;
-  pointer-events: none;
-  transform: translate3d(var(--mx, 0), var(--my, 0), 0);
-  transition: transform 0.4s ease-out;
-}
-.login3d-orb-1 { width: 380px; height: 380px; top: -80px; left: -60px;
-  background: radial-gradient(circle, #10b981, transparent 65%);
-  animation: login3d-float-y 12s ease-in-out infinite; }
-.login3d-orb-2 { width: 320px; height: 320px; bottom: -80px; right: -60px;
-  background: radial-gradient(circle, #c9a84c, transparent 65%);
-  animation: login3d-float-y 14s ease-in-out infinite reverse; }
-.login3d-orb-3 { width: 260px; height: 260px; top: 40%; left: 55%;
-  background: radial-gradient(circle, #34d399, transparent 65%);
-  animation: login3d-float-y 16s ease-in-out infinite; opacity: 0.35; }
-@keyframes login3d-float-y {
-  0%,100% { transform: translate3d(var(--mx,0), var(--my,0), 0); }
-  50%     { transform: translate3d(calc(var(--mx,0px) + 30px), calc(var(--my,0px) - 40px), 0); }
-}
-
-/* Floating icons */
-.login3d-float {
-  animation: login3d-icon-float 6s ease-in-out infinite;
-  transform: translate3d(calc(var(--mx,0px) * var(--depth,1)), calc(var(--my,0px) * var(--depth,1)), 0);
-  filter: drop-shadow(0 8px 20px rgba(16,185,129,0.4));
+    linear-gradient(oklch(0.38 0.085 162 / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.38 0.085 162 / 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at center, oklch(0 0 0 / 1) 30%, transparent 78%);
   pointer-events: none;
 }
-@keyframes login3d-icon-float {
-  0%,100% { transform: translate3d(calc(var(--mx,0px) * var(--depth,1)), calc(var(--my,0px) * var(--depth,1)), 0) rotate(-6deg); }
-  50%     { transform: translate3d(calc(var(--mx,0px) * var(--depth,1)), calc(var(--my,0px) * var(--depth,1) - 14px), 0) rotate(8deg); }
-}
 
-/* Rotating 3D ring */
-.login3d-ring {
-  position: absolute;
-  top: 50%; left: 50%;
-  width: 520px; height: 520px;
-  margin: -260px 0 0 -260px;
-  transform-style: preserve-3d;
-  animation: login3d-ring-spin 22s linear infinite;
-  pointer-events: none;
-  opacity: 0.55;
+/* Editorial gold hairline divider for the brand pane */
+.login-brand {
+  position: relative;
+  background:
+    linear-gradient(180deg, oklch(0.36 0.085 162) 0%, oklch(0.24 0.06 162) 100%);
+  color: oklch(0.97 0.012 150);
+  overflow: hidden;
 }
-.login3d-ring span {
+.login-brand::before {
+  content: "";
   position: absolute; inset: 0;
-  border: 1px solid rgba(201, 168, 76, 0.35);
-  border-radius: 50%;
-}
-.login3d-ring span:nth-child(1) { transform: rotateX(70deg); }
-.login3d-ring span:nth-child(2) { transform: rotateX(70deg) rotateZ(60deg); border-color: rgba(16,185,129,0.3); }
-.login3d-ring span:nth-child(3) { transform: rotateX(70deg) rotateZ(120deg); }
-.login3d-ring span:nth-child(4) { transform: rotateY(70deg); border-color: rgba(52, 211, 153, 0.25); }
-.login3d-ring span:nth-child(5) { transform: rotateY(70deg) rotateZ(60deg); }
-.login3d-ring span:nth-child(6) { transform: rotateZ(0deg); border-color: rgba(201,168,76,0.2); }
-@keyframes login3d-ring-spin {
-  from { transform: rotateZ(0deg) rotateX(5deg); }
-  to   { transform: rotateZ(360deg) rotateX(5deg); }
-}
-
-/* Glass card */
-.login3d-card {
-  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  border: 1px solid rgba(201,168,76,0.25);
-  box-shadow:
-    0 30px 80px -20px rgba(0,0,0,0.6),
-    0 0 0 1px rgba(255,255,255,0.04) inset,
-    0 0 60px -10px rgba(16,185,129,0.25);
-  transform-style: preserve-3d;
-  animation: login3d-card-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-@keyframes login3d-card-in {
-  from { opacity: 0; transform: translateY(30px) rotateX(-15deg) scale(0.95); }
-  to   { opacity: 1; transform: translateY(0) rotateX(0) scale(1); }
-}
-.login3d-card-shine {
-  position: absolute; inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.08) 50%, transparent 70%);
-  background-size: 250% 250%;
-  animation: login3d-shine 6s linear infinite;
+  background:
+    radial-gradient(60% 50% at 80% 15%, oklch(0.755 0.115 88 / 0.18) 0%, transparent 60%),
+    radial-gradient(70% 60% at 10% 100%, oklch(0.55 0.115 158 / 0.30) 0%, transparent 60%);
   pointer-events: none;
-  mix-blend-mode: overlay;
 }
-@keyframes login3d-shine {
-  from { background-position: 200% 0; }
-  to   { background-position: -200% 0; }
+.login-brand::after {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0; right: 0;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, oklch(0.755 0.115 88 / 0.5), transparent);
 }
 
-/* Logo badge */
-.login3d-logo {
-  width: 64px; height: 64px;
-  border-radius: 20px;
+/* Brand mark — quiet bob, no flip */
+.login-mark {
+  width: 56px; height: 56px;
+  border-radius: 16px;
   display: grid; place-items: center;
-  background: linear-gradient(145deg, #0d6b46, #0a4a32);
-  border: 1px solid rgba(201,168,76,0.5);
+  background: linear-gradient(145deg, oklch(0.50 0.10 162), oklch(0.32 0.08 162));
+  border: 1px solid oklch(0.755 0.115 88 / 0.45);
   box-shadow:
-    0 10px 30px -8px rgba(16,185,129,0.6),
-    0 0 0 1px rgba(255,255,255,0.06) inset;
-  animation: login3d-logo-bob 4s ease-in-out infinite;
-  transform-style: preserve-3d;
+    0 12px 32px -12px oklch(0.10 0.02 162 / 0.45),
+    inset 0 1px 0 oklch(1 0 0 / 0.10);
+  animation: login-mark-bob 7s ease-in-out infinite;
 }
-@keyframes login3d-logo-bob {
-  0%,100% { transform: translateY(0) rotateY(0deg); }
-  50%     { transform: translateY(-6px) rotateY(180deg); }
+@keyframes login-mark-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
 }
 
-/* Inputs */
-.login3d-input {
-  background: rgba(255,255,255,0.06) !important;
-  border: 1px solid rgba(201,168,76,0.2) !important;
-  color: #ecfdf5 !important;
+/* Card — calm lift on entry, no tilt gimmick */
+.login-card {
+  background-color: var(--color-card);
+  color: var(--color-card-foreground);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  box-shadow:
+    0 30px 70px -28px oklch(0.20 0.04 162 / 0.25),
+    0 8px 24px -12px oklch(0.20 0.04 162 / 0.12);
+  animation: login-card-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes login-card-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Inputs — uses design tokens, refined focus ring */
+.login-input {
   height: 44px;
-  transition: all 0.25s ease;
+  background-color: var(--color-background) !important;
+  border: 1px solid var(--color-border) !important;
+  color: var(--color-foreground) !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-.login3d-input::placeholder { color: rgba(236,253,245,0.35) !important; }
-.login3d-input:focus-visible {
-  border-color: rgba(201,168,76,0.7) !important;
-  box-shadow: 0 0 0 4px rgba(201,168,76,0.15), 0 0 30px rgba(16,185,129,0.25) !important;
-  background: rgba(255,255,255,0.1) !important;
-  transform: translateY(-1px);
+.login-input:focus-visible {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 3px oklch(0.55 0.115 158 / 0.18) !important;
+  outline: none !important;
 }
 
-/* Primary button */
-.login3d-btn {
-  background: linear-gradient(135deg, #10b981, #047857) !important;
-  color: white !important;
-  border: 1px solid rgba(201,168,76,0.4) !important;
-  box-shadow: 0 10px 30px -10px rgba(16,185,129,0.7), 0 0 0 1px rgba(255,255,255,0.1) inset !important;
+/* Primary CTA — solid brand gradient, single quiet shimmer */
+.login-cta {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-glow) 100%) !important;
+  color: var(--color-primary-foreground) !important;
+  border: 1px solid oklch(0.755 0.115 88 / 0.35) !important;
+  box-shadow: 0 10px 26px -12px oklch(0.38 0.085 162 / 0.55);
   position: relative;
   overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
-.login3d-btn::after {
+.login-cta:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 36px -14px oklch(0.38 0.085 162 / 0.7);
+}
+.login-cta::after {
   content: "";
   position: absolute; inset: 0;
-  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.35) 50%, transparent 70%);
-  background-size: 250% 100%;
-  animation: login3d-shine 3s linear infinite;
+  background: linear-gradient(120deg, transparent 35%, oklch(1 0 0 / 0.22) 50%, transparent 65%);
+  background-size: 220% 100%;
+  background-position: 200% 0;
+  animation: login-cta-shine 5s ease-in-out infinite;
+  pointer-events: none;
 }
-.login3d-btn:hover:not(:disabled) {
-  transform: translateY(-2px) scale(1.01);
-  box-shadow: 0 18px 40px -10px rgba(16,185,129,0.85), 0 0 0 1px rgba(201,168,76,0.6) inset !important;
+@keyframes login-cta-shine {
+  0%, 60%, 100% { background-position: 200% 0; }
+  80%           { background-position: -100% 0; }
 }
 
-/* Google button */
-.login3d-google {
-  background: rgba(255,255,255,0.06) !important;
-  border: 1px solid rgba(255,255,255,0.15) !important;
-  color: #ecfdf5 !important;
-  transition: all 0.2s ease;
-}
-.login3d-google:hover:not(:disabled) {
-  background: rgba(255,255,255,0.12) !important;
-  transform: translateY(-1px);
+/* Stat row on brand pane */
+.login-stat-rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, oklch(0.755 0.115 88 / 0.5), transparent);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .login3d-bg, .login3d-grid, .login3d-orb, .login3d-float,
-  .login3d-ring, .login3d-card-shine, .login3d-logo, .login3d-btn::after {
+  .login-aurora, .login-mark, .login-card, .login-cta::after {
     animation: none !important;
   }
 }
+

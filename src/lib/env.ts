@@ -50,7 +50,7 @@ export function getDataSourceStatuses(): Record<string, Status> {
     mapbox: MAPBOX_TOKEN
       ? { configured: true }
       : { configured: false, reason: "Mapbox token not set." },
-    weather: { configured: false, reason: "Phase 2 — not yet configured." },
+    weather: { configured: false, reason: "Check Settings → Data sources for live status." },
     ai_crop: { configured: false, reason: "Phase 2 — not yet configured." },
     irrigation_engine: { configured: false, reason: "Phase 2 — not yet configured." },
     yield_model: { configured: false, reason: "Phase 2 — not yet configured." },

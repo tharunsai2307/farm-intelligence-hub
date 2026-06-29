@@ -49,8 +49,9 @@ export function Topbar() {
 
   const handleSignOut = async () => {
     await signOutCleanly(queryClient);
-    navigate({ to: "/auth", replace: true });
+    navigate({ to: "/login", replace: true });
   };
+
 
   return (
     <div className="flex w-full min-w-0 items-center gap-3">
@@ -87,11 +88,12 @@ export function Topbar() {
             <DropdownMenuLabel className="truncate">{user?.email ?? "Account"}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link to="/settings"><User2 className="mr-2 h-4 w-4" />Profile</Link>
+              <Link to="/app/settings"><User2 className="mr-2 h-4 w-4" />Profile</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link to="/settings"><Settings className="mr-2 h-4 w-4" />Settings</Link>
+              <Link to="/app/settings"><Settings className="mr-2 h-4 w-4" />Settings</Link>
             </DropdownMenuItem>
+
             <DropdownMenuSeparator />
             <DropdownMenuItem onSelect={handleSignOut}>
               <LogOut className="mr-2 h-4 w-4" />Sign out

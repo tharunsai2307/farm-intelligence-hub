@@ -377,8 +377,9 @@ export async function analyzeCrop(
     severity: insertRow.severity,
     explanation: insertRow.explanation ?? "",
     recommendation,
-    model_name: "roboflow",
-    model_version: modelId,
+    model_name: modelName,
+    model_version: modelName === "roboflow" ? modelId : "google/gemini-3-flash-preview",
+
     processing_time_ms: processingMs,
   });
 }

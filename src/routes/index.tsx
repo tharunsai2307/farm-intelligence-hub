@@ -69,7 +69,7 @@ export const Route = createFileRoute("/")({
 
 function Landing() {
   return (
-    <div className="min-h-screen bg-background pb-24 sm:pb-0">
+    <div className="landing-home min-h-screen bg-background pb-24 text-foreground sm:pb-0">
       <SiteHeader />
       <Hero />
       <ImpactSection />
@@ -146,7 +146,7 @@ function Hero() {
   return (
     <section className="relative overflow-hidden">
       {/* Canopy background */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[68%] bg-canopy" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[68%] landing-canopy" />
       <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[68%] opacity-[0.08]"
         style={{ backgroundImage: "radial-gradient(circle at 20% 30%, var(--color-gold) 0, transparent 40%), radial-gradient(circle at 80% 10%, var(--color-gold) 0, transparent 35%)" }}
       />
@@ -156,17 +156,17 @@ function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="text-primary-foreground"
+          className="text-foreground"
         >
-          <Badge variant="outline" className="rounded-full border-primary-foreground/25 bg-primary-foreground/10 px-3 py-1 text-[11px] font-medium text-primary-foreground backdrop-blur">
+          <Badge variant="outline" className="rounded-full border-primary/25 bg-background/55 px-3 py-1 text-[11px] font-medium text-primary shadow-[var(--shadow-soft)] backdrop-blur">
             <Sprout className="mr-1.5 h-3 w-3 text-gold" /> AgriTwin OS · v0.2
           </Badge>
-          <h1 className="mt-6 font-serif text-[2.5rem] font-medium leading-[1.05] tracking-tight text-primary-foreground sm:text-5xl lg:text-[4rem]">
+          <h1 className="mt-6 font-serif text-[2.5rem] font-medium leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-[4rem]">
             The intelligent OS for{" "}
             <span className="italic text-gold">every farm.</span>
           </h1>
           <div className="mt-5 h-px max-w-[6rem] gold-rule" />
-          <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-primary-foreground/80 sm:text-base">
+          <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
             Monitor crops, water, soil, weather, and farm operations from one
             intelligent operating system built for modern agriculture. Real data.
             Real decisions. No guesses.
@@ -177,11 +177,11 @@ function Hero() {
                 Start monitoring my farm <ArrowRight className="ml-1 h-4 w-4" />
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="h-12 border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 sm:h-11">
+            <Button asChild variant="outline" size="lg" className="h-12 border-primary/25 bg-background/45 text-primary hover:bg-accent sm:h-11">
               <a href="#features">View platform preview</a>
             </Button>
           </div>
-          <p className="mt-6 flex items-center gap-2 text-[12px] text-primary-foreground/70">
+          <p className="mt-6 flex items-center gap-2 text-[12px] text-muted-foreground">
             <ShieldCheck className="h-3.5 w-3.5 text-gold" />
             Your farm data is private. RLS-secured. No third-party sharing.
           </p>
@@ -409,21 +409,21 @@ function Workflow() {
 function FinalCTA() {
   return (
     <section className="mx-auto max-w-6xl px-5 py-16 sm:px-6 sm:py-24">
-      <div className="relative overflow-hidden rounded-3xl bg-canopy p-8 text-primary-foreground sm:p-14 lg:p-16">
+      <div className="landing-cta-panel relative overflow-hidden rounded-3xl p-8 sm:p-14 lg:p-16">
         <div className="pointer-events-none absolute -right-12 -top-12 h-48 w-48 rounded-full bg-gold/20 blur-3xl" aria-hidden />
-        <span className="eyebrow text-primary-foreground/70">Get started</span>
+        <span className="eyebrow text-primary">Get started</span>
         <h2 className="mt-3 max-w-2xl font-serif text-3xl font-medium leading-tight tracking-tight sm:text-4xl lg:text-[2.75rem]">
           Start building your farm intelligence system today.
         </h2>
         <div className="mt-4 h-px max-w-[5rem] gold-rule" />
-        <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-primary-foreground/85">
+        <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted-foreground">
           Free to start. Your data stays yours. Built for farmers, not for ads.
         </p>
         <div className="mt-7 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:gap-3">
           <Button asChild size="lg" className="h-12 bg-gold text-gold-foreground hover:bg-gold/90 sm:h-11">
             <Link to="/register">Create free account <ArrowRight className="ml-1 h-4 w-4" /></Link>
           </Button>
-          <Button asChild size="lg" variant="outline" className="h-12 border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 sm:h-11">
+          <Button asChild size="lg" variant="outline" className="h-12 border-primary/25 bg-background/60 text-primary hover:bg-accent sm:h-11">
             <Link to="/login">Sign in</Link>
           </Button>
         </div>

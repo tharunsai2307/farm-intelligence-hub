@@ -116,8 +116,11 @@ export const getDashboardSummary = createServerFn({ method: "GET" })
     }
     recent.sort((a, b) => (a.timestamp < b.timestamp ? 1 : -1));
 
+    const weatherConfigured = Boolean(
+      process.env.OPENWEATHER_API_KEY || process.env.WEATHER_API_KEY,
+    );
     const availability: DataAvailabilityStatus = {
-      weather_api: "not_configured",
+      weather_api: weatherConfigured ? "configured" : "not_configured",
       soil_sensors: (soil.count ?? 0) > 0 ? "has_records" : "no_records",
       crop_images: (observations.count ?? 0) > 0 ? "has_records" : "no_records",
       irrigation_records: (irrigation.count ?? 0) > 0 ? "has_records" : "no_records",
@@ -126,6 +129,7 @@ export const getDashboardSummary = createServerFn({ method: "GET" })
       reports: "not_available",
       farm_location: (farmLocations.count ?? 0) > 0 ? "set" : "missing",
     };
+
 
     return {
       counts: {

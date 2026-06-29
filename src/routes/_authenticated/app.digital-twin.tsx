@@ -247,7 +247,7 @@ function DigitalTwinPage() {
       ts: i.started_at,
       kind: "irrigation",
       title: `Irrigation — ${i.method ?? "—"}`,
-      detail: i.water_amount_liters ? `${i.water_amount_liters} L` : undefined,
+      detail: i.volume_liters ? `${i.volume_liters} L` : undefined,
     });
   }
   for (const o of observations) {
@@ -399,7 +399,7 @@ function DigitalTwinPage() {
                               <Overlay
                                 Icon={Droplets}
                                 label="Irrigation"
-                                value={d.latestIrrigation.water_amount_liters ? `${d.latestIrrigation.water_amount_liters} L` : "logged"}
+                                value={d.latestIrrigation.volume_liters ? `${d.latestIrrigation.volume_liters} L` : "logged"}
                                 ts={d.latestIrrigation.started_at}
                               />
                             )}
@@ -481,9 +481,9 @@ function DigitalTwinPage() {
                   <Bot className="h-4 w-4 text-primary" /> Top recommendation
                 </h3>
                 <p className="mt-2 text-sm font-medium">{latestRec.title}</p>
-                {latestRec.summary && (
+                {latestRec.recommendation && (
                   <p className="mt-1 text-xs text-muted-foreground line-clamp-3">
-                    {latestRec.summary}
+                    {latestRec.recommendation}
                   </p>
                 )}
                 <Button asChild size="sm" variant="outline" className="mt-3 w-full">

@@ -48,6 +48,13 @@ async function callRoboflow(base64: string): Promise<RoboflowPrediction | null> 
   const apiKey = process.env.ROBOFLOW_API_KEY;
   const modelId = process.env.ROBOFLOW_MODEL_ID;
   if (!apiKey || !modelId) return null;
+  // Roboflow hosted inference expects "<project-slug>/<version>" model ids.
+  // Some users paste a workflow/API id instead — skip and let Gemini handle it.
+  if (!/^[a-z0-9-]+\/\d+$/i.test(modelId)) {
+    console.warn("[ai-crop] ROBOFLOW_MODEL_ID is not in 'slug/version' form — skipping Roboflow");
+    return null;
+  }
+
 
   // Try classify endpoint first (works for plant-disease classification models).
   // Roboflow's serverless endpoint handles both detection and classification.

@@ -15,7 +15,7 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import { getMyProfile, updateMyProfile, type ProfileRow } from "@/lib/services/profile.functions";
-import { getMySettings, updateMySettings, type SettingsRow } from "@/lib/services/settings.functions";
+import { getMySettings, updateMySettings, type SettingsRow, type SettingsPatch } from "@/lib/services/settings.functions";
 import { useTheme } from "@/components/theme/theme-provider";
 
 export const Route = createFileRoute("/_authenticated/settings")({
@@ -123,7 +123,7 @@ function PreferencesSection() {
   const settings: SettingsRow | null = data?.settings ?? null;
 
   const mutation = useMutation({
-    mutationFn: (patch: Partial<Pick<SettingsRow, "theme" | "language">>) => updateMySettings({ data: patch }),
+    mutationFn: (patch: SettingsPatch) => updateMySettings({ data: patch }),
     onSuccess: () => {
       toast.success("Preferences saved");
       qc.invalidateQueries({ queryKey: ["settings", "me"] });
@@ -143,7 +143,7 @@ function PreferencesSection() {
             value={settings?.theme ?? "system"}
             onValueChange={(v) => {
               setTheme(v as "light" | "dark" | "system");
-              mutation.mutate({ theme: v });
+              mutation.mutate({ theme: v as "light" | "dark" | "system" });
             }}
           >
             <SelectTrigger><SelectValue /></SelectTrigger>
@@ -184,7 +184,7 @@ function NotificationsSection() {
   const settings: SettingsRow | null = data?.settings ?? null;
 
   const mutation = useMutation({
-    mutationFn: (patch: Partial<SettingsRow>) => updateMySettings({ data: patch }),
+    mutationFn: (patch: SettingsPatch) => updateMySettings({ data: patch }),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["settings", "me"] }),
     onError: (e: Error) => toast.error(e.message),
   });
@@ -206,7 +206,7 @@ function NotificationsSection() {
       <Switch
         disabled={isLoading}
         checked={settings?.[field] ?? false}
-        onCheckedChange={(checked) => mutation.mutate({ [field]: checked } as Partial<SettingsRow>)}
+        onCheckedChange={(checked) => mutation.mutate({ [field]: checked } as SettingsPatch)}
       />
     </div>
   );

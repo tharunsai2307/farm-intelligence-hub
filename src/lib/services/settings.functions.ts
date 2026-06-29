@@ -4,11 +4,19 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 export type SettingsRow = {
   user_id: string;
-  theme: string;
+  theme: "light" | "dark" | "system";
   language: string;
   notif_email: boolean;
   notif_push: boolean;
   privacy_share_analytics: boolean;
+};
+
+export type SettingsPatch = {
+  theme?: "light" | "dark" | "system";
+  language?: string;
+  notif_email?: boolean;
+  notif_push?: boolean;
+  privacy_share_analytics?: boolean;
 };
 
 export const getMySettings = createServerFn({ method: "GET" })

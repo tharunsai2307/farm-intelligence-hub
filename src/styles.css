@@ -138,7 +138,7 @@
   /* Effects */
   --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--primary-glow) 100%);
   --gradient-surface: linear-gradient(180deg, var(--surface) 0%, var(--background) 100%);
-  --gradient-canopy: radial-gradient(120% 80% at 50% 0%, oklch(0.36 0.075 162) 0%, oklch(0.22 0.05 162) 60%, oklch(0.14 0.03 162) 100%);
+  --gradient-canopy: radial-gradient(120% 80% at 50% 0%, oklch(0.68 0.115 158) 0%, oklch(0.54 0.105 160) 55%, oklch(0.42 0.090 162) 100%);
   --gradient-ambient:
     radial-gradient(60% 50% at 0% 0%, oklch(0.55 0.115 158 / 0.10) 0%, transparent 60%),
     radial-gradient(50% 40% at 100% 0%, oklch(0.755 0.115 88 / 0.08) 0%, transparent 60%),

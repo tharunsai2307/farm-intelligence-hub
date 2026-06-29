@@ -3,7 +3,17 @@ import { CloudSun } from "lucide-react";
 import { ComingSoonPage } from "@/components/common/coming-soon";
 
 export const Route = createFileRoute("/_authenticated/app/weather")({
-  head: () => ({ meta: [{ title: "Weather Intelligence — AgriTwin OS" }] }),
+  head: () => ({
+    meta: [
+      { title: "Weather Intelligence — AgriTwin OS" },
+      { name: "description", content: "Hyperlocal forecasts, rainfall, evapotranspiration, and severe-weather alerts tuned to your farm coordinates." },
+      { name: "robots", content: "noindex, nofollow" },
+      { property: "og:title", content: "Weather Intelligence — AgriTwin OS" },
+      { property: "og:description", content: "Hyperlocal agricultural weather, rainfall, and forecasts for your exact farm location." },
+      { property: "og:url", content: "https://agri-twin-os.lovable.app/app/weather" },
+    ],
+    links: [{ rel: "canonical", href: "https://agri-twin-os.lovable.app/app/weather" }],
+  }),
   component: () => (
     <ComingSoonPage
       icon={CloudSun}

@@ -34,21 +34,21 @@ export const Route = createFileRoute("/")({
   },
   head: () => ({
     meta: [
-      { title: "AgriTwin OS — Smart Farming OS" },
+      { title: "AgriTwin OS — AI Digital Twin for Smart Farms" },
       {
         name: "description",
         content:
-          "Monitor crops, water, soil, weather, and farm operations from one intelligent operating system built for modern agriculture.",
+          "AgriTwin OS unifies crop, soil, water, weather, and operations data into one AI-powered digital twin built for modern farmers.",
       },
-      { property: "og:title", content: "AgriTwin OS — Smart Farming OS" },
+      { property: "og:title", content: "AgriTwin OS — AI Digital Twin for Smart Farms" },
       {
         property: "og:description",
         content:
           "AI-powered Digital Twin platform that helps farmers monitor, predict, and optimize using real data — never guesses.",
       },
-      { property: "og:url", content: "/" },
+      { property: "og:url", content: "https://agri-twin-os.lovable.app/" },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [{ rel: "canonical", href: "https://agri-twin-os.lovable.app/" }],
     scripts: [
       {
         type: "application/ld+json",

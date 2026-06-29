@@ -1,4 +1,6 @@
 /**
+
+
  * Server-only AI Crop Intelligence helpers.
  *
  * Pipeline:
@@ -28,8 +30,12 @@ export const AI_CROP_ERRORS = {
 } as const;
 
 export function isAiCropConfigured(): boolean {
-  return Boolean(process.env.ROBOFLOW_API_KEY && process.env.ROBOFLOW_MODEL_ID);
+  return Boolean(
+    (process.env.ROBOFLOW_API_KEY && process.env.ROBOFLOW_MODEL_ID) ||
+      process.env.LOVABLE_API_KEY,
+  );
 }
+
 
 export type RoboflowPrediction = {
   class: string;
@@ -94,6 +100,59 @@ async function callRoboflow(base64: string): Promise<RoboflowPrediction | null> 
     }
   }
   return null;
+}
+
+/**
+ * Fallback CV: ask Lovable AI Gemini Vision to identify the disease directly
+ * from the image when Roboflow is not configured or fails.
+ */
+async function callGeminiVision(
+  base64: string,
+  cropType: string | null,
+): Promise<RoboflowPrediction | null> {
+  const key = process.env.LOVABLE_API_KEY;
+  if (!key) return null;
+  try {
+    const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Lovable-API-Key": key },
+      body: JSON.stringify({
+        model: "google/gemini-3-flash-preview",
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are a plant pathology classifier. Given a crop photo, identify the most likely disease or 'healthy'. Reply ONLY as JSON: {\"label\": string, \"confidence\": number between 0 and 1}.",
+          },
+          {
+            role: "user",
+            content: [
+              {
+                type: "text",
+                text: `Crop (user-provided): ${cropType ?? "unknown"}. Classify the disease.`,
+              },
+              { type: "image_url", image_url: { url: `data:image/jpeg;base64,${base64}` } },
+            ],
+          },
+        ],
+        response_format: { type: "json_object" },
+      }),
+    });
+    if (!res.ok) {
+      console.error("[ai-crop] gemini-vision failed", res.status, await res.text().catch(() => ""));
+      return null;
+    }
+    const j = (await res.json()) as { choices?: Array<{ message?: { content?: string } }> };
+    const raw = j.choices?.[0]?.message?.content;
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as { label?: string; confidence?: number };
+    if (!parsed.label) return null;
+    const conf = Math.max(0, Math.min(1, Number(parsed.confidence ?? 0.6)));
+    return { class: String(parsed.label), confidence: conf, raw: parsed };
+  } catch (e) {
+    console.error("[ai-crop] gemini-vision error", e);
+    return null;
+  }
 }
 
 export type LlmExplanation = {
@@ -253,8 +312,15 @@ export async function analyzeCrop(
       ? Buffer.from(bytes).toString("base64")
       : btoa(String.fromCharCode(...bytes));
 
-  const prediction = await callRoboflow(base64);
+  let prediction = await callRoboflow(base64);
+  let modelName: "roboflow" | "gemini-vision" = "roboflow";
+  if (!prediction) {
+    // Fallback: Lovable AI Gemini Vision analyses the image directly.
+    prediction = await callGeminiVision(base64, input.crop_type ?? null);
+    modelName = "gemini-vision";
+  }
   if (!prediction) return fail(AI_CROP_ERRORS.PROVIDER_FAILED);
+
 
   const llm = await callLlmExplain(
     prediction,
@@ -286,8 +352,9 @@ export async function analyzeCrop(
       cv: prediction.raw,
       llm: llm ?? null,
     } as unknown as Database["public"]["Tables"]["crop_analysis"]["Insert"]["raw_response"],
-    model_name: "roboflow",
-    model_version: modelId,
+    model_name: modelName,
+    model_version: modelName === "roboflow" ? modelId : "google/gemini-3-flash-preview",
+
     processing_time_ms: processingMs,
     status: "completed",
   };
@@ -310,8 +377,9 @@ export async function analyzeCrop(
     severity: insertRow.severity,
     explanation: insertRow.explanation ?? "",
     recommendation,
-    model_name: "roboflow",
-    model_version: modelId,
+    model_name: modelName,
+    model_version: modelName === "roboflow" ? modelId : "google/gemini-3-flash-preview",
+
     processing_time_ms: processingMs,
   });
 }

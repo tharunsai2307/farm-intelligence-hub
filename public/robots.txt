@@ -1,14 +1,7 @@
 User-agent: *
 Allow: /
-Disallow: /auth
-Disallow: /dashboard
-Disallow: /digital-twin
-Disallow: /crop-health
-Disallow: /weather
-Disallow: /irrigation
-Disallow: /yield-prediction
-Disallow: /farmos
-Disallow: /marketplace
-Disallow: /reports
-Disallow: /assistant
-Disallow: /settings
+Disallow: /app/
+Disallow: /onboarding/
+Disallow: /api/
+
+Sitemap: https://agri-twin-os.lovable.app/sitemap.xml

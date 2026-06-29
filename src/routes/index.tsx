@@ -29,7 +29,7 @@ export const Route = createFileRoute("/")({
   },
   head: () => ({
     meta: [
-      { title: "AgriTwin OS — The Intelligent Operating System for Every Farm" },
+      { title: "AgriTwin OS — Smart Farming OS" },
       {
         name: "description",
         content:
@@ -40,6 +40,21 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content:
           "AI-powered Digital Twin platform that helps farmers monitor, predict, and optimize using real data — never guesses.",
+      },
+      { property: "og:url", content: "/" },
+    ],
+    links: [{ rel: "canonical", href: "/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "AgriTwin OS",
+          url: "/",
+          description:
+            "AI-powered Digital Twin platform for modern agriculture.",
+        }),
       },
     ],
   }),
@@ -186,15 +201,18 @@ function ImpactSection() {
     { title: "Run operations", body: "Tasks, inputs, and reports in one place." },
   ];
   return (
-    <section className="border-y bg-surface">
-      <div className="mx-auto grid max-w-6xl gap-6 px-6 py-16 sm:grid-cols-2 lg:grid-cols-4">
-        {items.map((i) => (
-          <div key={i.title} className="rounded-2xl border bg-card p-6">
-            <CheckCircle2 className="h-5 w-5 text-primary" />
-            <h3 className="mt-3 font-semibold">{i.title}</h3>
-            <p className="mt-1 text-sm text-muted-foreground">{i.body}</p>
-          </div>
-        ))}
+    <section className="border-y bg-surface" aria-labelledby="impact-heading">
+      <div className="mx-auto max-w-6xl px-6 py-16">
+        <h2 id="impact-heading" className="sr-only">Why AgriTwin OS</h2>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {items.map((i) => (
+            <div key={i.title} className="rounded-2xl border bg-card p-6">
+              <CheckCircle2 className="h-5 w-5 text-primary" />
+              <h3 className="mt-3 font-semibold">{i.title}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{i.body}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

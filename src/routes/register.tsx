@@ -57,9 +57,13 @@ type Values = z.infer<typeof schema>;
 export const Route = createFileRoute("/register")({
   head: () => ({
     meta: [
-      { title: "Create your AgriTwin OS account" },
-      { name: "description", content: "Create a free AgriTwin OS account and start digitizing your farm." },
+      { title: "Create account — AgriTwin OS" },
+      { name: "description", content: "Create a free AgriTwin OS account and start digitizing your farm with AI-powered monitoring and recommendations." },
+      { property: "og:title", content: "Create account — AgriTwin OS" },
+      { property: "og:description", content: "Sign up free and start your farm digital twin in minutes." },
+      { property: "og:url", content: "/register" },
     ],
+    links: [{ rel: "canonical", href: "/register" }],
   }),
   component: RegisterPage,
 });

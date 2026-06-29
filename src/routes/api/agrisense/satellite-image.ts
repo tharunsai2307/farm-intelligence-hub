@@ -15,8 +15,11 @@ export const Route = createFileRoute("/api/agrisense/satellite-image")({
         const auth = await getRequestSupabase(request);
         if (!auth) return jsonError("Unauthorized", 401);
 
-        const apiKey = process.env.GOOGLE_EARTH_ENGINE_API_KEY;
-        if (!apiKey) return jsonError("Satellite provider not configured", 503);
+        const lovableKey = process.env.LOVABLE_API_KEY;
+        const gmapsKey = process.env.GOOGLE_MAPS_API_KEY;
+        const legacyKey = process.env.GOOGLE_EARTH_ENGINE_API_KEY;
+        if (!legacyKey && !(lovableKey && gmapsKey))
+          return jsonError("Satellite provider not configured", 503);
 
         const url = new URL(request.url);
         const farmId = url.searchParams.get("farm_id");
@@ -41,12 +44,24 @@ export const Route = createFileRoute("/api/agrisense/satellite-image")({
           size: `${w}x${h}`,
           maptype: "satellite",
           scale: "2",
-          key: apiKey,
         });
         params.append("markers", `color:red|${farm.latitude},${farm.longitude}`);
 
+        const useGateway = Boolean(lovableKey && gmapsKey);
+        const endpoint = useGateway
+          ? `https://connector-gateway.lovable.dev/google_maps/maps/api/staticmap?${params.toString()}`
+          : `https://maps.googleapis.com/maps/api/staticmap?${params.toString()}&key=${legacyKey}`;
+
         const upstream = await fetch(
-          `https://maps.googleapis.com/maps/api/staticmap?${params.toString()}`,
+          endpoint,
+          useGateway
+            ? {
+                headers: {
+                  Authorization: `Bearer ${lovableKey}`,
+                  "X-Connection-Api-Key": gmapsKey as string,
+                },
+              }
+            : undefined,
         );
         if (!upstream.ok) {
           const text = await upstream.text().catch(() => "");

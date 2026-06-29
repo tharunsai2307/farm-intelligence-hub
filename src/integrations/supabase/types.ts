@@ -14,16 +14,442 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      crop_images: {
+        Row: {
+          captured_at: string
+          created_at: string
+          crop_id: string
+          id: string
+          storage_path: string
+        }
+        Insert: {
+          captured_at?: string
+          created_at?: string
+          crop_id: string
+          id?: string
+          storage_path: string
+        }
+        Update: {
+          captured_at?: string
+          created_at?: string
+          crop_id?: string
+          id?: string
+          storage_path?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crop_images_crop_id_fkey"
+            columns: ["crop_id"]
+            isOneToOne: false
+            referencedRelation: "crops"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crops: {
+        Row: {
+          created_at: string
+          deleted_at: string | null
+          expected_harvest: string | null
+          farm_id: string
+          id: string
+          name: string
+          planted_on: string | null
+          status: string
+          updated_at: string
+          variety: string | null
+        }
+        Insert: {
+          created_at?: string
+          deleted_at?: string | null
+          expected_harvest?: string | null
+          farm_id: string
+          id?: string
+          name: string
+          planted_on?: string | null
+          status?: string
+          updated_at?: string
+          variety?: string | null
+        }
+        Update: {
+          created_at?: string
+          deleted_at?: string | null
+          expected_harvest?: string | null
+          farm_id?: string
+          id?: string
+          name?: string
+          planted_on?: string | null
+          status?: string
+          updated_at?: string
+          variety?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crops_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      farm_locations: {
+        Row: {
+          created_at: string
+          farm_id: string
+          geojson: Json | null
+          id: string
+          label: string | null
+          latitude: number
+          longitude: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          farm_id: string
+          geojson?: Json | null
+          id?: string
+          label?: string | null
+          latitude: number
+          longitude: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          farm_id?: string
+          geojson?: Json | null
+          id?: string
+          label?: string | null
+          latitude?: number
+          longitude?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "farm_locations_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      farms: {
+        Row: {
+          area_hectares: number | null
+          created_at: string
+          deleted_at: string | null
+          expected_harvest: string | null
+          id: string
+          irrigation_type: string | null
+          name: string
+          owner_id: string
+          planting_date: string | null
+          soil_type: string | null
+          updated_at: string
+          water_source: string | null
+        }
+        Insert: {
+          area_hectares?: number | null
+          created_at?: string
+          deleted_at?: string | null
+          expected_harvest?: string | null
+          id?: string
+          irrigation_type?: string | null
+          name: string
+          owner_id: string
+          planting_date?: string | null
+          soil_type?: string | null
+          updated_at?: string
+          water_source?: string | null
+        }
+        Update: {
+          area_hectares?: number | null
+          created_at?: string
+          deleted_at?: string | null
+          expected_harvest?: string | null
+          id?: string
+          irrigation_type?: string | null
+          name?: string
+          owner_id?: string
+          planting_date?: string | null
+          soil_type?: string | null
+          updated_at?: string
+          water_source?: string | null
+        }
+        Relationships: []
+      }
+      irrigation_records: {
+        Row: {
+          created_at: string
+          ended_at: string | null
+          farm_id: string
+          id: string
+          method: string | null
+          started_at: string
+          volume_liters: number | null
+        }
+        Insert: {
+          created_at?: string
+          ended_at?: string | null
+          farm_id: string
+          id?: string
+          method?: string | null
+          started_at?: string
+          volume_liters?: number | null
+        }
+        Update: {
+          created_at?: string
+          ended_at?: string | null
+          farm_id?: string
+          id?: string
+          method?: string | null
+          started_at?: string
+          volume_liters?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "irrigation_records_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          read_at: string | null
+          severity: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          severity?: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          severity?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          deleted_at: string | null
+          email: string | null
+          full_name: string | null
+          id: string
+          language: string
+          location: string | null
+          onboarded: boolean
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          email?: string | null
+          full_name?: string | null
+          id: string
+          language?: string
+          location?: string | null
+          onboarded?: boolean
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          language?: string
+          location?: string | null
+          onboarded?: boolean
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      soil_records: {
+        Row: {
+          created_at: string
+          farm_id: string
+          id: string
+          moisture: number | null
+          nitrogen: number | null
+          organic_matter: number | null
+          ph: number | null
+          phosphorus: number | null
+          potassium: number | null
+          recorded_at: string
+        }
+        Insert: {
+          created_at?: string
+          farm_id: string
+          id?: string
+          moisture?: number | null
+          nitrogen?: number | null
+          organic_matter?: number | null
+          ph?: number | null
+          phosphorus?: number | null
+          potassium?: number | null
+          recorded_at?: string
+        }
+        Update: {
+          created_at?: string
+          farm_id?: string
+          id?: string
+          moisture?: number | null
+          nitrogen?: number | null
+          organic_matter?: number | null
+          ph?: number | null
+          phosphorus?: number | null
+          potassium?: number | null
+          recorded_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "soil_records_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_settings: {
+        Row: {
+          created_at: string
+          language: string
+          notif_email: boolean
+          notif_push: boolean
+          privacy_share_analytics: boolean
+          theme: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          language?: string
+          notif_email?: boolean
+          notif_push?: boolean
+          privacy_share_analytics?: boolean
+          theme?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          language?: string
+          notif_email?: boolean
+          notif_push?: boolean
+          privacy_share_analytics?: boolean
+          theme?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      weather_records: {
+        Row: {
+          created_at: string
+          farm_id: string
+          humidity: number | null
+          id: string
+          rainfall_mm: number | null
+          recorded_at: string
+          source: string | null
+          temp_c: number | null
+          wind_kph: number | null
+        }
+        Insert: {
+          created_at?: string
+          farm_id: string
+          humidity?: number | null
+          id?: string
+          rainfall_mm?: number | null
+          recorded_at?: string
+          source?: string | null
+          temp_c?: number | null
+          wind_kph?: number | null
+        }
+        Update: {
+          created_at?: string
+          farm_id?: string
+          humidity?: number | null
+          id?: string
+          rainfall_mm?: number | null
+          recorded_at?: string
+          source?: string | null
+          temp_c?: number | null
+          wind_kph?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "weather_records_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      owns_farm: { Args: { _farm_id: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "agronomist" | "farmer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +576,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "agronomist", "farmer"],
+    },
   },
 } as const

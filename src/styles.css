@@ -303,7 +303,7 @@
     linear-gradient(oklch(0.38 0.085 162 / 0.05) 1px, transparent 1px),
     linear-gradient(90deg, oklch(0.38 0.085 162 / 0.05) 1px, transparent 1px);
   background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse at center, oklch(0 0 0 / 1) 30%, transparent 78%);
+  mask-image: radial-gradient(ellipse at center, oklch(0.20 0.04 162 / 1) 30%, transparent 78%);
   pointer-events: none;
 }
 

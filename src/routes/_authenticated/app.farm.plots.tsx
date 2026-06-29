@@ -376,6 +376,3 @@ function Field({
     </div>
   );
 }
-
-// Keep the imports tidy
-void useMemo;

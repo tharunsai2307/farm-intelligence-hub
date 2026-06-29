@@ -29,7 +29,7 @@ export const Route = createFileRoute("/")({
   },
   head: () => ({
     meta: [
-      { title: "AgriTwin OS — The Intelligent Operating System for Every Farm" },
+      { title: "AgriTwin OS — Smart Farming OS" },
       {
         name: "description",
         content:
@@ -40,6 +40,21 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content:
           "AI-powered Digital Twin platform that helps farmers monitor, predict, and optimize using real data — never guesses.",
+      },
+      { property: "og:url", content: "/" },
+    ],
+    links: [{ rel: "canonical", href: "/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "AgriTwin OS",
+          url: "/",
+          description:
+            "AI-powered Digital Twin platform for modern agriculture.",
+        }),
       },
     ],
   }),

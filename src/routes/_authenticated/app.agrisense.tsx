@@ -224,10 +224,28 @@ function AgriSensePage() {
             ? `Provider: ${satelliteStatusQ.data.data.provider}`
             : "Satellite service unavailable.",
       },
-      { key: "ai_crop", label: "Crop AI (Roboflow)", configured: false, detail: "Per-scan via Crop Health" },
-      { key: "agrimind", label: "AgriMind AI (Lovable AI)", configured: false, detail: "Generated on demand" },
+      {
+        key: "ai_crop",
+        label: "Crop AI",
+        configured: aiCropStatusQ.data?.success === true,
+        detail: aiCropStatusQ.data?.success
+          ? `Provider: ${aiCropStatusQ.data.data.provider} — per-scan via Crop Health`
+          : aiCropStatusQ.data && !aiCropStatusQ.data.success
+            ? aiCropStatusQ.data.error
+            : "Checking…",
+      },
+      {
+        key: "agrimind",
+        label: "AgriMind AI (Lovable AI)",
+        configured: agrimindStatusQ.data?.success === true,
+        detail: agrimindStatusQ.data?.success
+          ? "Generated on demand"
+          : agrimindStatusQ.data && !agrimindStatusQ.data.success
+            ? agrimindStatusQ.data.error
+            : "Checking…",
+      },
     ];
-  }, [weatherQ.data, satelliteStatusQ.data]);
+  }, [weatherQ.data, satelliteStatusQ.data, aiCropStatusQ.data, agrimindStatusQ.data]);
 
   // -------- device actions --------
   const [renameTarget, setRenameTarget] = useState<SensorDeviceRow | null>(null);

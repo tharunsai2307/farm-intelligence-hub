@@ -261,11 +261,7 @@ function StatCard({
   );
 }
 
-type Rec = NonNullable<
-  Awaited<ReturnType<typeof listAgriMindRecommendations>> extends { data: infer D }
-    ? D extends Array<infer X> | null ? X : never
-    : never
->;
+type Rec = AgriMindRecommendation;
 
 function RecommendationCard({
   rec,

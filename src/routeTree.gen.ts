@@ -34,7 +34,6 @@ import { Route as AuthenticatedAppIrrigationRouteImport } from './routes/_authen
 import { Route as AuthenticatedAppFarmosRouteImport } from './routes/_authenticated/app.farmos'
 import { Route as AuthenticatedAppDigitalTwinRouteImport } from './routes/_authenticated/app.digital-twin'
 import { Route as AuthenticatedAppDashboardRouteImport } from './routes/_authenticated/app.dashboard'
-import { Route as AuthenticatedAppCropHealthRouteImport } from './routes/_authenticated/app.crop-health'
 import { Route as AuthenticatedAppAssistantRouteImport } from './routes/_authenticated/app.assistant'
 import { Route as AuthenticatedAppFarmIndexRouteImport } from './routes/_authenticated/app.farm.index'
 import { Route as AuthenticatedAppFarmRecordsRouteImport } from './routes/_authenticated/app.farm.records'
@@ -174,12 +173,6 @@ const AuthenticatedAppDashboardRoute =
     path: '/app/dashboard',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedAppCropHealthRoute =
-  AuthenticatedAppCropHealthRouteImport.update({
-    id: '/app/crop-health',
-    path: '/app/crop-health',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
 const AuthenticatedAppAssistantRoute =
   AuthenticatedAppAssistantRouteImport.update({
     id: '/app/assistant',
@@ -220,7 +213,6 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/verify-email': typeof VerifyEmailRoute
   '/app/assistant': typeof AuthenticatedAppAssistantRoute
-  '/app/crop-health': typeof AuthenticatedAppCropHealthRoute
   '/app/dashboard': typeof AuthenticatedAppDashboardRoute
   '/app/digital-twin': typeof AuthenticatedAppDigitalTwinRoute
   '/app/farmos': typeof AuthenticatedAppFarmosRoute
@@ -252,7 +244,6 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/verify-email': typeof VerifyEmailRoute
   '/app/assistant': typeof AuthenticatedAppAssistantRoute
-  '/app/crop-health': typeof AuthenticatedAppCropHealthRoute
   '/app/dashboard': typeof AuthenticatedAppDashboardRoute
   '/app/digital-twin': typeof AuthenticatedAppDigitalTwinRoute
   '/app/farmos': typeof AuthenticatedAppFarmosRoute
@@ -286,7 +277,6 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/verify-email': typeof VerifyEmailRoute
   '/_authenticated/app/assistant': typeof AuthenticatedAppAssistantRoute
-  '/_authenticated/app/crop-health': typeof AuthenticatedAppCropHealthRoute
   '/_authenticated/app/dashboard': typeof AuthenticatedAppDashboardRoute
   '/_authenticated/app/digital-twin': typeof AuthenticatedAppDigitalTwinRoute
   '/_authenticated/app/farmos': typeof AuthenticatedAppFarmosRoute
@@ -320,7 +310,6 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/verify-email'
     | '/app/assistant'
-    | '/app/crop-health'
     | '/app/dashboard'
     | '/app/digital-twin'
     | '/app/farmos'
@@ -352,7 +341,6 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/verify-email'
     | '/app/assistant'
-    | '/app/crop-health'
     | '/app/dashboard'
     | '/app/digital-twin'
     | '/app/farmos'
@@ -385,7 +373,6 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/verify-email'
     | '/_authenticated/app/assistant'
-    | '/_authenticated/app/crop-health'
     | '/_authenticated/app/dashboard'
     | '/_authenticated/app/digital-twin'
     | '/_authenticated/app/farmos'
@@ -601,13 +588,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/app/crop-health': {
-      id: '/_authenticated/app/crop-health'
-      path: '/app/crop-health'
-      fullPath: '/app/crop-health'
-      preLoaderRoute: typeof AuthenticatedAppCropHealthRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/app/assistant': {
       id: '/_authenticated/app/assistant'
       path: '/app/assistant'
@@ -648,7 +628,6 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppAssistantRoute: typeof AuthenticatedAppAssistantRoute
-  AuthenticatedAppCropHealthRoute: typeof AuthenticatedAppCropHealthRoute
   AuthenticatedAppDashboardRoute: typeof AuthenticatedAppDashboardRoute
   AuthenticatedAppDigitalTwinRoute: typeof AuthenticatedAppDigitalTwinRoute
   AuthenticatedAppFarmosRoute: typeof AuthenticatedAppFarmosRoute
@@ -670,7 +649,6 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppAssistantRoute: AuthenticatedAppAssistantRoute,
-  AuthenticatedAppCropHealthRoute: AuthenticatedAppCropHealthRoute,
   AuthenticatedAppDashboardRoute: AuthenticatedAppDashboardRoute,
   AuthenticatedAppDigitalTwinRoute: AuthenticatedAppDigitalTwinRoute,
   AuthenticatedAppFarmosRoute: AuthenticatedAppFarmosRoute,

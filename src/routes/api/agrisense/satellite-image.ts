@@ -27,12 +27,12 @@ export const Route = createFileRoute("/api/agrisense/satellite-image")({
         const h = Math.min(Number(url.searchParams.get("h") ?? "400"), 640);
 
         const { data: farm, error } = await auth.supabase
-          .from("farms")
-          .select("latitude, longitude, name")
-          .eq("id", farmId)
-          .single();
-        if (error || !farm) return jsonError("Farm not found", 404);
-        if (farm.latitude == null || farm.longitude == null)
+          .from("farm_locations")
+          .select("latitude, longitude")
+          .eq("farm_id", farmId)
+          .maybeSingle();
+        if (error) return jsonError(error.message, 400);
+        if (!farm || farm.latitude == null || farm.longitude == null)
           return jsonError("Farm has no GPS coordinates", 400);
 
         const params = new URLSearchParams({

@@ -81,7 +81,7 @@ async function gatherContext(supabase: SB, farmId: string) {
   const { data: farm } = await supabase
     .from("farms")
     .select(
-      "id, name, primary_crop, crop_variety, season, sowing_date, area_value, area_unit, farm_type, state, district",
+      "id, name, primary_crop, crop_variety, farming_season, sowing_date, area_hectares, area_unit, farm_type, state, district",
     )
     .eq("id", farmId)
     .is("deleted_at", null)
@@ -107,7 +107,9 @@ async function gatherContext(supabase: SB, farmId: string) {
       .maybeSingle(),
     supabase
       .from("weather_records")
-      .select("temperature, humidity, rainfall, wind_speed, pressure, uv_index, condition, recorded_at")
+      .select(
+        "temp_c, humidity, rainfall_mm, wind_kph, pressure, uv_index, weather_condition, recorded_at",
+      )
       .eq("farm_id", farmId)
       .order("recorded_at", { ascending: false })
       .limit(1)
@@ -115,14 +117,14 @@ async function gatherContext(supabase: SB, farmId: string) {
     supabase
       .from("weather_forecasts")
       .select(
-        "forecast_date, temp_min, temp_max, humidity, rain_mm, pop, wind_speed, condition",
+        "forecast_date, min_temp, max_temp, humidity, rainfall, rain_probability, wind_speed, weather_condition",
       )
       .eq("farm_id", farmId)
       .order("forecast_date", { ascending: true })
       .limit(5),
     supabase
       .from("weather_alerts")
-      .select("event, severity, description, starts_at, ends_at")
+      .select("alert_type, title, severity, description, starts_at, ends_at")
       .eq("farm_id", farmId)
       .order("starts_at", { ascending: false })
       .limit(5),
@@ -134,24 +136,24 @@ async function gatherContext(supabase: SB, farmId: string) {
       .limit(3),
     supabase
       .from("soil_records")
-      .select("ph, moisture_percent, nitrogen_ppm, phosphorus_ppm, potassium_ppm, recorded_at")
+      .select("ph, moisture, nitrogen, phosphorus, potassium, organic_matter, temperature, recorded_at")
       .eq("farm_id", farmId)
       .is("deleted_at", null)
       .order("recorded_at", { ascending: false })
       .limit(3),
     supabase
       .from("irrigation_records")
-      .select("method, water_volume_liters, duration_minutes, started_at")
+      .select("method, volume_liters, duration_minutes, started_at")
       .eq("farm_id", farmId)
       .is("deleted_at", null)
       .order("started_at", { ascending: false })
       .limit(5),
     supabase
       .from("crop_observations")
-      .select("growth_stage, health_status, notes, observed_at")
+      .select("crop_stage, visual_condition, notes, recorded_at")
       .eq("farm_id", farmId)
       .is("deleted_at", null)
-      .order("observed_at", { ascending: false })
+      .order("recorded_at", { ascending: false })
       .limit(3),
     supabase
       .from("farm_plots")

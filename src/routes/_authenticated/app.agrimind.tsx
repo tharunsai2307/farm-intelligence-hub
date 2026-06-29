@@ -41,6 +41,7 @@ import {
   speakAgriText,
   updateAgriMindRecommendationStatus,
 } from "@/lib/services/agrimind.service";
+import type { AgriMindRecommendation } from "@/lib/services/agrimind.server";
 
 export const Route = createFileRoute("/_authenticated/app/agrimind")({
   head: () => ({

@@ -26,19 +26,20 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { Badge } from "@/components/ui/badge";
 
 export const NAV_ITEMS = [
-  { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard, group: "Overview" },
-  { title: "Digital Twin", url: "/digital-twin", icon: Boxes, group: "Intelligence" },
-  { title: "Crop Health", url: "/crop-health", icon: Leaf, group: "Intelligence" },
-  { title: "Weather", url: "/weather", icon: CloudSun, group: "Intelligence" },
-  { title: "Irrigation", url: "/irrigation", icon: Droplets, group: "Intelligence" },
-  { title: "Yield Prediction", url: "/yield-prediction", icon: LineChart, group: "Intelligence" },
-  { title: "FarmOS", url: "/farmos", icon: Tractor, group: "Operations" },
-  { title: "Marketplace", url: "/marketplace", icon: ShoppingBag, group: "Operations" },
-  { title: "Reports", url: "/reports", icon: FileBarChart2, group: "Operations" },
-  { title: "AI Assistant", url: "/assistant", icon: Bot, group: "Operations" },
-  { title: "Settings", url: "/settings", icon: Settings, group: "Account" },
+  { title: "Dashboard", url: "/app/dashboard", icon: LayoutDashboard, group: "Overview", ready: true },
+  { title: "Digital Twin", url: "/app/digital-twin", icon: Boxes, group: "Intelligence", ready: false },
+  { title: "Crop Health", url: "/app/crop-health", icon: Leaf, group: "Intelligence", ready: false },
+  { title: "Weather", url: "/app/weather", icon: CloudSun, group: "Intelligence", ready: false },
+  { title: "Irrigation", url: "/app/irrigation", icon: Droplets, group: "Intelligence", ready: false },
+  { title: "Yield Prediction", url: "/app/yield-prediction", icon: LineChart, group: "Intelligence", ready: false },
+  { title: "FarmOS", url: "/app/farmos", icon: Tractor, group: "Operations", ready: false },
+  { title: "Marketplace", url: "/app/marketplace", icon: ShoppingBag, group: "Operations", ready: false },
+  { title: "Reports", url: "/app/reports", icon: FileBarChart2, group: "Operations", ready: false },
+  { title: "AI Assistant", url: "/app/assistant", icon: Bot, group: "Operations", ready: false },
+  { title: "Settings", url: "/app/settings", icon: Settings, group: "Account", ready: true },
 ] as const;
 
 export type NavItem = (typeof NAV_ITEMS)[number];
@@ -51,7 +52,7 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon" className="border-r">
       <SidebarHeader>
-        <Link to="/dashboard" className="flex items-center gap-2 px-2 py-2">
+        <Link to="/app/dashboard" className="flex items-center gap-2 px-2 py-2">
           <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-gradient-brand text-primary-foreground">
             <Sprout className="h-4 w-4" />
           </div>
@@ -75,7 +76,15 @@ export function AppSidebar() {
                       <SidebarMenuButton asChild isActive={active} tooltip={item.title}>
                         <Link to={item.url} className="flex items-center gap-2">
                           <item.icon className="h-4 w-4" />
-                          <span>{item.title}</span>
+                          <span className="flex-1 truncate">{item.title}</span>
+                          {!item.ready && (
+                            <Badge
+                              variant="outline"
+                              className="ml-auto h-4 px-1.5 text-[9px] font-normal text-muted-foreground group-data-[collapsible=icon]:hidden"
+                            >
+                              Soon
+                            </Badge>
+                          )}
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -89,7 +98,7 @@ export function AppSidebar() {
 
       <SidebarFooter>
         <div className="px-2 py-2 text-xs text-muted-foreground group-data-[collapsible=icon]:hidden">
-          v0.1 · Phase 1
+          v0.2 · Phase 1
         </div>
       </SidebarFooter>
     </Sidebar>

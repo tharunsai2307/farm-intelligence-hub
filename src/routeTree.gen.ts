@@ -9,28 +9,58 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AuthIndexRouteImport } from './routes/auth/index'
-import { Route as AuthVerifyRouteImport } from './routes/auth/verify'
-import { Route as AuthResetPasswordRouteImport } from './routes/auth/reset-password'
-import { Route as AuthForgotRouteImport } from './routes/auth/forgot'
-import { Route as AuthenticatedYieldPredictionRouteImport } from './routes/_authenticated/yield-prediction'
-import { Route as AuthenticatedWeatherRouteImport } from './routes/_authenticated/weather'
-import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
-import { Route as AuthenticatedReportsRouteImport } from './routes/_authenticated/reports'
-import { Route as AuthenticatedMarketplaceRouteImport } from './routes/_authenticated/marketplace'
-import { Route as AuthenticatedIrrigationRouteImport } from './routes/_authenticated/irrigation'
-import { Route as AuthenticatedFarmosRouteImport } from './routes/_authenticated/farmos'
-import { Route as AuthenticatedDigitalTwinRouteImport } from './routes/_authenticated/digital-twin'
-import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
-import { Route as AuthenticatedCropHealthRouteImport } from './routes/_authenticated/crop-health'
-import { Route as AuthenticatedAssistantRouteImport } from './routes/_authenticated/assistant'
+import { Route as AuthenticatedOnboardingIndexRouteImport } from './routes/_authenticated/onboarding.index'
+import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
+import { Route as AuthenticatedOnboardingProfileRouteImport } from './routes/_authenticated/onboarding.profile'
+import { Route as AuthenticatedOnboardingFarmRouteImport } from './routes/_authenticated/onboarding.farm'
+import { Route as AuthenticatedAppYieldPredictionRouteImport } from './routes/_authenticated/app.yield-prediction'
+import { Route as AuthenticatedAppWeatherRouteImport } from './routes/_authenticated/app.weather'
+import { Route as AuthenticatedAppSettingsRouteImport } from './routes/_authenticated/app.settings'
+import { Route as AuthenticatedAppReportsRouteImport } from './routes/_authenticated/app.reports'
+import { Route as AuthenticatedAppMarketplaceRouteImport } from './routes/_authenticated/app.marketplace'
+import { Route as AuthenticatedAppIrrigationRouteImport } from './routes/_authenticated/app.irrigation'
+import { Route as AuthenticatedAppFarmosRouteImport } from './routes/_authenticated/app.farmos'
+import { Route as AuthenticatedAppDigitalTwinRouteImport } from './routes/_authenticated/app.digital-twin'
+import { Route as AuthenticatedAppDashboardRouteImport } from './routes/_authenticated/app.dashboard'
+import { Route as AuthenticatedAppCropHealthRouteImport } from './routes/_authenticated/app.crop-health'
+import { Route as AuthenticatedAppAssistantRouteImport } from './routes/_authenticated/app.assistant'
 
+const VerifyEmailRoute = VerifyEmailRouteImport.update({
+  id: '/verify-email',
+  path: '/verify-email',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
@@ -42,222 +72,296 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthIndexRoute = AuthIndexRouteImport.update({
-  id: '/auth/',
-  path: '/auth/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthVerifyRoute = AuthVerifyRouteImport.update({
-  id: '/auth/verify',
-  path: '/auth/verify',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthResetPasswordRoute = AuthResetPasswordRouteImport.update({
-  id: '/auth/reset-password',
-  path: '/auth/reset-password',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthForgotRoute = AuthForgotRouteImport.update({
-  id: '/auth/forgot',
-  path: '/auth/forgot',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedYieldPredictionRoute =
-  AuthenticatedYieldPredictionRouteImport.update({
-    id: '/yield-prediction',
-    path: '/yield-prediction',
+const AuthenticatedOnboardingIndexRoute =
+  AuthenticatedOnboardingIndexRouteImport.update({
+    id: '/onboarding/',
+    path: '/onboarding/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedWeatherRoute = AuthenticatedWeatherRouteImport.update({
-  id: '/weather',
-  path: '/weather',
+const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
+  id: '/app/',
+  path: '/app/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedReportsRoute = AuthenticatedReportsRouteImport.update({
-  id: '/reports',
-  path: '/reports',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedMarketplaceRoute =
-  AuthenticatedMarketplaceRouteImport.update({
-    id: '/marketplace',
-    path: '/marketplace',
+const AuthenticatedOnboardingProfileRoute =
+  AuthenticatedOnboardingProfileRouteImport.update({
+    id: '/onboarding/profile',
+    path: '/onboarding/profile',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedIrrigationRoute = AuthenticatedIrrigationRouteImport.update({
-  id: '/irrigation',
-  path: '/irrigation',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedFarmosRoute = AuthenticatedFarmosRouteImport.update({
-  id: '/farmos',
-  path: '/farmos',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedDigitalTwinRoute =
-  AuthenticatedDigitalTwinRouteImport.update({
-    id: '/digital-twin',
-    path: '/digital-twin',
+const AuthenticatedOnboardingFarmRoute =
+  AuthenticatedOnboardingFarmRouteImport.update({
+    id: '/onboarding/farm',
+    path: '/onboarding/farm',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const AuthenticatedAppYieldPredictionRoute =
+  AuthenticatedAppYieldPredictionRouteImport.update({
+    id: '/app/yield-prediction',
+    path: '/app/yield-prediction',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAppWeatherRoute = AuthenticatedAppWeatherRouteImport.update({
+  id: '/app/weather',
+  path: '/app/weather',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedCropHealthRoute = AuthenticatedCropHealthRouteImport.update({
-  id: '/crop-health',
-  path: '/crop-health',
+const AuthenticatedAppSettingsRoute =
+  AuthenticatedAppSettingsRouteImport.update({
+    id: '/app/settings',
+    path: '/app/settings',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAppReportsRoute = AuthenticatedAppReportsRouteImport.update({
+  id: '/app/reports',
+  path: '/app/reports',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedAssistantRoute = AuthenticatedAssistantRouteImport.update({
-  id: '/assistant',
-  path: '/assistant',
+const AuthenticatedAppMarketplaceRoute =
+  AuthenticatedAppMarketplaceRouteImport.update({
+    id: '/app/marketplace',
+    path: '/app/marketplace',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAppIrrigationRoute =
+  AuthenticatedAppIrrigationRouteImport.update({
+    id: '/app/irrigation',
+    path: '/app/irrigation',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAppFarmosRoute = AuthenticatedAppFarmosRouteImport.update({
+  id: '/app/farmos',
+  path: '/app/farmos',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAppDigitalTwinRoute =
+  AuthenticatedAppDigitalTwinRouteImport.update({
+    id: '/app/digital-twin',
+    path: '/app/digital-twin',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAppDashboardRoute =
+  AuthenticatedAppDashboardRouteImport.update({
+    id: '/app/dashboard',
+    path: '/app/dashboard',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAppCropHealthRoute =
+  AuthenticatedAppCropHealthRouteImport.update({
+    id: '/app/crop-health',
+    path: '/app/crop-health',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAppAssistantRoute =
+  AuthenticatedAppAssistantRouteImport.update({
+    id: '/app/assistant',
+    path: '/app/assistant',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/assistant': typeof AuthenticatedAssistantRoute
-  '/crop-health': typeof AuthenticatedCropHealthRoute
-  '/dashboard': typeof AuthenticatedDashboardRoute
-  '/digital-twin': typeof AuthenticatedDigitalTwinRoute
-  '/farmos': typeof AuthenticatedFarmosRoute
-  '/irrigation': typeof AuthenticatedIrrigationRoute
-  '/marketplace': typeof AuthenticatedMarketplaceRoute
-  '/reports': typeof AuthenticatedReportsRoute
-  '/settings': typeof AuthenticatedSettingsRoute
-  '/weather': typeof AuthenticatedWeatherRoute
-  '/yield-prediction': typeof AuthenticatedYieldPredictionRoute
-  '/auth/forgot': typeof AuthForgotRoute
-  '/auth/reset-password': typeof AuthResetPasswordRoute
-  '/auth/verify': typeof AuthVerifyRoute
-  '/auth/': typeof AuthIndexRoute
+  '/verify-email': typeof VerifyEmailRoute
+  '/app/assistant': typeof AuthenticatedAppAssistantRoute
+  '/app/crop-health': typeof AuthenticatedAppCropHealthRoute
+  '/app/dashboard': typeof AuthenticatedAppDashboardRoute
+  '/app/digital-twin': typeof AuthenticatedAppDigitalTwinRoute
+  '/app/farmos': typeof AuthenticatedAppFarmosRoute
+  '/app/irrigation': typeof AuthenticatedAppIrrigationRoute
+  '/app/marketplace': typeof AuthenticatedAppMarketplaceRoute
+  '/app/reports': typeof AuthenticatedAppReportsRoute
+  '/app/settings': typeof AuthenticatedAppSettingsRoute
+  '/app/weather': typeof AuthenticatedAppWeatherRoute
+  '/app/yield-prediction': typeof AuthenticatedAppYieldPredictionRoute
+  '/onboarding/farm': typeof AuthenticatedOnboardingFarmRoute
+  '/onboarding/profile': typeof AuthenticatedOnboardingProfileRoute
+  '/app/': typeof AuthenticatedAppIndexRoute
+  '/onboarding/': typeof AuthenticatedOnboardingIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/assistant': typeof AuthenticatedAssistantRoute
-  '/crop-health': typeof AuthenticatedCropHealthRoute
-  '/dashboard': typeof AuthenticatedDashboardRoute
-  '/digital-twin': typeof AuthenticatedDigitalTwinRoute
-  '/farmos': typeof AuthenticatedFarmosRoute
-  '/irrigation': typeof AuthenticatedIrrigationRoute
-  '/marketplace': typeof AuthenticatedMarketplaceRoute
-  '/reports': typeof AuthenticatedReportsRoute
-  '/settings': typeof AuthenticatedSettingsRoute
-  '/weather': typeof AuthenticatedWeatherRoute
-  '/yield-prediction': typeof AuthenticatedYieldPredictionRoute
-  '/auth/forgot': typeof AuthForgotRoute
-  '/auth/reset-password': typeof AuthResetPasswordRoute
-  '/auth/verify': typeof AuthVerifyRoute
-  '/auth': typeof AuthIndexRoute
+  '/verify-email': typeof VerifyEmailRoute
+  '/app/assistant': typeof AuthenticatedAppAssistantRoute
+  '/app/crop-health': typeof AuthenticatedAppCropHealthRoute
+  '/app/dashboard': typeof AuthenticatedAppDashboardRoute
+  '/app/digital-twin': typeof AuthenticatedAppDigitalTwinRoute
+  '/app/farmos': typeof AuthenticatedAppFarmosRoute
+  '/app/irrigation': typeof AuthenticatedAppIrrigationRoute
+  '/app/marketplace': typeof AuthenticatedAppMarketplaceRoute
+  '/app/reports': typeof AuthenticatedAppReportsRoute
+  '/app/settings': typeof AuthenticatedAppSettingsRoute
+  '/app/weather': typeof AuthenticatedAppWeatherRoute
+  '/app/yield-prediction': typeof AuthenticatedAppYieldPredictionRoute
+  '/onboarding/farm': typeof AuthenticatedOnboardingFarmRoute
+  '/onboarding/profile': typeof AuthenticatedOnboardingProfileRoute
+  '/app': typeof AuthenticatedAppIndexRoute
+  '/onboarding': typeof AuthenticatedOnboardingIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/_authenticated/assistant': typeof AuthenticatedAssistantRoute
-  '/_authenticated/crop-health': typeof AuthenticatedCropHealthRoute
-  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
-  '/_authenticated/digital-twin': typeof AuthenticatedDigitalTwinRoute
-  '/_authenticated/farmos': typeof AuthenticatedFarmosRoute
-  '/_authenticated/irrigation': typeof AuthenticatedIrrigationRoute
-  '/_authenticated/marketplace': typeof AuthenticatedMarketplaceRoute
-  '/_authenticated/reports': typeof AuthenticatedReportsRoute
-  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
-  '/_authenticated/weather': typeof AuthenticatedWeatherRoute
-  '/_authenticated/yield-prediction': typeof AuthenticatedYieldPredictionRoute
-  '/auth/forgot': typeof AuthForgotRoute
-  '/auth/reset-password': typeof AuthResetPasswordRoute
-  '/auth/verify': typeof AuthVerifyRoute
-  '/auth/': typeof AuthIndexRoute
+  '/verify-email': typeof VerifyEmailRoute
+  '/_authenticated/app/assistant': typeof AuthenticatedAppAssistantRoute
+  '/_authenticated/app/crop-health': typeof AuthenticatedAppCropHealthRoute
+  '/_authenticated/app/dashboard': typeof AuthenticatedAppDashboardRoute
+  '/_authenticated/app/digital-twin': typeof AuthenticatedAppDigitalTwinRoute
+  '/_authenticated/app/farmos': typeof AuthenticatedAppFarmosRoute
+  '/_authenticated/app/irrigation': typeof AuthenticatedAppIrrigationRoute
+  '/_authenticated/app/marketplace': typeof AuthenticatedAppMarketplaceRoute
+  '/_authenticated/app/reports': typeof AuthenticatedAppReportsRoute
+  '/_authenticated/app/settings': typeof AuthenticatedAppSettingsRoute
+  '/_authenticated/app/weather': typeof AuthenticatedAppWeatherRoute
+  '/_authenticated/app/yield-prediction': typeof AuthenticatedAppYieldPredictionRoute
+  '/_authenticated/onboarding/farm': typeof AuthenticatedOnboardingFarmRoute
+  '/_authenticated/onboarding/profile': typeof AuthenticatedOnboardingProfileRoute
+  '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
+  '/_authenticated/onboarding/': typeof AuthenticatedOnboardingIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/reset-password'
     | '/sitemap.xml'
-    | '/assistant'
-    | '/crop-health'
-    | '/dashboard'
-    | '/digital-twin'
-    | '/farmos'
-    | '/irrigation'
-    | '/marketplace'
-    | '/reports'
-    | '/settings'
-    | '/weather'
-    | '/yield-prediction'
-    | '/auth/forgot'
-    | '/auth/reset-password'
-    | '/auth/verify'
-    | '/auth/'
+    | '/verify-email'
+    | '/app/assistant'
+    | '/app/crop-health'
+    | '/app/dashboard'
+    | '/app/digital-twin'
+    | '/app/farmos'
+    | '/app/irrigation'
+    | '/app/marketplace'
+    | '/app/reports'
+    | '/app/settings'
+    | '/app/weather'
+    | '/app/yield-prediction'
+    | '/onboarding/farm'
+    | '/onboarding/profile'
+    | '/app/'
+    | '/onboarding/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/reset-password'
     | '/sitemap.xml'
-    | '/assistant'
-    | '/crop-health'
-    | '/dashboard'
-    | '/digital-twin'
-    | '/farmos'
-    | '/irrigation'
-    | '/marketplace'
-    | '/reports'
-    | '/settings'
-    | '/weather'
-    | '/yield-prediction'
-    | '/auth/forgot'
-    | '/auth/reset-password'
-    | '/auth/verify'
-    | '/auth'
+    | '/verify-email'
+    | '/app/assistant'
+    | '/app/crop-health'
+    | '/app/dashboard'
+    | '/app/digital-twin'
+    | '/app/farmos'
+    | '/app/irrigation'
+    | '/app/marketplace'
+    | '/app/reports'
+    | '/app/settings'
+    | '/app/weather'
+    | '/app/yield-prediction'
+    | '/onboarding/farm'
+    | '/onboarding/profile'
+    | '/app'
+    | '/onboarding'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/reset-password'
     | '/sitemap.xml'
-    | '/_authenticated/assistant'
-    | '/_authenticated/crop-health'
-    | '/_authenticated/dashboard'
-    | '/_authenticated/digital-twin'
-    | '/_authenticated/farmos'
-    | '/_authenticated/irrigation'
-    | '/_authenticated/marketplace'
-    | '/_authenticated/reports'
-    | '/_authenticated/settings'
-    | '/_authenticated/weather'
-    | '/_authenticated/yield-prediction'
-    | '/auth/forgot'
-    | '/auth/reset-password'
-    | '/auth/verify'
-    | '/auth/'
+    | '/verify-email'
+    | '/_authenticated/app/assistant'
+    | '/_authenticated/app/crop-health'
+    | '/_authenticated/app/dashboard'
+    | '/_authenticated/app/digital-twin'
+    | '/_authenticated/app/farmos'
+    | '/_authenticated/app/irrigation'
+    | '/_authenticated/app/marketplace'
+    | '/_authenticated/app/reports'
+    | '/_authenticated/app/settings'
+    | '/_authenticated/app/weather'
+    | '/_authenticated/app/yield-prediction'
+    | '/_authenticated/onboarding/farm'
+    | '/_authenticated/onboarding/profile'
+    | '/_authenticated/app/'
+    | '/_authenticated/onboarding/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  LoginRoute: typeof LoginRoute
+  RegisterRoute: typeof RegisterRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
-  AuthForgotRoute: typeof AuthForgotRoute
-  AuthResetPasswordRoute: typeof AuthResetPasswordRoute
-  AuthVerifyRoute: typeof AuthVerifyRoute
-  AuthIndexRoute: typeof AuthIndexRoute
+  VerifyEmailRoute: typeof VerifyEmailRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/verify-email': {
+      id: '/verify-email'
+      path: '/verify-email'
+      fullPath: '/verify-email'
+      preLoaderRoute: typeof VerifyEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -274,140 +378,148 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/auth/': {
-      id: '/auth/'
-      path: '/auth'
-      fullPath: '/auth/'
-      preLoaderRoute: typeof AuthIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth/verify': {
-      id: '/auth/verify'
-      path: '/auth/verify'
-      fullPath: '/auth/verify'
-      preLoaderRoute: typeof AuthVerifyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth/reset-password': {
-      id: '/auth/reset-password'
-      path: '/auth/reset-password'
-      fullPath: '/auth/reset-password'
-      preLoaderRoute: typeof AuthResetPasswordRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth/forgot': {
-      id: '/auth/forgot'
-      path: '/auth/forgot'
-      fullPath: '/auth/forgot'
-      preLoaderRoute: typeof AuthForgotRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/yield-prediction': {
-      id: '/_authenticated/yield-prediction'
-      path: '/yield-prediction'
-      fullPath: '/yield-prediction'
-      preLoaderRoute: typeof AuthenticatedYieldPredictionRouteImport
+    '/_authenticated/onboarding/': {
+      id: '/_authenticated/onboarding/'
+      path: '/onboarding'
+      fullPath: '/onboarding/'
+      preLoaderRoute: typeof AuthenticatedOnboardingIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/weather': {
-      id: '/_authenticated/weather'
-      path: '/weather'
-      fullPath: '/weather'
-      preLoaderRoute: typeof AuthenticatedWeatherRouteImport
+    '/_authenticated/app/': {
+      id: '/_authenticated/app/'
+      path: '/app'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AuthenticatedAppIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/settings': {
-      id: '/_authenticated/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+    '/_authenticated/onboarding/profile': {
+      id: '/_authenticated/onboarding/profile'
+      path: '/onboarding/profile'
+      fullPath: '/onboarding/profile'
+      preLoaderRoute: typeof AuthenticatedOnboardingProfileRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/reports': {
-      id: '/_authenticated/reports'
-      path: '/reports'
-      fullPath: '/reports'
-      preLoaderRoute: typeof AuthenticatedReportsRouteImport
+    '/_authenticated/onboarding/farm': {
+      id: '/_authenticated/onboarding/farm'
+      path: '/onboarding/farm'
+      fullPath: '/onboarding/farm'
+      preLoaderRoute: typeof AuthenticatedOnboardingFarmRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/marketplace': {
-      id: '/_authenticated/marketplace'
-      path: '/marketplace'
-      fullPath: '/marketplace'
-      preLoaderRoute: typeof AuthenticatedMarketplaceRouteImport
+    '/_authenticated/app/yield-prediction': {
+      id: '/_authenticated/app/yield-prediction'
+      path: '/app/yield-prediction'
+      fullPath: '/app/yield-prediction'
+      preLoaderRoute: typeof AuthenticatedAppYieldPredictionRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/irrigation': {
-      id: '/_authenticated/irrigation'
-      path: '/irrigation'
-      fullPath: '/irrigation'
-      preLoaderRoute: typeof AuthenticatedIrrigationRouteImport
+    '/_authenticated/app/weather': {
+      id: '/_authenticated/app/weather'
+      path: '/app/weather'
+      fullPath: '/app/weather'
+      preLoaderRoute: typeof AuthenticatedAppWeatherRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/farmos': {
-      id: '/_authenticated/farmos'
-      path: '/farmos'
-      fullPath: '/farmos'
-      preLoaderRoute: typeof AuthenticatedFarmosRouteImport
+    '/_authenticated/app/settings': {
+      id: '/_authenticated/app/settings'
+      path: '/app/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AuthenticatedAppSettingsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/digital-twin': {
-      id: '/_authenticated/digital-twin'
-      path: '/digital-twin'
-      fullPath: '/digital-twin'
-      preLoaderRoute: typeof AuthenticatedDigitalTwinRouteImport
+    '/_authenticated/app/reports': {
+      id: '/_authenticated/app/reports'
+      path: '/app/reports'
+      fullPath: '/app/reports'
+      preLoaderRoute: typeof AuthenticatedAppReportsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/dashboard': {
-      id: '/_authenticated/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+    '/_authenticated/app/marketplace': {
+      id: '/_authenticated/app/marketplace'
+      path: '/app/marketplace'
+      fullPath: '/app/marketplace'
+      preLoaderRoute: typeof AuthenticatedAppMarketplaceRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/crop-health': {
-      id: '/_authenticated/crop-health'
-      path: '/crop-health'
-      fullPath: '/crop-health'
-      preLoaderRoute: typeof AuthenticatedCropHealthRouteImport
+    '/_authenticated/app/irrigation': {
+      id: '/_authenticated/app/irrigation'
+      path: '/app/irrigation'
+      fullPath: '/app/irrigation'
+      preLoaderRoute: typeof AuthenticatedAppIrrigationRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/assistant': {
-      id: '/_authenticated/assistant'
-      path: '/assistant'
-      fullPath: '/assistant'
-      preLoaderRoute: typeof AuthenticatedAssistantRouteImport
+    '/_authenticated/app/farmos': {
+      id: '/_authenticated/app/farmos'
+      path: '/app/farmos'
+      fullPath: '/app/farmos'
+      preLoaderRoute: typeof AuthenticatedAppFarmosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/app/digital-twin': {
+      id: '/_authenticated/app/digital-twin'
+      path: '/app/digital-twin'
+      fullPath: '/app/digital-twin'
+      preLoaderRoute: typeof AuthenticatedAppDigitalTwinRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/app/dashboard': {
+      id: '/_authenticated/app/dashboard'
+      path: '/app/dashboard'
+      fullPath: '/app/dashboard'
+      preLoaderRoute: typeof AuthenticatedAppDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/app/crop-health': {
+      id: '/_authenticated/app/crop-health'
+      path: '/app/crop-health'
+      fullPath: '/app/crop-health'
+      preLoaderRoute: typeof AuthenticatedAppCropHealthRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/app/assistant': {
+      id: '/_authenticated/app/assistant'
+      path: '/app/assistant'
+      fullPath: '/app/assistant'
+      preLoaderRoute: typeof AuthenticatedAppAssistantRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedAssistantRoute: typeof AuthenticatedAssistantRoute
-  AuthenticatedCropHealthRoute: typeof AuthenticatedCropHealthRoute
-  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
-  AuthenticatedDigitalTwinRoute: typeof AuthenticatedDigitalTwinRoute
-  AuthenticatedFarmosRoute: typeof AuthenticatedFarmosRoute
-  AuthenticatedIrrigationRoute: typeof AuthenticatedIrrigationRoute
-  AuthenticatedMarketplaceRoute: typeof AuthenticatedMarketplaceRoute
-  AuthenticatedReportsRoute: typeof AuthenticatedReportsRoute
-  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
-  AuthenticatedWeatherRoute: typeof AuthenticatedWeatherRoute
-  AuthenticatedYieldPredictionRoute: typeof AuthenticatedYieldPredictionRoute
+  AuthenticatedAppAssistantRoute: typeof AuthenticatedAppAssistantRoute
+  AuthenticatedAppCropHealthRoute: typeof AuthenticatedAppCropHealthRoute
+  AuthenticatedAppDashboardRoute: typeof AuthenticatedAppDashboardRoute
+  AuthenticatedAppDigitalTwinRoute: typeof AuthenticatedAppDigitalTwinRoute
+  AuthenticatedAppFarmosRoute: typeof AuthenticatedAppFarmosRoute
+  AuthenticatedAppIrrigationRoute: typeof AuthenticatedAppIrrigationRoute
+  AuthenticatedAppMarketplaceRoute: typeof AuthenticatedAppMarketplaceRoute
+  AuthenticatedAppReportsRoute: typeof AuthenticatedAppReportsRoute
+  AuthenticatedAppSettingsRoute: typeof AuthenticatedAppSettingsRoute
+  AuthenticatedAppWeatherRoute: typeof AuthenticatedAppWeatherRoute
+  AuthenticatedAppYieldPredictionRoute: typeof AuthenticatedAppYieldPredictionRoute
+  AuthenticatedOnboardingFarmRoute: typeof AuthenticatedOnboardingFarmRoute
+  AuthenticatedOnboardingProfileRoute: typeof AuthenticatedOnboardingProfileRoute
+  AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
+  AuthenticatedOnboardingIndexRoute: typeof AuthenticatedOnboardingIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedAssistantRoute: AuthenticatedAssistantRoute,
-  AuthenticatedCropHealthRoute: AuthenticatedCropHealthRoute,
-  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
-  AuthenticatedDigitalTwinRoute: AuthenticatedDigitalTwinRoute,
-  AuthenticatedFarmosRoute: AuthenticatedFarmosRoute,
-  AuthenticatedIrrigationRoute: AuthenticatedIrrigationRoute,
-  AuthenticatedMarketplaceRoute: AuthenticatedMarketplaceRoute,
-  AuthenticatedReportsRoute: AuthenticatedReportsRoute,
-  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
-  AuthenticatedWeatherRoute: AuthenticatedWeatherRoute,
-  AuthenticatedYieldPredictionRoute: AuthenticatedYieldPredictionRoute,
+  AuthenticatedAppAssistantRoute: AuthenticatedAppAssistantRoute,
+  AuthenticatedAppCropHealthRoute: AuthenticatedAppCropHealthRoute,
+  AuthenticatedAppDashboardRoute: AuthenticatedAppDashboardRoute,
+  AuthenticatedAppDigitalTwinRoute: AuthenticatedAppDigitalTwinRoute,
+  AuthenticatedAppFarmosRoute: AuthenticatedAppFarmosRoute,
+  AuthenticatedAppIrrigationRoute: AuthenticatedAppIrrigationRoute,
+  AuthenticatedAppMarketplaceRoute: AuthenticatedAppMarketplaceRoute,
+  AuthenticatedAppReportsRoute: AuthenticatedAppReportsRoute,
+  AuthenticatedAppSettingsRoute: AuthenticatedAppSettingsRoute,
+  AuthenticatedAppWeatherRoute: AuthenticatedAppWeatherRoute,
+  AuthenticatedAppYieldPredictionRoute: AuthenticatedAppYieldPredictionRoute,
+  AuthenticatedOnboardingFarmRoute: AuthenticatedOnboardingFarmRoute,
+  AuthenticatedOnboardingProfileRoute: AuthenticatedOnboardingProfileRoute,
+  AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
+  AuthenticatedOnboardingIndexRoute: AuthenticatedOnboardingIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -416,11 +528,12 @@ const AuthenticatedRouteRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  LoginRoute: LoginRoute,
+  RegisterRoute: RegisterRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
-  AuthForgotRoute: AuthForgotRoute,
-  AuthResetPasswordRoute: AuthResetPasswordRoute,
-  AuthVerifyRoute: AuthVerifyRoute,
-  AuthIndexRoute: AuthIndexRoute,
+  VerifyEmailRoute: VerifyEmailRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

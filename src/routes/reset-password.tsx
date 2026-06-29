@@ -21,7 +21,7 @@ const schema = z
 
 type Values = z.infer<typeof schema>;
 
-export const Route = createFileRoute("/auth/reset-password")({
+export const Route = createFileRoute("/reset-password")({
   head: () => ({ meta: [{ title: "Set a new password — AgriTwin OS" }] }),
   component: ResetPage,
 });
@@ -37,7 +37,7 @@ function ResetPage() {
     setSubmitting(false);
     if (error) return toast.error(error.message);
     toast.success("Password updated");
-    navigate({ to: "/dashboard", replace: true });
+    navigate({ to: "/app/dashboard", replace: true });
   };
 
   return (

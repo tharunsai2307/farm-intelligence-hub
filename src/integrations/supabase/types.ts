@@ -137,44 +137,89 @@ export type Database = {
       farms: {
         Row: {
           area_hectares: number | null
+          area_unit: string | null
+          country: string | null
           created_at: string
+          crop_variety: string | null
           deleted_at: string | null
+          district: string | null
           expected_harvest: string | null
+          farm_type: string | null
+          farming_season: string | null
+          has_soil_sensors: boolean | null
+          has_weather_station: boolean | null
           id: string
           irrigation_type: string | null
           name: string
           owner_id: string
+          owner_name: string | null
+          pincode: string | null
           planting_date: string | null
+          primary_crop: string | null
           soil_type: string | null
+          sowing_date: string | null
+          state: string | null
           updated_at: string
+          village: string | null
+          wants_api_connection: boolean | null
           water_source: string | null
         }
         Insert: {
           area_hectares?: number | null
+          area_unit?: string | null
+          country?: string | null
           created_at?: string
+          crop_variety?: string | null
           deleted_at?: string | null
+          district?: string | null
           expected_harvest?: string | null
+          farm_type?: string | null
+          farming_season?: string | null
+          has_soil_sensors?: boolean | null
+          has_weather_station?: boolean | null
           id?: string
           irrigation_type?: string | null
           name: string
           owner_id: string
+          owner_name?: string | null
+          pincode?: string | null
           planting_date?: string | null
+          primary_crop?: string | null
           soil_type?: string | null
+          sowing_date?: string | null
+          state?: string | null
           updated_at?: string
+          village?: string | null
+          wants_api_connection?: boolean | null
           water_source?: string | null
         }
         Update: {
           area_hectares?: number | null
+          area_unit?: string | null
+          country?: string | null
           created_at?: string
+          crop_variety?: string | null
           deleted_at?: string | null
+          district?: string | null
           expected_harvest?: string | null
+          farm_type?: string | null
+          farming_season?: string | null
+          has_soil_sensors?: boolean | null
+          has_weather_station?: boolean | null
           id?: string
           irrigation_type?: string | null
           name?: string
           owner_id?: string
+          owner_name?: string | null
+          pincode?: string | null
           planting_date?: string | null
+          primary_crop?: string | null
           soil_type?: string | null
+          sowing_date?: string | null
+          state?: string | null
           updated_at?: string
+          village?: string | null
+          wants_api_connection?: boolean | null
           water_source?: string | null
         }
         Relationships: []
@@ -252,6 +297,7 @@ export type Database = {
           avatar_url: string | null
           created_at: string
           deleted_at: string | null
+          district: string | null
           email: string | null
           full_name: string | null
           id: string
@@ -259,12 +305,15 @@ export type Database = {
           location: string | null
           onboarded: boolean
           phone: string | null
+          state: string | null
           updated_at: string
+          user_role: string | null
         }
         Insert: {
           avatar_url?: string | null
           created_at?: string
           deleted_at?: string | null
+          district?: string | null
           email?: string | null
           full_name?: string | null
           id: string
@@ -272,12 +321,15 @@ export type Database = {
           location?: string | null
           onboarded?: boolean
           phone?: string | null
+          state?: string | null
           updated_at?: string
+          user_role?: string | null
         }
         Update: {
           avatar_url?: string | null
           created_at?: string
           deleted_at?: string | null
+          district?: string | null
           email?: string | null
           full_name?: string | null
           id?: string
@@ -285,7 +337,9 @@ export type Database = {
           location?: string | null
           onboarded?: boolean
           phone?: string | null
+          state?: string | null
           updated_at?: string
+          user_role?: string | null
         }
         Relationships: []
       }

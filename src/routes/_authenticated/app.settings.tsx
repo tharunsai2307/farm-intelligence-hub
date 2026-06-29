@@ -18,7 +18,7 @@ import { getMyProfile, updateMyProfile, type ProfileRow } from "@/lib/services/p
 import { getMySettings, updateMySettings, type SettingsRow, type SettingsPatch } from "@/lib/services/settings.functions";
 import { useTheme } from "@/components/theme/theme-provider";
 
-export const Route = createFileRoute("/_authenticated/settings")({
+export const Route = createFileRoute("/_authenticated/app/settings")({
   head: () => ({ meta: [{ title: "Settings — AgriTwin OS" }] }),
   component: SettingsPage,
 });

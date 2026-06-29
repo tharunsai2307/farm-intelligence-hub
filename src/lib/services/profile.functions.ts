@@ -10,6 +10,9 @@ export type ProfileRow = {
   avatar_url: string | null;
   language: string;
   location: string | null;
+  state: string | null;
+  district: string | null;
+  user_role: string | null;
   onboarded: boolean;
 };
 
@@ -18,7 +21,7 @@ export const getMyProfile = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     const { data, error } = await context.supabase
       .from("profiles")
-      .select("id, full_name, email, phone, avatar_url, language, location, onboarded")
+      .select("id, full_name, email, phone, avatar_url, language, location, state, district, user_role, onboarded")
       .eq("id", context.userId)
       .maybeSingle();
     if (error) throw new Error(error.message);
@@ -26,11 +29,14 @@ export const getMyProfile = createServerFn({ method: "GET" })
   });
 
 const profileSchema = z.object({
-  full_name: z.string().min(1).max(120).nullable().optional(),
-  phone: z.string().max(40).nullable().optional(),
+  full_name: z.string().min(1).max(120).optional().nullable(),
+  phone: z.string().max(40).optional().nullable(),
   language: z.string().min(2).max(8).optional(),
-  location: z.string().max(160).nullable().optional(),
-  avatar_url: z.string().url().nullable().optional(),
+  location: z.string().max(160).optional().nullable(),
+  state: z.string().max(80).optional().nullable(),
+  district: z.string().max(80).optional().nullable(),
+  user_role: z.enum(["farmer", "manager", "expert", "student"]).optional().nullable(),
+  avatar_url: z.string().url().optional().nullable(),
   onboarded: z.boolean().optional(),
 });
 

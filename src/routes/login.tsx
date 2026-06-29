@@ -155,9 +155,11 @@ function LoginPage() {
           </div>
 
           {/* Mobile 3D scene */}
-          <div className="lg:hidden h-48 -mx-2 mb-6 rounded-2xl overflow-hidden border border-border bg-gradient-to-br from-[oklch(0.36_0.085_162)] to-[oklch(0.24_0.06_162)]">
+          <div className="lg:hidden relative h-48 -mx-2 mb-6 rounded-2xl overflow-hidden border border-border bg-gradient-to-br from-[oklch(0.62_0.10_158)] via-[oklch(0.52_0.10_160)] to-[oklch(0.46_0.09_162)]">
             <Login3DScene />
+            <div className="login-orb" style={{ top: "-30%", right: "-15%", width: 220, height: 220 }} aria-hidden />
           </div>
+
 
           <div className="login-card p-7 sm:p-9">
             <div className="mb-7">

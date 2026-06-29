@@ -12,6 +12,9 @@ import {
   Bot,
   Settings,
   Sprout,
+  MapPin,
+  FlaskConical,
+  MapPinned,
 } from "lucide-react";
 
 import {
@@ -30,7 +33,10 @@ import { Badge } from "@/components/ui/badge";
 
 export const NAV_ITEMS = [
   { title: "Dashboard", url: "/app/dashboard", icon: LayoutDashboard, group: "Overview", ready: true },
-  { title: "Digital Twin", url: "/app/digital-twin", icon: Boxes, group: "Intelligence", ready: false },
+  { title: "Digital Twin", url: "/app/digital-twin", icon: Boxes, group: "Overview", ready: true },
+  { title: "Farm Plots", url: "/app/farm/plots", icon: MapPinned, group: "My Farm", ready: true },
+  { title: "Location", url: "/app/farm/location", icon: MapPin, group: "My Farm", ready: true },
+  { title: "Records", url: "/app/farm/records", icon: FlaskConical, group: "My Farm", ready: true },
   { title: "Crop Health", url: "/app/crop-health", icon: Leaf, group: "Intelligence", ready: false },
   { title: "Weather", url: "/app/weather", icon: CloudSun, group: "Intelligence", ready: false },
   { title: "Irrigation", url: "/app/irrigation", icon: Droplets, group: "Intelligence", ready: false },
@@ -44,7 +50,7 @@ export const NAV_ITEMS = [
 
 export type NavItem = (typeof NAV_ITEMS)[number];
 
-const GROUPS = ["Overview", "Intelligence", "Operations", "Account"] as const;
+const GROUPS = ["Overview", "My Farm", "Intelligence", "Operations", "Account"] as const;
 
 export function AppSidebar() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });

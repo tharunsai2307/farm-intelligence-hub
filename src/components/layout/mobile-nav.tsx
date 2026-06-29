@@ -1,12 +1,12 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, Leaf, CloudSun, Bot, Settings } from "lucide-react";
+import { LayoutDashboard, Boxes, MapPinned, FlaskConical, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const ITEMS = [
   { url: "/app/dashboard", label: "Home", icon: LayoutDashboard },
-  { url: "/app/crop-health", label: "Crops", icon: Leaf },
-  { url: "/app/weather", label: "Weather", icon: CloudSun },
-  { url: "/app/assistant", label: "AI", icon: Bot },
+  { url: "/app/digital-twin", label: "Twin", icon: Boxes },
+  { url: "/app/farm/plots", label: "Plots", icon: MapPinned },
+  { url: "/app/farm/records", label: "Records", icon: FlaskConical },
   { url: "/app/settings", label: "Settings", icon: Settings },
 ] as const;
 

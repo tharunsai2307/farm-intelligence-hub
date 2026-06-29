@@ -622,38 +622,177 @@ export type Database = {
         }
         Relationships: []
       }
+      weather_alerts: {
+        Row: {
+          alert_type: string
+          created_at: string
+          description: string | null
+          ends_at: string | null
+          farm_id: string
+          id: string
+          severity: string
+          source: string
+          starts_at: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          alert_type: string
+          created_at?: string
+          description?: string | null
+          ends_at?: string | null
+          farm_id: string
+          id?: string
+          severity: string
+          source?: string
+          starts_at?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          alert_type?: string
+          created_at?: string
+          description?: string | null
+          ends_at?: string | null
+          farm_id?: string
+          id?: string
+          severity?: string
+          source?: string
+          starts_at?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "weather_alerts_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      weather_forecasts: {
+        Row: {
+          created_at: string
+          farm_id: string
+          fetched_at: string
+          forecast_date: string
+          humidity: number | null
+          id: string
+          max_temp: number | null
+          min_temp: number | null
+          rain_probability: number | null
+          rainfall: number | null
+          source: string
+          updated_at: string
+          user_id: string
+          weather_condition: string | null
+          wind_speed: number | null
+        }
+        Insert: {
+          created_at?: string
+          farm_id: string
+          fetched_at?: string
+          forecast_date: string
+          humidity?: number | null
+          id?: string
+          max_temp?: number | null
+          min_temp?: number | null
+          rain_probability?: number | null
+          rainfall?: number | null
+          source?: string
+          updated_at?: string
+          user_id: string
+          weather_condition?: string | null
+          wind_speed?: number | null
+        }
+        Update: {
+          created_at?: string
+          farm_id?: string
+          fetched_at?: string
+          forecast_date?: string
+          humidity?: number | null
+          id?: string
+          max_temp?: number | null
+          min_temp?: number | null
+          rain_probability?: number | null
+          rainfall?: number | null
+          source?: string
+          updated_at?: string
+          user_id?: string
+          weather_condition?: string | null
+          wind_speed?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "weather_forecasts_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       weather_records: {
         Row: {
           created_at: string
           farm_id: string
+          fetched_at: string
           humidity: number | null
           id: string
+          latitude: number | null
+          longitude: number | null
+          pressure: number | null
           rainfall_mm: number | null
           recorded_at: string
           source: string | null
           temp_c: number | null
+          updated_at: string
+          user_id: string | null
+          uv_index: number | null
+          weather_condition: string | null
           wind_kph: number | null
         }
         Insert: {
           created_at?: string
           farm_id: string
+          fetched_at?: string
           humidity?: number | null
           id?: string
+          latitude?: number | null
+          longitude?: number | null
+          pressure?: number | null
           rainfall_mm?: number | null
           recorded_at?: string
           source?: string | null
           temp_c?: number | null
+          updated_at?: string
+          user_id?: string | null
+          uv_index?: number | null
+          weather_condition?: string | null
           wind_kph?: number | null
         }
         Update: {
           created_at?: string
           farm_id?: string
+          fetched_at?: string
           humidity?: number | null
           id?: string
+          latitude?: number | null
+          longitude?: number | null
+          pressure?: number | null
           rainfall_mm?: number | null
           recorded_at?: string
           source?: string | null
           temp_c?: number | null
+          updated_at?: string
+          user_id?: string | null
+          uv_index?: number | null
+          weather_condition?: string | null
           wind_kph?: number | null
         }
         Relationships: [

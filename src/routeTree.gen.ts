@@ -19,6 +19,10 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedOnboardingIndexRouteImport } from './routes/_authenticated/onboarding.index'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
+import { Route as ApiWeatherSyncRouteImport } from './routes/api/weather/sync'
+import { Route as ApiWeatherForecastRouteImport } from './routes/api/weather/forecast'
+import { Route as ApiWeatherCurrentRouteImport } from './routes/api/weather/current'
+import { Route as ApiWeatherAlertsRouteImport } from './routes/api/weather/alerts'
 import { Route as AuthenticatedOnboardingProfileRouteImport } from './routes/_authenticated/onboarding.profile'
 import { Route as AuthenticatedOnboardingFarmRouteImport } from './routes/_authenticated/onboarding.farm'
 import { Route as AuthenticatedAppYieldPredictionRouteImport } from './routes/_authenticated/app.yield-prediction'
@@ -86,6 +90,26 @@ const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
   id: '/app/',
   path: '/app/',
   getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const ApiWeatherSyncRoute = ApiWeatherSyncRouteImport.update({
+  id: '/api/weather/sync',
+  path: '/api/weather/sync',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiWeatherForecastRoute = ApiWeatherForecastRouteImport.update({
+  id: '/api/weather/forecast',
+  path: '/api/weather/forecast',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiWeatherCurrentRoute = ApiWeatherCurrentRouteImport.update({
+  id: '/api/weather/current',
+  path: '/api/weather/current',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiWeatherAlertsRoute = ApiWeatherAlertsRouteImport.update({
+  id: '/api/weather/alerts',
+  path: '/api/weather/alerts',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedOnboardingProfileRoute =
   AuthenticatedOnboardingProfileRouteImport.update({
@@ -208,6 +232,10 @@ export interface FileRoutesByFullPath {
   '/app/yield-prediction': typeof AuthenticatedAppYieldPredictionRoute
   '/onboarding/farm': typeof AuthenticatedOnboardingFarmRoute
   '/onboarding/profile': typeof AuthenticatedOnboardingProfileRoute
+  '/api/weather/alerts': typeof ApiWeatherAlertsRoute
+  '/api/weather/current': typeof ApiWeatherCurrentRoute
+  '/api/weather/forecast': typeof ApiWeatherForecastRoute
+  '/api/weather/sync': typeof ApiWeatherSyncRoute
   '/app/': typeof AuthenticatedAppIndexRoute
   '/onboarding/': typeof AuthenticatedOnboardingIndexRoute
   '/app/farm/location': typeof AuthenticatedAppFarmLocationRoute
@@ -236,6 +264,10 @@ export interface FileRoutesByTo {
   '/app/yield-prediction': typeof AuthenticatedAppYieldPredictionRoute
   '/onboarding/farm': typeof AuthenticatedOnboardingFarmRoute
   '/onboarding/profile': typeof AuthenticatedOnboardingProfileRoute
+  '/api/weather/alerts': typeof ApiWeatherAlertsRoute
+  '/api/weather/current': typeof ApiWeatherCurrentRoute
+  '/api/weather/forecast': typeof ApiWeatherForecastRoute
+  '/api/weather/sync': typeof ApiWeatherSyncRoute
   '/app': typeof AuthenticatedAppIndexRoute
   '/onboarding': typeof AuthenticatedOnboardingIndexRoute
   '/app/farm/location': typeof AuthenticatedAppFarmLocationRoute
@@ -266,6 +298,10 @@ export interface FileRoutesById {
   '/_authenticated/app/yield-prediction': typeof AuthenticatedAppYieldPredictionRoute
   '/_authenticated/onboarding/farm': typeof AuthenticatedOnboardingFarmRoute
   '/_authenticated/onboarding/profile': typeof AuthenticatedOnboardingProfileRoute
+  '/api/weather/alerts': typeof ApiWeatherAlertsRoute
+  '/api/weather/current': typeof ApiWeatherCurrentRoute
+  '/api/weather/forecast': typeof ApiWeatherForecastRoute
+  '/api/weather/sync': typeof ApiWeatherSyncRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/_authenticated/onboarding/': typeof AuthenticatedOnboardingIndexRoute
   '/_authenticated/app/farm/location': typeof AuthenticatedAppFarmLocationRoute
@@ -296,6 +332,10 @@ export interface FileRouteTypes {
     | '/app/yield-prediction'
     | '/onboarding/farm'
     | '/onboarding/profile'
+    | '/api/weather/alerts'
+    | '/api/weather/current'
+    | '/api/weather/forecast'
+    | '/api/weather/sync'
     | '/app/'
     | '/onboarding/'
     | '/app/farm/location'
@@ -324,6 +364,10 @@ export interface FileRouteTypes {
     | '/app/yield-prediction'
     | '/onboarding/farm'
     | '/onboarding/profile'
+    | '/api/weather/alerts'
+    | '/api/weather/current'
+    | '/api/weather/forecast'
+    | '/api/weather/sync'
     | '/app'
     | '/onboarding'
     | '/app/farm/location'
@@ -353,6 +397,10 @@ export interface FileRouteTypes {
     | '/_authenticated/app/yield-prediction'
     | '/_authenticated/onboarding/farm'
     | '/_authenticated/onboarding/profile'
+    | '/api/weather/alerts'
+    | '/api/weather/current'
+    | '/api/weather/forecast'
+    | '/api/weather/sync'
     | '/_authenticated/app/'
     | '/_authenticated/onboarding/'
     | '/_authenticated/app/farm/location'
@@ -370,6 +418,10 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   VerifyEmailRoute: typeof VerifyEmailRoute
+  ApiWeatherAlertsRoute: typeof ApiWeatherAlertsRoute
+  ApiWeatherCurrentRoute: typeof ApiWeatherCurrentRoute
+  ApiWeatherForecastRoute: typeof ApiWeatherForecastRoute
+  ApiWeatherSyncRoute: typeof ApiWeatherSyncRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -443,6 +495,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/'
       preLoaderRoute: typeof AuthenticatedAppIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/api/weather/sync': {
+      id: '/api/weather/sync'
+      path: '/api/weather/sync'
+      fullPath: '/api/weather/sync'
+      preLoaderRoute: typeof ApiWeatherSyncRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/weather/forecast': {
+      id: '/api/weather/forecast'
+      path: '/api/weather/forecast'
+      fullPath: '/api/weather/forecast'
+      preLoaderRoute: typeof ApiWeatherForecastRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/weather/current': {
+      id: '/api/weather/current'
+      path: '/api/weather/current'
+      fullPath: '/api/weather/current'
+      preLoaderRoute: typeof ApiWeatherCurrentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/weather/alerts': {
+      id: '/api/weather/alerts'
+      path: '/api/weather/alerts'
+      fullPath: '/api/weather/alerts'
+      preLoaderRoute: typeof ApiWeatherAlertsRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/onboarding/profile': {
       id: '/_authenticated/onboarding/profile'
@@ -622,6 +702,10 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   VerifyEmailRoute: VerifyEmailRoute,
+  ApiWeatherAlertsRoute: ApiWeatherAlertsRoute,
+  ApiWeatherCurrentRoute: ApiWeatherCurrentRoute,
+  ApiWeatherForecastRoute: ApiWeatherForecastRoute,
+  ApiWeatherSyncRoute: ApiWeatherSyncRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -178,21 +178,25 @@ function FarmSummary({ farm }: { farm: FarmRow }) {
     },
   ];
   return (
-    <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-      {facts.map((f) => (
-        <div key={f.label} className="surface-card flex items-start gap-3 p-4">
-          <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-accent text-accent-foreground">
-            <f.icon className="h-4 w-4" />
+    <section aria-labelledby="farm-summary-heading" className="space-y-3">
+      <h2 id="farm-summary-heading" className="sr-only">Farm summary</h2>
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {facts.map((f) => (
+          <div key={f.label} className="surface-card flex items-start gap-3 p-4">
+            <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-accent text-accent-foreground">
+              <f.icon className="h-4 w-4" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-xs text-muted-foreground">{f.label}</p>
+              <p className="mt-0.5 truncate text-sm font-medium">{f.value}</p>
+            </div>
           </div>
-          <div className="min-w-0">
-            <p className="text-xs text-muted-foreground">{f.label}</p>
-            <p className="mt-0.5 truncate text-sm font-medium">{f.value}</p>
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </section>
   );
 }
+
 
 function Alerts({
   farm,

@@ -152,8 +152,9 @@ function LoginPage() {
               <Leaf className="h-7 w-7 text-emerald-200" />
             </div>
             <h1 className="text-3xl font-serif text-white tracking-tight">
-              Welcome <em className="italic text-[var(--gold,#c9a84c)] not-italic-fix">back</em>
+              Sign in to <em className="italic text-[var(--gold,#c9a84c)] not-italic-fix">AgriTwin OS</em>
             </h1>
+
             <p className="text-sm text-emerald-100/70 mt-2">
               Sign in to your AgriTwin OS dashboard
             </p>

@@ -40,7 +40,6 @@ import { Route as AuthenticatedAppIrrigationRouteImport } from './routes/_authen
 import { Route as AuthenticatedAppFarmosRouteImport } from './routes/_authenticated/app.farmos'
 import { Route as AuthenticatedAppDigitalTwinRouteImport } from './routes/_authenticated/app.digital-twin'
 import { Route as AuthenticatedAppDashboardRouteImport } from './routes/_authenticated/app.dashboard'
-import { Route as AuthenticatedAppAssistantRouteImport } from './routes/_authenticated/app.assistant'
 import { Route as AuthenticatedAppAgrimindRouteImport } from './routes/_authenticated/app.agrimind'
 import { Route as AuthenticatedAppFarmIndexRouteImport } from './routes/_authenticated/app.farm.index'
 import { Route as AuthenticatedAppCropHealthIndexRouteImport } from './routes/_authenticated/app.crop-health.index'
@@ -213,12 +212,6 @@ const AuthenticatedAppDashboardRoute =
     path: '/app/dashboard',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedAppAssistantRoute =
-  AuthenticatedAppAssistantRouteImport.update({
-    id: '/app/assistant',
-    path: '/app/assistant',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
 const AuthenticatedAppAgrimindRoute =
   AuthenticatedAppAgrimindRouteImport.update({
     id: '/app/agrimind',
@@ -279,7 +272,6 @@ export interface FileRoutesByFullPath {
   '/api/text-to-speech': typeof ApiTextToSpeechRoute
   '/api/translate': typeof ApiTranslateRoute
   '/app/agrimind': typeof AuthenticatedAppAgrimindRoute
-  '/app/assistant': typeof AuthenticatedAppAssistantRoute
   '/app/dashboard': typeof AuthenticatedAppDashboardRoute
   '/app/digital-twin': typeof AuthenticatedAppDigitalTwinRoute
   '/app/farmos': typeof AuthenticatedAppFarmosRoute
@@ -320,7 +312,6 @@ export interface FileRoutesByTo {
   '/api/text-to-speech': typeof ApiTextToSpeechRoute
   '/api/translate': typeof ApiTranslateRoute
   '/app/agrimind': typeof AuthenticatedAppAgrimindRoute
-  '/app/assistant': typeof AuthenticatedAppAssistantRoute
   '/app/dashboard': typeof AuthenticatedAppDashboardRoute
   '/app/digital-twin': typeof AuthenticatedAppDigitalTwinRoute
   '/app/farmos': typeof AuthenticatedAppFarmosRoute
@@ -363,7 +354,6 @@ export interface FileRoutesById {
   '/api/text-to-speech': typeof ApiTextToSpeechRoute
   '/api/translate': typeof ApiTranslateRoute
   '/_authenticated/app/agrimind': typeof AuthenticatedAppAgrimindRoute
-  '/_authenticated/app/assistant': typeof AuthenticatedAppAssistantRoute
   '/_authenticated/app/dashboard': typeof AuthenticatedAppDashboardRoute
   '/_authenticated/app/digital-twin': typeof AuthenticatedAppDigitalTwinRoute
   '/_authenticated/app/farmos': typeof AuthenticatedAppFarmosRoute
@@ -406,7 +396,6 @@ export interface FileRouteTypes {
     | '/api/text-to-speech'
     | '/api/translate'
     | '/app/agrimind'
-    | '/app/assistant'
     | '/app/dashboard'
     | '/app/digital-twin'
     | '/app/farmos'
@@ -447,7 +436,6 @@ export interface FileRouteTypes {
     | '/api/text-to-speech'
     | '/api/translate'
     | '/app/agrimind'
-    | '/app/assistant'
     | '/app/dashboard'
     | '/app/digital-twin'
     | '/app/farmos'
@@ -489,7 +477,6 @@ export interface FileRouteTypes {
     | '/api/text-to-speech'
     | '/api/translate'
     | '/_authenticated/app/agrimind'
-    | '/_authenticated/app/assistant'
     | '/_authenticated/app/dashboard'
     | '/_authenticated/app/digital-twin'
     | '/_authenticated/app/farmos'
@@ -760,13 +747,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/app/assistant': {
-      id: '/_authenticated/app/assistant'
-      path: '/app/assistant'
-      fullPath: '/app/assistant'
-      preLoaderRoute: typeof AuthenticatedAppAssistantRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/app/agrimind': {
       id: '/_authenticated/app/agrimind'
       path: '/app/agrimind'
@@ -828,7 +808,6 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppAgrimindRoute: typeof AuthenticatedAppAgrimindRoute
-  AuthenticatedAppAssistantRoute: typeof AuthenticatedAppAssistantRoute
   AuthenticatedAppDashboardRoute: typeof AuthenticatedAppDashboardRoute
   AuthenticatedAppDigitalTwinRoute: typeof AuthenticatedAppDigitalTwinRoute
   AuthenticatedAppFarmosRoute: typeof AuthenticatedAppFarmosRoute
@@ -853,7 +832,6 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppAgrimindRoute: AuthenticatedAppAgrimindRoute,
-  AuthenticatedAppAssistantRoute: AuthenticatedAppAssistantRoute,
   AuthenticatedAppDashboardRoute: AuthenticatedAppDashboardRoute,
   AuthenticatedAppDigitalTwinRoute: AuthenticatedAppDigitalTwinRoute,
   AuthenticatedAppFarmosRoute: AuthenticatedAppFarmosRoute,

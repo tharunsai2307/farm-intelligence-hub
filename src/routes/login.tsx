@@ -246,13 +246,17 @@ function LoginPage() {
   );
 }
 
-function Feature({ icon: Icon, label }: { icon: typeof Leaf; label: string }) {
+function Feature({ icon: Icon, label, delay = 0 }: { icon: typeof Leaf; label: string; delay?: number }) {
   return (
     <div className="space-y-2">
-      <div className="h-9 w-9 rounded-lg grid place-items-center bg-[oklch(1_0_0/0.06)] border border-[oklch(0.755_0.115_88/0.25)]">
-        <Icon className="h-4 w-4 text-[oklch(0.83_0.115_88)]" />
+      <div
+        className="login-feature-icon h-9 w-9 rounded-lg grid place-items-center bg-[oklch(1_0_0/0.10)] border border-[oklch(0.86_0.12_88/0.40)]"
+        style={{ animationDelay: `${delay}s` }}
+      >
+        <Icon className="h-4 w-4 text-[oklch(0.95_0.10_88)]" />
       </div>
-      <p className="text-xs text-[oklch(0.92_0.06_142)]/80 leading-snug">{label}</p>
+      <p className="text-xs text-[oklch(0.98_0.012_150)]/85 leading-snug">{label}</p>
     </div>
   );
 }
+

@@ -1,8 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useQuery, useServerFn } from "@tanstack/react-query";
-import { useMemo } from "react";
-import { useQuery as useTQQuery } from "@tanstack/react-query";
-import { Tractor, Plus, Boxes, Leaf, CloudSun, Droplets } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Tractor, Plus, Boxes, Leaf, Droplets } from "lucide-react";
 
 import { PageHeader } from "@/components/common/page-header";
 import { EmptyState } from "@/components/common/empty-state";

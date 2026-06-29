@@ -2,7 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { LayoutDashboard, Boxes, Wrench, Users, ClipboardList, Receipt, Sprout, CalendarDays } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export const FARMOS_TABS = [
+export const FARMOS_TABS: { href: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }[] = [
   { href: "/app/farmos", label: "Overview", icon: LayoutDashboard, exact: true },
   { href: "/app/farmos/tasks", label: "Tasks", icon: ClipboardList },
   { href: "/app/farmos/inventory", label: "Inventory", icon: Boxes },
@@ -11,7 +11,7 @@ export const FARMOS_TABS = [
   { href: "/app/farmos/expenses", label: "Expenses", icon: Receipt },
   { href: "/app/farmos/harvest", label: "Harvest", icon: Sprout },
   { href: "/app/farmos/calendar", label: "Calendar", icon: CalendarDays },
-] as const;
+];
 
 export function FarmOSNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });

@@ -1,18 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { FileBarChart2 } from "lucide-react";
-import { PageHeader } from "@/components/common/page-header";
-import { EmptyState } from "@/components/common/empty-state";
+import { ComingSoonPage } from "@/components/common/coming-soon";
 
-export const Route = createFileRoute("/_authenticated/reports")({
-  head: () => ({ meta: [{ title: "Reports — AgriTwin OS" }] }),
+export const Route = createFileRoute("/_authenticated/app/reports")({
+  head: () => ({ meta: [{ title: "Sustainability & Yield Reports — AgriTwin OS" }] }),
   component: () => (
-    <div className="mx-auto max-w-7xl">
-      <PageHeader title="Reports" description="Auto-generated PDF and CSV exports for every module." />
-      <EmptyState
-        icon={FileBarChart2}
-        title="No reports generated yet"
-        description="Reports will appear here once you start logging data across your farms."
-      />
-    </div>
+    <ComingSoonPage
+      icon={FileBarChart2}
+      title="Sustainability & Yield Reports"
+      description="Generate downloadable reports from your real farm data \u2014 water use, soil health, yield, and emissions."
+      bullets={[
+    'Water footprint reports',
+    'Soil-health reports',
+    'Yield and revenue reports',
+    'Exports as PDF or CSV',
+      ]}
+    />
   ),
 });

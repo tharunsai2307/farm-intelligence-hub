@@ -1,18 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ShoppingBag } from "lucide-react";
-import { PageHeader } from "@/components/common/page-header";
-import { EmptyState } from "@/components/common/empty-state";
+import { ComingSoonPage } from "@/components/common/coming-soon";
 
-export const Route = createFileRoute("/_authenticated/marketplace")({
+export const Route = createFileRoute("/_authenticated/app/marketplace")({
   head: () => ({ meta: [{ title: "Marketplace — AgriTwin OS" }] }),
   component: () => (
-    <div className="mx-auto max-w-7xl">
-      <PageHeader title="Marketplace" description="Buy inputs and sell produce — coming soon." />
-      <EmptyState
-        icon={ShoppingBag}
-        title="Marketplace not yet live"
-        description="A trusted marketplace for inputs and buyers will launch with Phase 2."
-      />
-    </div>
+    <ComingSoonPage
+      icon={ShoppingBag}
+      title="Marketplace"
+      description="Connect to verified input suppliers and produce buyers. Activates after KYC and partner onboarding."
+      bullets={[
+    'Discover inputs at transparent prices',
+    'List produce for verified buyers',
+    'Logistics and contract templates',
+    'No middleman markup',
+      ]}
+    />
   ),
 });

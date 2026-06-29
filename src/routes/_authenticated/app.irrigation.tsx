@@ -1,18 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Droplets } from "lucide-react";
-import { PageHeader } from "@/components/common/page-header";
-import { EmptyState } from "@/components/common/empty-state";
+import { ComingSoonPage } from "@/components/common/coming-soon";
 
-export const Route = createFileRoute("/_authenticated/irrigation")({
-  head: () => ({ meta: [{ title: "Irrigation — AgriTwin OS" }] }),
+export const Route = createFileRoute("/_authenticated/app/irrigation")({
+  head: () => ({ meta: [{ title: "Irrigation Records — AgriTwin OS" }] }),
   component: () => (
-    <div className="mx-auto max-w-7xl">
-      <PageHeader title="Smart Irrigation" description="Schedule and track water use across every block." />
-      <EmptyState
-        icon={Droplets}
-        title="No irrigation events recorded"
-        description="Log irrigation cycles manually or connect a controller to see real usage analytics."
-      />
-    </div>
+    <ComingSoonPage
+      icon={Droplets}
+      title="Irrigation Records"
+      description="Log every irrigation event by source, method, and volume. We never invent moisture values \u2014 only show what you log or what your sensors report."
+      bullets={[
+    'Per-plot irrigation history',
+    'Sensor-driven moisture tracking (when connected)',
+    'Water-use summaries by crop and season',
+    'Schedule planning informed by weather',
+      ]}
+    />
   ),
 });

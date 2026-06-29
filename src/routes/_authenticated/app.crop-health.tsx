@@ -1,18 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Leaf } from "lucide-react";
-import { PageHeader } from "@/components/common/page-header";
-import { EmptyState } from "@/components/common/empty-state";
+import { ComingSoonPage } from "@/components/common/coming-soon";
 
-export const Route = createFileRoute("/_authenticated/crop-health")({
-  head: () => ({ meta: [{ title: "Crop Health — AgriTwin OS" }] }),
+export const Route = createFileRoute("/_authenticated/app/crop-health")({
+  head: () => ({ meta: [{ title: "Crop Health Monitoring — AgriTwin OS" }] }),
   component: () => (
-    <div className="mx-auto max-w-7xl">
-      <PageHeader title="Crop Health" description="AI-driven disease and stress detection from crop imagery." />
-      <EmptyState
-        icon={Leaf}
-        title="No crop images uploaded yet"
-        description="Upload field photos to run computer-vision health analysis. Available in Phase 1 Part 2."
-      />
-    </div>
+    <ComingSoonPage
+      icon={Leaf}
+      title="Crop Health Monitoring"
+      description="This module will analyze real crop images using a connected AI model. No predictions are shown until images are uploaded and an AI model is connected."
+      bullets={[
+    'Upload field photos from your phone or drone',
+    'AI-powered disease and stress detection',
+    'Track health changes over time',
+    'Get treatment recommendations from agronomists',
+      ]}
+    />
   ),
 });

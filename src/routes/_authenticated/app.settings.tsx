@@ -38,8 +38,63 @@ function SettingsPage() {
         <ProfileSection />
         <PreferencesSection />
         <NotificationsSection />
+        <DataSourcesSection />
       </div>
     </div>
+  );
+}
+
+function DataSourcesSection() {
+  const { data } = useQuery({
+    queryKey: ["weather", "source-status"],
+    queryFn: () => getWeatherSourceStatus(),
+  });
+  const weatherConfigured = data?.success === true;
+  const weatherReason = data?.success === false ? data.error : null;
+
+  const Row = ({
+    label,
+    configured,
+    reason,
+  }: {
+    label: string;
+    configured: boolean;
+    reason?: string | null;
+  }) => (
+    <div className="flex items-center justify-between py-3">
+      <div>
+        <p className="text-sm font-medium">{label}</p>
+        {!configured && reason && (
+          <p className="text-xs text-muted-foreground">{reason}</p>
+        )}
+      </div>
+      <span
+        className={
+          "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium " +
+          (configured
+            ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+            : "bg-muted text-muted-foreground")
+        }
+      >
+        {configured ? "Configured" : "Not configured"}
+      </span>
+    </div>
+  );
+
+  return (
+    <section className="surface-card p-6">
+      <h2 className="text-lg font-semibold">Data sources</h2>
+      <p className="mt-1 text-sm text-muted-foreground">
+        Live status of external integrations. Nothing is shown until a real source is connected.
+      </p>
+      <div className="mt-4 divide-y">
+        <Row
+          label="Weather API (OpenWeather)"
+          configured={weatherConfigured}
+          reason={weatherReason}
+        />
+      </div>
+    </section>
   );
 }
 

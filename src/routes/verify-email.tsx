@@ -10,7 +10,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export const Route = createFileRoute("/verify-email")({
-  head: () => ({ meta: [{ title: "Verify your email — AgriTwin OS" }] }),
+  head: () => ({
+    meta: [
+      { title: "Verify your email — AgriTwin OS" },
+      { name: "description", content: "Confirm your email address to activate your AgriTwin OS account and access your farm dashboard." },
+      { property: "og:title", content: "Verify your email — AgriTwin OS" },
+      { property: "og:description", content: "Confirm your email to finish setting up AgriTwin OS." },
+      { property: "og:url", content: "/verify-email" },
+    ],
+    links: [{ rel: "canonical", href: "/verify-email" }],
+  }),
   component: VerifyPage,
 });
 

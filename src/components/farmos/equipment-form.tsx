@@ -171,8 +171,8 @@ export function EquipmentCard({ item }: { item: EquipmentRow }) {
         <div><dt className="text-muted-foreground">Next service</dt><dd>{item.next_maintenance_date ?? "—"}</dd></div>
       </dl>
       <div className="mt-3 flex justify-end gap-1">
-        <EquipmentForm farmId={item.farm_id} initial={item} trigger={<Button size="icon" variant="ghost"><Pencil className="h-4 w-4" /></Button>} />
-        <Button size="icon" variant="ghost" onClick={() => del.mutate()} disabled={del.isPending}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+        <EquipmentForm farmId={item.farm_id} initial={item} trigger={<Button size="icon" variant="ghost" aria-label="Edit equipment"><Pencil className="h-4 w-4" /></Button>} />
+        <Button size="icon" variant="ghost" aria-label="Delete equipment" onClick={() => del.mutate()} disabled={del.isPending}><Trash2 className="h-4 w-4 text-destructive" /></Button>
       </div>
     </div>
   );

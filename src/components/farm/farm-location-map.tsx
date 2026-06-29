@@ -116,7 +116,7 @@ export function FarmLocationMap({
     const coords: [number, number][] = [];
     for (const m of markers) {
       const el = document.createElement("div");
-      el.style.cssText = `width:18px;height:18px;border-radius:9999px;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,0.4);background:${m.color ?? "#10b981"}`;
+      el.style.cssText = `width:18px;height:18px;border-radius:9999px;border:2px solid #fff;box-shadow:0 0 0 1px rgba(16,72,52,0.35);background:${m.color ?? "#10b981"}`;
       const marker = new mapboxgl.Marker({ element: el })
         .setLngLat([m.longitude, m.latitude])
         .setPopup(m.label ? new mapboxgl.Popup({ offset: 12 }).setText(m.label) : undefined)

@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GoogleIcon } from "@/components/auth/google-icon";
+import { Login3DScene } from "@/components/auth/login-3d-scene";
 
 const schema = z.object({
   email: z.string().trim().email("Enter a valid email"),
@@ -101,6 +102,11 @@ function LoginPage() {
           </div>
         </div>
 
+        {/* Real WebGL 3D scene */}
+        <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden>
+          <Login3DScene />
+        </div>
+
         <div className="relative z-10 space-y-8 max-w-md">
           <div>
             <p className="text-xs uppercase tracking-[0.22em] text-[oklch(0.755_0.115_88)]/80 mb-3">
@@ -142,6 +148,11 @@ function LoginPage() {
                 Digital twin for agriculture
               </p>
             </div>
+          </div>
+
+          {/* Mobile 3D scene */}
+          <div className="lg:hidden h-48 -mx-2 mb-6 rounded-2xl overflow-hidden border border-border bg-gradient-to-br from-[oklch(0.36_0.085_162)] to-[oklch(0.24_0.06_162)]">
+            <Login3DScene />
           </div>
 
           <div className="login-card p-7 sm:p-9">

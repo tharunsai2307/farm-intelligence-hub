@@ -69,7 +69,6 @@ function CoreOrb() {
   return (
     <Float speed={1.1} rotationIntensity={0.3} floatIntensity={0.6}>
       <Sphere ref={ref} args={[1.05, 96, 96]} castShadow>
-        {/* @ts-expect-error drei material typing */}
         <MeshDistortMaterial color="#10b981" emissive="#0a7a4e" emissiveIntensity={0.25} roughness={0.25} metalness={0.55} distort={0.32} speed={1.4} />
       </Sphere>
     </Float>

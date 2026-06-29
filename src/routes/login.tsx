@@ -27,8 +27,12 @@ export const Route = createFileRoute("/login")({
   head: () => ({
     meta: [
       { title: "Sign in — AgriTwin OS" },
-      { name: "description", content: "Sign in to AgriTwin OS to access your farm dashboard." },
+      { name: "description", content: "Sign in to AgriTwin OS to view your farm dashboard, weather, sensors, and AI recommendations." },
+      { property: "og:title", content: "Sign in — AgriTwin OS" },
+      { property: "og:description", content: "Access your AgriTwin OS farm dashboard." },
+      { property: "og:url", content: "/login" },
     ],
+    links: [{ rel: "canonical", href: "/login" }],
   }),
   component: LoginPage,
 });

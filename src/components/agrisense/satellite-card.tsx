@@ -52,15 +52,29 @@ export function SatelliteCard({
 
       <div className="mt-4">
         {!latest ? (
-          <EmptyState
-            icon={Satellite}
-            title={configured ? "No satellite imagery yet" : "Satellite service unavailable."}
-            description={
-              configured
-                ? "Imported scenes will appear here once available."
-                : "Connect a Sentinel Hub, Google Earth Engine, or Planet Labs key to begin imports."
-            }
-          />
+          configured && farmId ? (
+            <figure className="overflow-hidden rounded-lg border">
+              <img
+                src={`/api/agrisense/satellite-image?farm_id=${farmId}&zoom=16`}
+                alt="Live satellite view of your farm"
+                className="h-48 w-full object-cover"
+                loading="lazy"
+              />
+              <figcaption className="px-3 py-2 text-xs text-muted-foreground">
+                Live satellite tile · centred on your farm GPS · {provider ?? "Google"}
+              </figcaption>
+            </figure>
+          ) : (
+            <EmptyState
+              icon={Satellite}
+              title={configured ? "No satellite imagery yet" : "Satellite service unavailable."}
+              description={
+                configured
+                  ? "Add your farm GPS coordinates to see a live satellite view."
+                  : "Connect a Sentinel Hub, Google Earth Engine, or Planet Labs key to begin imports."
+              }
+            />
+          )
         ) : (
           <dl className="grid grid-cols-3 gap-2 text-xs">
             <Metric label="NDVI" value={fmt(latest.ndvi)} />

@@ -369,7 +369,7 @@ export async function analyzeCrop(
       llm: llm ?? null,
     } as unknown as Database["public"]["Tables"]["crop_analysis"]["Insert"]["raw_response"],
     model_name: modelName,
-    model_version: modelName === "roboflow" ? modelId : "google/gemini-3-flash-preview",
+    model_version: modelName === "roboflow" ? modelId : "google/gemini-2.5-flash",
 
     processing_time_ms: processingMs,
     status: "completed",
@@ -394,7 +394,7 @@ export async function analyzeCrop(
     explanation: insertRow.explanation ?? "",
     recommendation,
     model_name: modelName,
-    model_version: modelName === "roboflow" ? modelId : "google/gemini-3-flash-preview",
+    model_version: modelName === "roboflow" ? modelId : "google/gemini-2.5-flash",
 
     processing_time_ms: processingMs,
   });

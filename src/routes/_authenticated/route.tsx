@@ -9,6 +9,35 @@ export const Route = createFileRoute("/_authenticated")({
     if (error || !data.user) {
       throw redirect({ to: "/login", search: { redirect: location.href } });
     }
+
+    const path = location.pathname;
+    const onOnboarding = path.startsWith("/onboarding");
+
+    // Pull profile + farm count to gate access to /app/*
+    const [{ data: profile }, { count: farmCount }] = await Promise.all([
+      supabase
+        .from("profiles")
+        .select("onboarded, full_name")
+        .eq("id", data.user.id)
+        .maybeSingle(),
+      supabase
+        .from("farms")
+        .select("id", { count: "exact", head: true })
+        .eq("owner_id", data.user.id),
+    ]);
+
+    const profileComplete = Boolean(profile?.onboarded || profile?.full_name);
+    const hasFarm = (farmCount ?? 0) > 0;
+
+    if (!onOnboarding) {
+      if (!profileComplete) {
+        throw redirect({ to: "/onboarding/profile" });
+      }
+      if (!hasFarm) {
+        throw redirect({ to: "/onboarding/farm" });
+      }
+    }
+
     return { user: data.user };
   },
 
@@ -22,3 +51,4 @@ function AuthenticatedLayout() {
     </AppShell>
   );
 }
+

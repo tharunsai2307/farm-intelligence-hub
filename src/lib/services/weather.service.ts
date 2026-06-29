@@ -1,44 +1,75 @@
 /**
- * Weather service — Phase 2 stub.
+ * Weather service — real OpenWeather One Call integration.
  *
- * Contract is finalized so callers can render real empty states today and
- * swap in a real provider (OpenWeather, Tomorrow.io, IMD, etc.) in Phase 2
- * without changing the UI surface.
+ * These are TanStack server functions that:
+ *  - Require an authenticated user (via requireSupabaseAuth).
+ *  - Resolve farm lat/lon from public.farm_locations (RLS scoped to owner).
+ *  - Call OpenWeather One Call API 3.0 with a server-side API key.
+ *  - Persist results into weather_records / weather_forecasts / weather_alerts.
  *
- * TODO(phase-2): Implement against a server-side weather provider.
- *   - Read OPENWEATHER_API_KEY from process.env inside a createServerFn handler.
- *   - Cache by (lat,lon,date) to respect provider rate limits.
- *   - Persist fetched values into public.weather_records.
+ * Returns a ServiceResult<T> — never throws raw provider errors at callers.
  */
-import { fail, NOT_CONFIGURED, type ServiceResult } from "./result";
+import { createServerFn } from "@tanstack/react-start";
+import { z } from "zod";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { fail, type ServiceResult } from "./result";
 
-export type WeatherSnapshot = {
-  temperature: number;
-  humidity: number;
-  rain_probability: number;
-  wind_speed: number;
-  forecast_date: string;
-  source: string;
-  fetched_at: string;
-};
+const farmInput = (data: unknown) => z.object({ farmId: z.string().uuid() }).parse(data);
 
-export async function getCurrentWeatherByCoordinates(
-  _latitude: number,
-  _longitude: number,
-): Promise<ServiceResult<WeatherSnapshot>> {
-  return fail(NOT_CONFIGURED);
-}
+export const getCurrentWeatherByFarm = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator(farmInput)
+  .handler(async ({ data, context }) => {
+    const { getCurrentWeatherByFarm: fn } = await import("./weather.server");
+    return fn(context.supabase, data.farmId);
+  });
 
-export async function getWeatherForecast(
-  _latitude: number,
-  _longitude: number,
-): Promise<ServiceResult<WeatherSnapshot[]>> {
-  return fail(NOT_CONFIGURED);
-}
+export const getForecastByFarm = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator(farmInput)
+  .handler(async ({ data, context }) => {
+    const { getForecastByFarm: fn } = await import("./weather.server");
+    return fn(context.supabase, data.farmId);
+  });
 
-export async function getWeatherAlerts(
-  _latitude: number,
-  _longitude: number,
-): Promise<ServiceResult<Array<{ title: string; severity: string; issued_at: string }>>> {
-  return fail(NOT_CONFIGURED);
-}
+export const syncWeatherForFarm = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator(farmInput)
+  .handler(async ({ data, context }) => {
+    const { syncWeatherForFarm: fn } = await import("./weather.server");
+    return fn(context.supabase, context.userId, data.farmId);
+  });
+
+export const getStoredWeatherRecords = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator(farmInput)
+  .handler(async ({ data, context }) => {
+    const { getStoredWeatherRecords: fn } = await import("./weather.server");
+    return fn(context.supabase, data.farmId);
+  });
+
+export const getStoredForecasts = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator(farmInput)
+  .handler(async ({ data, context }) => {
+    const { getStoredForecasts: fn } = await import("./weather.server");
+    return fn(context.supabase, data.farmId);
+  });
+
+export const getWeatherAlerts = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator(farmInput)
+  .handler(async ({ data, context }) => {
+    const { getWeatherAlertsForFarm: fn } = await import("./weather.server");
+    return fn(context.supabase, data.farmId);
+  });
+
+export const getWeatherSourceStatus = createServerFn({ method: "GET" }).handler(async () => {
+  const configured = Boolean(
+    process.env.OPENWEATHER_API_KEY || process.env.WEATHER_API_KEY,
+  );
+  const result: ServiceResult<{ configured: boolean; provider: string }> = configured
+    ? { success: true, data: { configured: true, provider: "openweather" }, error: null }
+    : fail("Weather API key not configured.");
+  return result;
+});

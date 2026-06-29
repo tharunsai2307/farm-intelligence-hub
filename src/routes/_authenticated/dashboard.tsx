@@ -15,7 +15,7 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
 });
 
 function DashboardPage() {
-  const { data, isLoading, isError, refetch } = useTQQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["farms"],
     queryFn: () => listFarms(),
   });

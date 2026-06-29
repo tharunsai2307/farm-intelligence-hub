@@ -5,12 +5,11 @@
  * produce a real recommendation. Do NOT guess.
  */
 import { fail, NOT_CONFIGURED, type ServiceResult } from "./result";
-import type { SoilRecordRow, IrrigationRecordRow } from "../types/domain";
 
 export type IrrigationRecommendationInput = {
   farm_id: string;
   plot_id: string | null;
-  soil_records: SoilRecordRow[];
+  soil_records: unknown[];
   weather_records: unknown[];
   crop_type: string | null;
 };
@@ -28,5 +27,3 @@ export async function recommendIrrigation(
 ): Promise<ServiceResult<IrrigationRecommendation>> {
   return fail(NOT_CONFIGURED);
 }
-
-export type _UnusedIrrig = IrrigationRecordRow;

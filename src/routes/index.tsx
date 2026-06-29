@@ -434,8 +434,22 @@ function FinalCTA() {
 function SiteFooter() {
   return (
     <footer className="border-t border-border/60">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-5 py-8 text-[12px] text-muted-foreground sm:flex-row sm:px-6">
-        <div className="text-center sm:text-left">© {new Date().getFullYear()} AgriTwin OS · The Intelligent Operating System for Every Farm.</div>
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-5 py-8 text-[12px] text-muted-foreground sm:flex-row sm:px-6">
+        <div className="text-center sm:text-left">
+          <div>© {new Date().getFullYear()} AgriTwin OS · The Intelligent Operating System for Every Farm.</div>
+          <div className="mt-2 flex items-center justify-center gap-1.5 sm:justify-start">
+            <span>Created and developed by</span>
+            <a
+              href="https://www.linkedin.com/in/tharun-sai-gangadhar-p-a32245396/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 font-medium text-foreground transition hover:text-gold"
+            >
+              <Linkedin className="h-3.5 w-3.5" />
+              Tharun Sai
+            </a>
+          </div>
+        </div>
         <div className="flex gap-4">
           <Link to="/login" className="transition hover:text-foreground">Sign in</Link>
           <Link to="/register" className="transition hover:text-foreground">Create account</Link>
@@ -444,6 +458,7 @@ function SiteFooter() {
     </footer>
   );
 }
+
 
 /* ---------- Mobile sticky CTA ---------- */
 function MobileStickyCTA() {

@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GoogleIcon } from "@/components/auth/google-icon";
+import { Login3DScene } from "@/components/auth/login-3d-scene";
 
 const schema = z.object({
   email: z.string().trim().email("Enter a valid email"),

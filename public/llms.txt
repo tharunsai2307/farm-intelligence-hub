@@ -1,0 +1,9 @@
+# AgriTwin OS
+
+> AI-powered Digital Twin platform for modern agriculture. Monitor crops, water, soil, weather, and farm operations from one intelligent operating system built on real farm data.
+
+AgriTwin OS unifies a farm's environmental, operational, and commercial data into a single digital twin. It combines real weather APIs, IoT sensors, crop imagery, AI-driven recommendations (AgriMind), operations tooling (FarmOS), and commerce surfaces (market prices, marketplace, logistics) so farmers can move from scattered tools to one operating system.
+
+## Pages
+
+- [Home](/): Product overview, modules, and how AgriTwin OS works.

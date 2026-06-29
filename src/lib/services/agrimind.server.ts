@@ -155,7 +155,7 @@ async function gatherContext(supabase: SB, farmId: string) {
       .limit(3),
     supabase
       .from("farm_plots")
-      .select("id, name, primary_crop, area_value, area_unit")
+      .select("id, name, crop, area, area_unit")
       .eq("farm_id", farmId)
       .is("deleted_at", null),
   ]);

@@ -14,6 +14,154 @@ export type Database = {
   }
   public: {
     Tables: {
+      crop_analysis: {
+        Row: {
+          affected_area: number | null
+          confidence: number | null
+          created_at: string
+          crop_type: string | null
+          error_message: string | null
+          explanation: string | null
+          farm_id: string
+          id: string
+          image_path: string
+          model_name: string
+          model_version: string | null
+          observation_id: string | null
+          plot_id: string | null
+          prediction: string | null
+          processing_time_ms: number | null
+          raw_response: Json | null
+          recommendation: string | null
+          scientific_name: string | null
+          severity: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          affected_area?: number | null
+          confidence?: number | null
+          created_at?: string
+          crop_type?: string | null
+          error_message?: string | null
+          explanation?: string | null
+          farm_id: string
+          id?: string
+          image_path: string
+          model_name: string
+          model_version?: string | null
+          observation_id?: string | null
+          plot_id?: string | null
+          prediction?: string | null
+          processing_time_ms?: number | null
+          raw_response?: Json | null
+          recommendation?: string | null
+          scientific_name?: string | null
+          severity?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          affected_area?: number | null
+          confidence?: number | null
+          created_at?: string
+          crop_type?: string | null
+          error_message?: string | null
+          explanation?: string | null
+          farm_id?: string
+          id?: string
+          image_path?: string
+          model_name?: string
+          model_version?: string | null
+          observation_id?: string | null
+          plot_id?: string | null
+          prediction?: string | null
+          processing_time_ms?: number | null
+          raw_response?: Json | null
+          recommendation?: string | null
+          scientific_name?: string | null
+          severity?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crop_analysis_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crop_analysis_observation_id_fkey"
+            columns: ["observation_id"]
+            isOneToOne: false
+            referencedRelation: "crop_observations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crop_analysis_plot_id_fkey"
+            columns: ["plot_id"]
+            isOneToOne: false
+            referencedRelation: "farm_plots"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crop_disease_reference: {
+        Row: {
+          causes: string | null
+          chemical_solution: string | null
+          created_at: string
+          description: string | null
+          disease_key: string
+          disease_name: string
+          id: string
+          organic_solution: string | null
+          prevention: string | null
+          reference_source: string | null
+          scientific_name: string | null
+          symptoms: string | null
+          treatment: string | null
+          updated_at: string
+        }
+        Insert: {
+          causes?: string | null
+          chemical_solution?: string | null
+          created_at?: string
+          description?: string | null
+          disease_key: string
+          disease_name: string
+          id?: string
+          organic_solution?: string | null
+          prevention?: string | null
+          reference_source?: string | null
+          scientific_name?: string | null
+          symptoms?: string | null
+          treatment?: string | null
+          updated_at?: string
+        }
+        Update: {
+          causes?: string | null
+          chemical_solution?: string | null
+          created_at?: string
+          description?: string | null
+          disease_key?: string
+          disease_name?: string
+          id?: string
+          organic_solution?: string | null
+          prevention?: string | null
+          reference_source?: string | null
+          scientific_name?: string | null
+          symptoms?: string | null
+          treatment?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       crop_images: {
         Row: {
           captured_at: string

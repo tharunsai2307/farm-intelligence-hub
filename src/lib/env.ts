@@ -47,9 +47,8 @@ export function getDataSourceStatuses(): Record<string, Status> {
     supabase: SUPABASE_URL
       ? { configured: true }
       : { configured: false, reason: "Backend URL missing." },
-    mapbox: MAPBOX_TOKEN
-      ? { configured: true }
-      : { configured: false, reason: "Mapbox token not set." },
+    mapbox: { configured: true, reason: "Using OpenStreetMap / Esri satellite tiles — no key required." },
+
     weather: { configured: false, reason: "Check Settings → Data sources for live status." },
     ai_crop: { configured: false, reason: "Phase 2 — not yet configured." },
     irrigation_engine: { configured: false, reason: "Phase 2 — not yet configured." },

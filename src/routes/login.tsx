@@ -107,15 +107,18 @@ function LoginPage() {
           <Login3DScene />
         </div>
 
+        {/* Animated accent orb */}
+        <div className="login-orb" style={{ top: "18%", right: "-6%" }} aria-hidden />
+
         <div className="relative z-10 space-y-8 max-w-md">
           <div>
-            <p className="text-xs uppercase tracking-[0.22em] text-[oklch(0.755_0.115_88)]/80 mb-3">
+            <p className="text-xs uppercase tracking-[0.22em] text-[oklch(0.92_0.12_88)]/90 mb-3">
               Welcome back
             </p>
-            <h2 className="font-serif text-4xl xl:text-5xl leading-[1.05] tracking-tight">
-              Decisions, grounded in <em className="italic text-[oklch(0.83_0.115_88)]">real</em> field data.
+            <h2 className="font-serif text-4xl xl:text-5xl leading-[1.05] tracking-tight login-shimmer-text">
+              Decisions, grounded in real field data.
             </h2>
-            <p className="text-sm text-[oklch(0.92_0.06_142)]/75 mt-4 leading-relaxed">
+            <p className="text-sm text-[oklch(0.98_0.012_150)]/85 mt-4 leading-relaxed">
               Weather intelligence, crop vision, soil signals and AgriMind recommendations — unified in one calm operating surface.
             </p>
           </div>
@@ -123,11 +126,12 @@ function LoginPage() {
           <div className="login-stat-rule" />
 
           <div className="grid grid-cols-3 gap-6">
-            <Feature icon={LineChart} label="Live telemetry" />
-            <Feature icon={Sparkles} label="AgriMind AI" />
-            <Feature icon={ShieldCheck} label="Private &amp; secure" />
+            <Feature icon={LineChart} label="Live telemetry" delay={0} />
+            <Feature icon={Sparkles} label="AgriMind AI" delay={0.6} />
+            <Feature icon={ShieldCheck} label="Private &amp; secure" delay={1.2} />
           </div>
         </div>
+
 
         <p className="relative z-10 text-xs text-[oklch(0.92_0.06_142)]/55">
           © {new Date().getFullYear()} AgriTwin OS · Crafted by Tharun Sai
@@ -151,9 +155,11 @@ function LoginPage() {
           </div>
 
           {/* Mobile 3D scene */}
-          <div className="lg:hidden h-48 -mx-2 mb-6 rounded-2xl overflow-hidden border border-border bg-gradient-to-br from-[oklch(0.36_0.085_162)] to-[oklch(0.24_0.06_162)]">
+          <div className="lg:hidden relative h-48 -mx-2 mb-6 rounded-2xl overflow-hidden border border-border bg-gradient-to-br from-[oklch(0.62_0.10_158)] via-[oklch(0.52_0.10_160)] to-[oklch(0.46_0.09_162)]">
             <Login3DScene />
+            <div className="login-orb" style={{ top: "-30%", right: "-15%", width: 220, height: 220 }} aria-hidden />
           </div>
+
 
           <div className="login-card p-7 sm:p-9">
             <div className="mb-7">
@@ -242,13 +248,17 @@ function LoginPage() {
   );
 }
 
-function Feature({ icon: Icon, label }: { icon: typeof Leaf; label: string }) {
+function Feature({ icon: Icon, label, delay = 0 }: { icon: typeof Leaf; label: string; delay?: number }) {
   return (
     <div className="space-y-2">
-      <div className="h-9 w-9 rounded-lg grid place-items-center bg-[oklch(1_0_0/0.06)] border border-[oklch(0.755_0.115_88/0.25)]">
-        <Icon className="h-4 w-4 text-[oklch(0.83_0.115_88)]" />
+      <div
+        className="login-feature-icon h-9 w-9 rounded-lg grid place-items-center bg-[oklch(1_0_0/0.10)] border border-[oklch(0.86_0.12_88/0.40)]"
+        style={{ animationDelay: `${delay}s` }}
+      >
+        <Icon className="h-4 w-4 text-[oklch(0.95_0.10_88)]" />
       </div>
-      <p className="text-xs text-[oklch(0.92_0.06_142)]/80 leading-snug">{label}</p>
+      <p className="text-xs text-[oklch(0.98_0.012_150)]/85 leading-snug">{label}</p>
     </div>
   );
 }
+

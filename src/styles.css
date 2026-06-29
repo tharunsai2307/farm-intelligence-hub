@@ -307,20 +307,24 @@
   pointer-events: none;
 }
 
-/* Editorial gold hairline divider for the brand pane */
+/* Brand pane — lifted, luminous emerald (no near-black) */
 .login-brand {
   position: relative;
   background:
-    linear-gradient(180deg, oklch(0.36 0.085 162) 0%, oklch(0.24 0.06 162) 100%);
-  color: oklch(0.97 0.012 150);
+    linear-gradient(165deg,
+      oklch(0.62 0.10 158) 0%,
+      oklch(0.52 0.10 160) 45%,
+      oklch(0.44 0.09 162) 100%);
+  color: oklch(0.98 0.012 150);
   overflow: hidden;
 }
 .login-brand::before {
   content: "";
   position: absolute; inset: 0;
   background:
-    radial-gradient(60% 50% at 80% 15%, oklch(0.755 0.115 88 / 0.18) 0%, transparent 60%),
-    radial-gradient(70% 60% at 10% 100%, oklch(0.55 0.115 158 / 0.30) 0%, transparent 60%);
+    radial-gradient(55% 45% at 82% 12%, oklch(0.86 0.12 88 / 0.32) 0%, transparent 65%),
+    radial-gradient(70% 55% at 8% 100%, oklch(0.70 0.13 158 / 0.40) 0%, transparent 65%),
+    radial-gradient(40% 35% at 50% 50%, oklch(0.95 0.04 150 / 0.10) 0%, transparent 70%);
   pointer-events: none;
 }
 .login-brand::after {
@@ -328,43 +332,87 @@
   position: absolute;
   top: 0; bottom: 0; right: 0;
   width: 1px;
-  background: linear-gradient(180deg, transparent, oklch(0.755 0.115 88 / 0.5), transparent);
+  background: linear-gradient(180deg, transparent, oklch(0.86 0.12 88 / 0.55), transparent);
 }
 
-/* Brand mark — quiet bob, no flip */
+/* Floating accent orb — Animation #1 */
+.login-orb {
+  position: absolute;
+  width: 280px; height: 280px;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 35% 35%,
+    oklch(0.92 0.10 88 / 0.55), oklch(0.70 0.13 158 / 0.25) 55%, transparent 70%);
+  filter: blur(10px);
+  pointer-events: none;
+  animation: login-orb-pulse 9s ease-in-out infinite;
+}
+@keyframes login-orb-pulse {
+  0%, 100% { transform: translate3d(0,0,0) scale(1);    opacity: 0.85; }
+  50%      { transform: translate3d(-3%, 4%, 0) scale(1.12); opacity: 1; }
+}
+
+/* Brand mark — quiet bob */
 .login-mark {
   width: 56px; height: 56px;
   border-radius: 16px;
   display: grid; place-items: center;
-  background: linear-gradient(145deg, oklch(0.50 0.10 162), oklch(0.32 0.08 162));
-  border: 1px solid oklch(0.755 0.115 88 / 0.45);
+  background: linear-gradient(145deg, oklch(0.62 0.11 160), oklch(0.46 0.10 162));
+  border: 1px solid oklch(0.86 0.12 88 / 0.55);
   box-shadow:
-    0 12px 32px -12px oklch(0.10 0.02 162 / 0.45),
-    inset 0 1px 0 oklch(1 0 0 / 0.10);
+    0 12px 32px -12px oklch(0.30 0.06 162 / 0.40),
+    inset 0 1px 0 oklch(1 0 0 / 0.18);
   animation: login-mark-bob 7s ease-in-out infinite;
 }
 @keyframes login-mark-bob {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-4px); }
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-5px) rotate(-3deg); }
 }
 
-/* Card — calm lift on entry, no tilt gimmick */
+/* Heading shimmer — Animation #2 */
+.login-shimmer-text {
+  background: linear-gradient(100deg,
+    oklch(0.98 0.012 150) 0%,
+    oklch(0.98 0.012 150) 35%,
+    oklch(0.92 0.12 88) 50%,
+    oklch(0.98 0.012 150) 65%,
+    oklch(0.98 0.012 150) 100%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: login-shimmer-text 6s linear infinite;
+}
+@keyframes login-shimmer-text {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -100% 0; }
+}
+
+/* Feature icon float — Animation #3 (staggered via inline delay) */
+.login-feature-icon {
+  animation: login-feature-float 5s ease-in-out infinite;
+}
+@keyframes login-feature-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+/* Card — calm lift on entry */
 .login-card {
   background-color: var(--color-card);
   color: var(--color-card-foreground);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-2xl);
   box-shadow:
-    0 30px 70px -28px oklch(0.20 0.04 162 / 0.25),
-    0 8px 24px -12px oklch(0.20 0.04 162 / 0.12);
-  animation: login-card-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    0 30px 70px -28px oklch(0.40 0.08 162 / 0.28),
+    0 8px 24px -12px oklch(0.40 0.08 162 / 0.14);
+  animation: login-card-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 @keyframes login-card-in {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(18px) scale(0.985); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* Inputs — uses design tokens, refined focus ring */
+/* Inputs */
 .login-input {
   height: 44px;
   background-color: var(--color-background) !important;
@@ -382,39 +430,40 @@
 .login-cta {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-glow) 100%) !important;
   color: var(--color-primary-foreground) !important;
-  border: 1px solid oklch(0.755 0.115 88 / 0.35) !important;
-  box-shadow: 0 10px 26px -12px oklch(0.38 0.085 162 / 0.55);
+  border: 1px solid oklch(0.86 0.12 88 / 0.45) !important;
+  box-shadow: 0 10px 26px -12px oklch(0.45 0.10 162 / 0.55);
   position: relative;
   overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 .login-cta:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 16px 36px -14px oklch(0.38 0.085 162 / 0.7);
+  box-shadow: 0 16px 36px -14px oklch(0.45 0.10 162 / 0.7);
 }
 .login-cta::after {
   content: "";
   position: absolute; inset: 0;
-  background: linear-gradient(120deg, transparent 35%, oklch(1 0 0 / 0.22) 50%, transparent 65%);
+  background: linear-gradient(120deg, transparent 35%, oklch(1 0 0 / 0.28) 50%, transparent 65%);
   background-size: 220% 100%;
   background-position: 200% 0;
-  animation: login-cta-shine 5s ease-in-out infinite;
+  animation: login-cta-shine 4s ease-in-out infinite;
   pointer-events: none;
 }
 @keyframes login-cta-shine {
-  0%, 60%, 100% { background-position: 200% 0; }
+  0%, 55%, 100% { background-position: 200% 0; }
   80%           { background-position: -100% 0; }
 }
 
-/* Stat row on brand pane */
 .login-stat-rule {
   height: 1px;
-  background: linear-gradient(90deg, transparent, oklch(0.755 0.115 88 / 0.5), transparent);
+  background: linear-gradient(90deg, transparent, oklch(0.86 0.12 88 / 0.55), transparent);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .login-aurora, .login-mark, .login-card, .login-cta::after {
+  .login-aurora, .login-mark, .login-card, .login-cta::after,
+  .login-orb, .login-shimmer-text, .login-feature-icon {
     animation: none !important;
   }
 }
+
 

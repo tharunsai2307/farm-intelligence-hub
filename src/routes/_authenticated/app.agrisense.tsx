@@ -83,6 +83,8 @@ import {
   renameSensorDevice,
 } from "@/lib/services/agrisense.service";
 import { getCurrentWeatherByFarm } from "@/lib/services/weather.service";
+import { getAiCropStatus } from "@/lib/services/ai-crop.service";
+import { getAgriMindStatus } from "@/lib/services/agrimind.service";
 import { supabase } from "@/integrations/supabase/client";
 import { getDataSourceStatuses } from "@/lib/env";
 import type {
@@ -138,6 +140,14 @@ function AgriSensePage() {
   const satelliteStatusQ = useQuery({
     queryKey: ["agrisense", "satellite-status"],
     queryFn: () => getSatelliteStatus(),
+  });
+  const aiCropStatusQ = useQuery({
+    queryKey: ["agrisense", "ai-crop-status"],
+    queryFn: () => getAiCropStatus(),
+  });
+  const agrimindStatusQ = useQuery({
+    queryKey: ["agrisense", "agrimind-status"],
+    queryFn: () => getAgriMindStatus(),
   });
   const dronesQ = useQuery({
     queryKey: ["agrisense", "drone", farmId],
@@ -214,10 +224,28 @@ function AgriSensePage() {
             ? `Provider: ${satelliteStatusQ.data.data.provider}`
             : "Satellite service unavailable.",
       },
-      { key: "ai_crop", label: "Crop AI (Roboflow)", configured: false, detail: "Per-scan via Crop Health" },
-      { key: "agrimind", label: "AgriMind AI (Lovable AI)", configured: false, detail: "Generated on demand" },
+      {
+        key: "ai_crop",
+        label: "Crop AI",
+        configured: aiCropStatusQ.data?.success === true,
+        detail: aiCropStatusQ.data?.success
+          ? `Provider: ${aiCropStatusQ.data.data.provider} — per-scan via Crop Health`
+          : aiCropStatusQ.data && !aiCropStatusQ.data.success
+            ? aiCropStatusQ.data.error
+            : "Checking…",
+      },
+      {
+        key: "agrimind",
+        label: "AgriMind AI (Lovable AI)",
+        configured: agrimindStatusQ.data?.success === true,
+        detail: agrimindStatusQ.data?.success
+          ? "Generated on demand"
+          : agrimindStatusQ.data && !agrimindStatusQ.data.success
+            ? agrimindStatusQ.data.error
+            : "Checking…",
+      },
     ];
-  }, [weatherQ.data, satelliteStatusQ.data]);
+  }, [weatherQ.data, satelliteStatusQ.data, aiCropStatusQ.data, agrimindStatusQ.data]);
 
   // -------- device actions --------
   const [renameTarget, setRenameTarget] = useState<SensorDeviceRow | null>(null);

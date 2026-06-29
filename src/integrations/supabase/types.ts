@@ -2957,7 +2957,43 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      place_order: {
+        Args: {
+          _delivery_address?: string
+          _delivery_date?: string
+          _delivery_district?: string
+          _delivery_state?: string
+          _listing_id: string
+          _notes?: string
+          _quantity: number
+        }
+        Returns: {
+          buyer_id: string
+          created_at: string
+          currency: string
+          delivery_address: string | null
+          delivery_date: string | null
+          delivery_district: string | null
+          delivery_state: string | null
+          farm_id: string
+          id: string
+          listing_id: string
+          notes: string | null
+          quantity: number
+          seller_id: string
+          status: Database["public"]["Enums"]["order_status"]
+          total_amount: number
+          unit: string
+          unit_price: number
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "marketplace_orders"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
     }
     Enums: {
       app_role: "admin" | "agronomist" | "farmer"

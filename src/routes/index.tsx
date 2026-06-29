@@ -61,6 +61,18 @@ export const Route = createFileRoute("/")({
             "AI-powered Digital Twin platform for modern agriculture.",
         }),
       },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "AgriTwin OS",
+          url: "https://agri-twin-os.lovable.app/",
+          logo: "https://agri-twin-os.lovable.app/favicon.ico",
+          description:
+            "AgriTwin OS builds AI-powered digital twins for farms — unifying crop, soil, water, weather, and operations data.",
+        }),
+      },
     ],
   }),
 

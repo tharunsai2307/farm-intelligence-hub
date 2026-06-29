@@ -25,6 +25,13 @@ import { Route as ApiWeatherSyncRouteImport } from './routes/api/weather/sync'
 import { Route as ApiWeatherForecastRouteImport } from './routes/api/weather/forecast'
 import { Route as ApiWeatherCurrentRouteImport } from './routes/api/weather/current'
 import { Route as ApiWeatherAlertsRouteImport } from './routes/api/weather/alerts'
+import { Route as ApiFarmosWorkersRouteImport } from './routes/api/farmos/workers'
+import { Route as ApiFarmosTasksRouteImport } from './routes/api/farmos/tasks'
+import { Route as ApiFarmosInventoryRouteImport } from './routes/api/farmos/inventory'
+import { Route as ApiFarmosHarvestRouteImport } from './routes/api/farmos/harvest'
+import { Route as ApiFarmosExpensesRouteImport } from './routes/api/farmos/expenses'
+import { Route as ApiFarmosEquipmentRouteImport } from './routes/api/farmos/equipment'
+import { Route as ApiFarmosCalendarRouteImport } from './routes/api/farmos/calendar'
 import { Route as ApiAiAnalyzeRouteImport } from './routes/api/ai/analyze'
 import { Route as ApiAgrisenseSensorsRouteImport } from './routes/api/agrisense/sensors'
 import { Route as ApiAgrisenseSatelliteRouteImport } from './routes/api/agrisense/satellite'
@@ -47,8 +54,16 @@ import { Route as AuthenticatedAppDigitalTwinRouteImport } from './routes/_authe
 import { Route as AuthenticatedAppDashboardRouteImport } from './routes/_authenticated/app.dashboard'
 import { Route as AuthenticatedAppAgrisenseRouteImport } from './routes/_authenticated/app.agrisense'
 import { Route as AuthenticatedAppAgrimindRouteImport } from './routes/_authenticated/app.agrimind'
+import { Route as AuthenticatedAppFarmosIndexRouteImport } from './routes/_authenticated/app.farmos.index'
 import { Route as AuthenticatedAppFarmIndexRouteImport } from './routes/_authenticated/app.farm.index'
 import { Route as AuthenticatedAppCropHealthIndexRouteImport } from './routes/_authenticated/app.crop-health.index'
+import { Route as AuthenticatedAppFarmosWorkersRouteImport } from './routes/_authenticated/app.farmos.workers'
+import { Route as AuthenticatedAppFarmosTasksRouteImport } from './routes/_authenticated/app.farmos.tasks'
+import { Route as AuthenticatedAppFarmosInventoryRouteImport } from './routes/_authenticated/app.farmos.inventory'
+import { Route as AuthenticatedAppFarmosHarvestRouteImport } from './routes/_authenticated/app.farmos.harvest'
+import { Route as AuthenticatedAppFarmosExpensesRouteImport } from './routes/_authenticated/app.farmos.expenses'
+import { Route as AuthenticatedAppFarmosEquipmentRouteImport } from './routes/_authenticated/app.farmos.equipment'
+import { Route as AuthenticatedAppFarmosCalendarRouteImport } from './routes/_authenticated/app.farmos.calendar'
 import { Route as AuthenticatedAppFarmRecordsRouteImport } from './routes/_authenticated/app.farm.records'
 import { Route as AuthenticatedAppFarmPlotsRouteImport } from './routes/_authenticated/app.farm.plots'
 import { Route as AuthenticatedAppFarmLocationRouteImport } from './routes/_authenticated/app.farm.location'
@@ -133,6 +148,41 @@ const ApiWeatherCurrentRoute = ApiWeatherCurrentRouteImport.update({
 const ApiWeatherAlertsRoute = ApiWeatherAlertsRouteImport.update({
   id: '/api/weather/alerts',
   path: '/api/weather/alerts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiFarmosWorkersRoute = ApiFarmosWorkersRouteImport.update({
+  id: '/api/farmos/workers',
+  path: '/api/farmos/workers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiFarmosTasksRoute = ApiFarmosTasksRouteImport.update({
+  id: '/api/farmos/tasks',
+  path: '/api/farmos/tasks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiFarmosInventoryRoute = ApiFarmosInventoryRouteImport.update({
+  id: '/api/farmos/inventory',
+  path: '/api/farmos/inventory',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiFarmosHarvestRoute = ApiFarmosHarvestRouteImport.update({
+  id: '/api/farmos/harvest',
+  path: '/api/farmos/harvest',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiFarmosExpensesRoute = ApiFarmosExpensesRouteImport.update({
+  id: '/api/farmos/expenses',
+  path: '/api/farmos/expenses',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiFarmosEquipmentRoute = ApiFarmosEquipmentRouteImport.update({
+  id: '/api/farmos/equipment',
+  path: '/api/farmos/equipment',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiFarmosCalendarRoute = ApiFarmosCalendarRouteImport.update({
+  id: '/api/farmos/calendar',
+  path: '/api/farmos/calendar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiAiAnalyzeRoute = ApiAiAnalyzeRouteImport.update({
@@ -256,6 +306,12 @@ const AuthenticatedAppAgrimindRoute =
     path: '/app/agrimind',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAppFarmosIndexRoute =
+  AuthenticatedAppFarmosIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedAppFarmosRoute,
+  } as any)
 const AuthenticatedAppFarmIndexRoute =
   AuthenticatedAppFarmIndexRouteImport.update({
     id: '/app/farm/',
@@ -267,6 +323,48 @@ const AuthenticatedAppCropHealthIndexRoute =
     id: '/app/crop-health/',
     path: '/app/crop-health/',
     getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAppFarmosWorkersRoute =
+  AuthenticatedAppFarmosWorkersRouteImport.update({
+    id: '/workers',
+    path: '/workers',
+    getParentRoute: () => AuthenticatedAppFarmosRoute,
+  } as any)
+const AuthenticatedAppFarmosTasksRoute =
+  AuthenticatedAppFarmosTasksRouteImport.update({
+    id: '/tasks',
+    path: '/tasks',
+    getParentRoute: () => AuthenticatedAppFarmosRoute,
+  } as any)
+const AuthenticatedAppFarmosInventoryRoute =
+  AuthenticatedAppFarmosInventoryRouteImport.update({
+    id: '/inventory',
+    path: '/inventory',
+    getParentRoute: () => AuthenticatedAppFarmosRoute,
+  } as any)
+const AuthenticatedAppFarmosHarvestRoute =
+  AuthenticatedAppFarmosHarvestRouteImport.update({
+    id: '/harvest',
+    path: '/harvest',
+    getParentRoute: () => AuthenticatedAppFarmosRoute,
+  } as any)
+const AuthenticatedAppFarmosExpensesRoute =
+  AuthenticatedAppFarmosExpensesRouteImport.update({
+    id: '/expenses',
+    path: '/expenses',
+    getParentRoute: () => AuthenticatedAppFarmosRoute,
+  } as any)
+const AuthenticatedAppFarmosEquipmentRoute =
+  AuthenticatedAppFarmosEquipmentRouteImport.update({
+    id: '/equipment',
+    path: '/equipment',
+    getParentRoute: () => AuthenticatedAppFarmosRoute,
+  } as any)
+const AuthenticatedAppFarmosCalendarRoute =
+  AuthenticatedAppFarmosCalendarRouteImport.update({
+    id: '/calendar',
+    path: '/calendar',
+    getParentRoute: () => AuthenticatedAppFarmosRoute,
   } as any)
 const AuthenticatedAppFarmRecordsRoute =
   AuthenticatedAppFarmRecordsRouteImport.update({
@@ -313,7 +411,7 @@ export interface FileRoutesByFullPath {
   '/app/agrisense': typeof AuthenticatedAppAgrisenseRoute
   '/app/dashboard': typeof AuthenticatedAppDashboardRoute
   '/app/digital-twin': typeof AuthenticatedAppDigitalTwinRoute
-  '/app/farmos': typeof AuthenticatedAppFarmosRoute
+  '/app/farmos': typeof AuthenticatedAppFarmosRouteWithChildren
   '/app/irrigation': typeof AuthenticatedAppIrrigationRoute
   '/app/marketplace': typeof AuthenticatedAppMarketplaceRoute
   '/app/reports': typeof AuthenticatedAppReportsRoute
@@ -331,6 +429,13 @@ export interface FileRoutesByFullPath {
   '/api/agrisense/satellite': typeof ApiAgrisenseSatelliteRoute
   '/api/agrisense/sensors': typeof ApiAgrisenseSensorsRoute
   '/api/ai/analyze': typeof ApiAiAnalyzeRoute
+  '/api/farmos/calendar': typeof ApiFarmosCalendarRoute
+  '/api/farmos/equipment': typeof ApiFarmosEquipmentRoute
+  '/api/farmos/expenses': typeof ApiFarmosExpensesRoute
+  '/api/farmos/harvest': typeof ApiFarmosHarvestRoute
+  '/api/farmos/inventory': typeof ApiFarmosInventoryRoute
+  '/api/farmos/tasks': typeof ApiFarmosTasksRoute
+  '/api/farmos/workers': typeof ApiFarmosWorkersRoute
   '/api/weather/alerts': typeof ApiWeatherAlertsRoute
   '/api/weather/current': typeof ApiWeatherCurrentRoute
   '/api/weather/forecast': typeof ApiWeatherForecastRoute
@@ -341,8 +446,16 @@ export interface FileRoutesByFullPath {
   '/app/farm/location': typeof AuthenticatedAppFarmLocationRoute
   '/app/farm/plots': typeof AuthenticatedAppFarmPlotsRoute
   '/app/farm/records': typeof AuthenticatedAppFarmRecordsRoute
+  '/app/farmos/calendar': typeof AuthenticatedAppFarmosCalendarRoute
+  '/app/farmos/equipment': typeof AuthenticatedAppFarmosEquipmentRoute
+  '/app/farmos/expenses': typeof AuthenticatedAppFarmosExpensesRoute
+  '/app/farmos/harvest': typeof AuthenticatedAppFarmosHarvestRoute
+  '/app/farmos/inventory': typeof AuthenticatedAppFarmosInventoryRoute
+  '/app/farmos/tasks': typeof AuthenticatedAppFarmosTasksRoute
+  '/app/farmos/workers': typeof AuthenticatedAppFarmosWorkersRoute
   '/app/crop-health/': typeof AuthenticatedAppCropHealthIndexRoute
   '/app/farm/': typeof AuthenticatedAppFarmIndexRoute
+  '/app/farmos/': typeof AuthenticatedAppFarmosIndexRoute
   '/app/crop-health/details/$id': typeof AuthenticatedAppCropHealthDetailsIdRoute
 }
 export interface FileRoutesByTo {
@@ -359,7 +472,6 @@ export interface FileRoutesByTo {
   '/app/agrisense': typeof AuthenticatedAppAgrisenseRoute
   '/app/dashboard': typeof AuthenticatedAppDashboardRoute
   '/app/digital-twin': typeof AuthenticatedAppDigitalTwinRoute
-  '/app/farmos': typeof AuthenticatedAppFarmosRoute
   '/app/irrigation': typeof AuthenticatedAppIrrigationRoute
   '/app/marketplace': typeof AuthenticatedAppMarketplaceRoute
   '/app/reports': typeof AuthenticatedAppReportsRoute
@@ -377,6 +489,13 @@ export interface FileRoutesByTo {
   '/api/agrisense/satellite': typeof ApiAgrisenseSatelliteRoute
   '/api/agrisense/sensors': typeof ApiAgrisenseSensorsRoute
   '/api/ai/analyze': typeof ApiAiAnalyzeRoute
+  '/api/farmos/calendar': typeof ApiFarmosCalendarRoute
+  '/api/farmos/equipment': typeof ApiFarmosEquipmentRoute
+  '/api/farmos/expenses': typeof ApiFarmosExpensesRoute
+  '/api/farmos/harvest': typeof ApiFarmosHarvestRoute
+  '/api/farmos/inventory': typeof ApiFarmosInventoryRoute
+  '/api/farmos/tasks': typeof ApiFarmosTasksRoute
+  '/api/farmos/workers': typeof ApiFarmosWorkersRoute
   '/api/weather/alerts': typeof ApiWeatherAlertsRoute
   '/api/weather/current': typeof ApiWeatherCurrentRoute
   '/api/weather/forecast': typeof ApiWeatherForecastRoute
@@ -387,8 +506,16 @@ export interface FileRoutesByTo {
   '/app/farm/location': typeof AuthenticatedAppFarmLocationRoute
   '/app/farm/plots': typeof AuthenticatedAppFarmPlotsRoute
   '/app/farm/records': typeof AuthenticatedAppFarmRecordsRoute
+  '/app/farmos/calendar': typeof AuthenticatedAppFarmosCalendarRoute
+  '/app/farmos/equipment': typeof AuthenticatedAppFarmosEquipmentRoute
+  '/app/farmos/expenses': typeof AuthenticatedAppFarmosExpensesRoute
+  '/app/farmos/harvest': typeof AuthenticatedAppFarmosHarvestRoute
+  '/app/farmos/inventory': typeof AuthenticatedAppFarmosInventoryRoute
+  '/app/farmos/tasks': typeof AuthenticatedAppFarmosTasksRoute
+  '/app/farmos/workers': typeof AuthenticatedAppFarmosWorkersRoute
   '/app/crop-health': typeof AuthenticatedAppCropHealthIndexRoute
   '/app/farm': typeof AuthenticatedAppFarmIndexRoute
+  '/app/farmos': typeof AuthenticatedAppFarmosIndexRoute
   '/app/crop-health/details/$id': typeof AuthenticatedAppCropHealthDetailsIdRoute
 }
 export interface FileRoutesById {
@@ -407,7 +534,7 @@ export interface FileRoutesById {
   '/_authenticated/app/agrisense': typeof AuthenticatedAppAgrisenseRoute
   '/_authenticated/app/dashboard': typeof AuthenticatedAppDashboardRoute
   '/_authenticated/app/digital-twin': typeof AuthenticatedAppDigitalTwinRoute
-  '/_authenticated/app/farmos': typeof AuthenticatedAppFarmosRoute
+  '/_authenticated/app/farmos': typeof AuthenticatedAppFarmosRouteWithChildren
   '/_authenticated/app/irrigation': typeof AuthenticatedAppIrrigationRoute
   '/_authenticated/app/marketplace': typeof AuthenticatedAppMarketplaceRoute
   '/_authenticated/app/reports': typeof AuthenticatedAppReportsRoute
@@ -425,6 +552,13 @@ export interface FileRoutesById {
   '/api/agrisense/satellite': typeof ApiAgrisenseSatelliteRoute
   '/api/agrisense/sensors': typeof ApiAgrisenseSensorsRoute
   '/api/ai/analyze': typeof ApiAiAnalyzeRoute
+  '/api/farmos/calendar': typeof ApiFarmosCalendarRoute
+  '/api/farmos/equipment': typeof ApiFarmosEquipmentRoute
+  '/api/farmos/expenses': typeof ApiFarmosExpensesRoute
+  '/api/farmos/harvest': typeof ApiFarmosHarvestRoute
+  '/api/farmos/inventory': typeof ApiFarmosInventoryRoute
+  '/api/farmos/tasks': typeof ApiFarmosTasksRoute
+  '/api/farmos/workers': typeof ApiFarmosWorkersRoute
   '/api/weather/alerts': typeof ApiWeatherAlertsRoute
   '/api/weather/current': typeof ApiWeatherCurrentRoute
   '/api/weather/forecast': typeof ApiWeatherForecastRoute
@@ -435,8 +569,16 @@ export interface FileRoutesById {
   '/_authenticated/app/farm/location': typeof AuthenticatedAppFarmLocationRoute
   '/_authenticated/app/farm/plots': typeof AuthenticatedAppFarmPlotsRoute
   '/_authenticated/app/farm/records': typeof AuthenticatedAppFarmRecordsRoute
+  '/_authenticated/app/farmos/calendar': typeof AuthenticatedAppFarmosCalendarRoute
+  '/_authenticated/app/farmos/equipment': typeof AuthenticatedAppFarmosEquipmentRoute
+  '/_authenticated/app/farmos/expenses': typeof AuthenticatedAppFarmosExpensesRoute
+  '/_authenticated/app/farmos/harvest': typeof AuthenticatedAppFarmosHarvestRoute
+  '/_authenticated/app/farmos/inventory': typeof AuthenticatedAppFarmosInventoryRoute
+  '/_authenticated/app/farmos/tasks': typeof AuthenticatedAppFarmosTasksRoute
+  '/_authenticated/app/farmos/workers': typeof AuthenticatedAppFarmosWorkersRoute
   '/_authenticated/app/crop-health/': typeof AuthenticatedAppCropHealthIndexRoute
   '/_authenticated/app/farm/': typeof AuthenticatedAppFarmIndexRoute
+  '/_authenticated/app/farmos/': typeof AuthenticatedAppFarmosIndexRoute
   '/_authenticated/app/crop-health/details/$id': typeof AuthenticatedAppCropHealthDetailsIdRoute
 }
 export interface FileRouteTypes {
@@ -473,6 +615,13 @@ export interface FileRouteTypes {
     | '/api/agrisense/satellite'
     | '/api/agrisense/sensors'
     | '/api/ai/analyze'
+    | '/api/farmos/calendar'
+    | '/api/farmos/equipment'
+    | '/api/farmos/expenses'
+    | '/api/farmos/harvest'
+    | '/api/farmos/inventory'
+    | '/api/farmos/tasks'
+    | '/api/farmos/workers'
     | '/api/weather/alerts'
     | '/api/weather/current'
     | '/api/weather/forecast'
@@ -483,8 +632,16 @@ export interface FileRouteTypes {
     | '/app/farm/location'
     | '/app/farm/plots'
     | '/app/farm/records'
+    | '/app/farmos/calendar'
+    | '/app/farmos/equipment'
+    | '/app/farmos/expenses'
+    | '/app/farmos/harvest'
+    | '/app/farmos/inventory'
+    | '/app/farmos/tasks'
+    | '/app/farmos/workers'
     | '/app/crop-health/'
     | '/app/farm/'
+    | '/app/farmos/'
     | '/app/crop-health/details/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -501,7 +658,6 @@ export interface FileRouteTypes {
     | '/app/agrisense'
     | '/app/dashboard'
     | '/app/digital-twin'
-    | '/app/farmos'
     | '/app/irrigation'
     | '/app/marketplace'
     | '/app/reports'
@@ -519,6 +675,13 @@ export interface FileRouteTypes {
     | '/api/agrisense/satellite'
     | '/api/agrisense/sensors'
     | '/api/ai/analyze'
+    | '/api/farmos/calendar'
+    | '/api/farmos/equipment'
+    | '/api/farmos/expenses'
+    | '/api/farmos/harvest'
+    | '/api/farmos/inventory'
+    | '/api/farmos/tasks'
+    | '/api/farmos/workers'
     | '/api/weather/alerts'
     | '/api/weather/current'
     | '/api/weather/forecast'
@@ -529,8 +692,16 @@ export interface FileRouteTypes {
     | '/app/farm/location'
     | '/app/farm/plots'
     | '/app/farm/records'
+    | '/app/farmos/calendar'
+    | '/app/farmos/equipment'
+    | '/app/farmos/expenses'
+    | '/app/farmos/harvest'
+    | '/app/farmos/inventory'
+    | '/app/farmos/tasks'
+    | '/app/farmos/workers'
     | '/app/crop-health'
     | '/app/farm'
+    | '/app/farmos'
     | '/app/crop-health/details/$id'
   id:
     | '__root__'
@@ -566,6 +737,13 @@ export interface FileRouteTypes {
     | '/api/agrisense/satellite'
     | '/api/agrisense/sensors'
     | '/api/ai/analyze'
+    | '/api/farmos/calendar'
+    | '/api/farmos/equipment'
+    | '/api/farmos/expenses'
+    | '/api/farmos/harvest'
+    | '/api/farmos/inventory'
+    | '/api/farmos/tasks'
+    | '/api/farmos/workers'
     | '/api/weather/alerts'
     | '/api/weather/current'
     | '/api/weather/forecast'
@@ -576,8 +754,16 @@ export interface FileRouteTypes {
     | '/_authenticated/app/farm/location'
     | '/_authenticated/app/farm/plots'
     | '/_authenticated/app/farm/records'
+    | '/_authenticated/app/farmos/calendar'
+    | '/_authenticated/app/farmos/equipment'
+    | '/_authenticated/app/farmos/expenses'
+    | '/_authenticated/app/farmos/harvest'
+    | '/_authenticated/app/farmos/inventory'
+    | '/_authenticated/app/farmos/tasks'
+    | '/_authenticated/app/farmos/workers'
     | '/_authenticated/app/crop-health/'
     | '/_authenticated/app/farm/'
+    | '/_authenticated/app/farmos/'
     | '/_authenticated/app/crop-health/details/$id'
   fileRoutesById: FileRoutesById
 }
@@ -601,6 +787,13 @@ export interface RootRouteChildren {
   ApiAgrisenseSatelliteRoute: typeof ApiAgrisenseSatelliteRoute
   ApiAgrisenseSensorsRoute: typeof ApiAgrisenseSensorsRoute
   ApiAiAnalyzeRoute: typeof ApiAiAnalyzeRoute
+  ApiFarmosCalendarRoute: typeof ApiFarmosCalendarRoute
+  ApiFarmosEquipmentRoute: typeof ApiFarmosEquipmentRoute
+  ApiFarmosExpensesRoute: typeof ApiFarmosExpensesRoute
+  ApiFarmosHarvestRoute: typeof ApiFarmosHarvestRoute
+  ApiFarmosInventoryRoute: typeof ApiFarmosInventoryRoute
+  ApiFarmosTasksRoute: typeof ApiFarmosTasksRoute
+  ApiFarmosWorkersRoute: typeof ApiFarmosWorkersRoute
   ApiWeatherAlertsRoute: typeof ApiWeatherAlertsRoute
   ApiWeatherCurrentRoute: typeof ApiWeatherCurrentRoute
   ApiWeatherForecastRoute: typeof ApiWeatherForecastRoute
@@ -719,6 +912,55 @@ declare module '@tanstack/react-router' {
       path: '/api/weather/alerts'
       fullPath: '/api/weather/alerts'
       preLoaderRoute: typeof ApiWeatherAlertsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/farmos/workers': {
+      id: '/api/farmos/workers'
+      path: '/api/farmos/workers'
+      fullPath: '/api/farmos/workers'
+      preLoaderRoute: typeof ApiFarmosWorkersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/farmos/tasks': {
+      id: '/api/farmos/tasks'
+      path: '/api/farmos/tasks'
+      fullPath: '/api/farmos/tasks'
+      preLoaderRoute: typeof ApiFarmosTasksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/farmos/inventory': {
+      id: '/api/farmos/inventory'
+      path: '/api/farmos/inventory'
+      fullPath: '/api/farmos/inventory'
+      preLoaderRoute: typeof ApiFarmosInventoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/farmos/harvest': {
+      id: '/api/farmos/harvest'
+      path: '/api/farmos/harvest'
+      fullPath: '/api/farmos/harvest'
+      preLoaderRoute: typeof ApiFarmosHarvestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/farmos/expenses': {
+      id: '/api/farmos/expenses'
+      path: '/api/farmos/expenses'
+      fullPath: '/api/farmos/expenses'
+      preLoaderRoute: typeof ApiFarmosExpensesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/farmos/equipment': {
+      id: '/api/farmos/equipment'
+      path: '/api/farmos/equipment'
+      fullPath: '/api/farmos/equipment'
+      preLoaderRoute: typeof ApiFarmosEquipmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/farmos/calendar': {
+      id: '/api/farmos/calendar'
+      path: '/api/farmos/calendar'
+      fullPath: '/api/farmos/calendar'
+      preLoaderRoute: typeof ApiFarmosCalendarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/ai/analyze': {
@@ -875,6 +1117,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppAgrimindRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/app/farmos/': {
+      id: '/_authenticated/app/farmos/'
+      path: '/'
+      fullPath: '/app/farmos/'
+      preLoaderRoute: typeof AuthenticatedAppFarmosIndexRouteImport
+      parentRoute: typeof AuthenticatedAppFarmosRoute
+    }
     '/_authenticated/app/farm/': {
       id: '/_authenticated/app/farm/'
       path: '/app/farm'
@@ -888,6 +1137,55 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/crop-health/'
       preLoaderRoute: typeof AuthenticatedAppCropHealthIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/app/farmos/workers': {
+      id: '/_authenticated/app/farmos/workers'
+      path: '/workers'
+      fullPath: '/app/farmos/workers'
+      preLoaderRoute: typeof AuthenticatedAppFarmosWorkersRouteImport
+      parentRoute: typeof AuthenticatedAppFarmosRoute
+    }
+    '/_authenticated/app/farmos/tasks': {
+      id: '/_authenticated/app/farmos/tasks'
+      path: '/tasks'
+      fullPath: '/app/farmos/tasks'
+      preLoaderRoute: typeof AuthenticatedAppFarmosTasksRouteImport
+      parentRoute: typeof AuthenticatedAppFarmosRoute
+    }
+    '/_authenticated/app/farmos/inventory': {
+      id: '/_authenticated/app/farmos/inventory'
+      path: '/inventory'
+      fullPath: '/app/farmos/inventory'
+      preLoaderRoute: typeof AuthenticatedAppFarmosInventoryRouteImport
+      parentRoute: typeof AuthenticatedAppFarmosRoute
+    }
+    '/_authenticated/app/farmos/harvest': {
+      id: '/_authenticated/app/farmos/harvest'
+      path: '/harvest'
+      fullPath: '/app/farmos/harvest'
+      preLoaderRoute: typeof AuthenticatedAppFarmosHarvestRouteImport
+      parentRoute: typeof AuthenticatedAppFarmosRoute
+    }
+    '/_authenticated/app/farmos/expenses': {
+      id: '/_authenticated/app/farmos/expenses'
+      path: '/expenses'
+      fullPath: '/app/farmos/expenses'
+      preLoaderRoute: typeof AuthenticatedAppFarmosExpensesRouteImport
+      parentRoute: typeof AuthenticatedAppFarmosRoute
+    }
+    '/_authenticated/app/farmos/equipment': {
+      id: '/_authenticated/app/farmos/equipment'
+      path: '/equipment'
+      fullPath: '/app/farmos/equipment'
+      preLoaderRoute: typeof AuthenticatedAppFarmosEquipmentRouteImport
+      parentRoute: typeof AuthenticatedAppFarmosRoute
+    }
+    '/_authenticated/app/farmos/calendar': {
+      id: '/_authenticated/app/farmos/calendar'
+      path: '/calendar'
+      fullPath: '/app/farmos/calendar'
+      preLoaderRoute: typeof AuthenticatedAppFarmosCalendarRouteImport
+      parentRoute: typeof AuthenticatedAppFarmosRoute
     }
     '/_authenticated/app/farm/records': {
       id: '/_authenticated/app/farm/records'
@@ -927,12 +1225,40 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedAppFarmosRouteChildren {
+  AuthenticatedAppFarmosCalendarRoute: typeof AuthenticatedAppFarmosCalendarRoute
+  AuthenticatedAppFarmosEquipmentRoute: typeof AuthenticatedAppFarmosEquipmentRoute
+  AuthenticatedAppFarmosExpensesRoute: typeof AuthenticatedAppFarmosExpensesRoute
+  AuthenticatedAppFarmosHarvestRoute: typeof AuthenticatedAppFarmosHarvestRoute
+  AuthenticatedAppFarmosInventoryRoute: typeof AuthenticatedAppFarmosInventoryRoute
+  AuthenticatedAppFarmosTasksRoute: typeof AuthenticatedAppFarmosTasksRoute
+  AuthenticatedAppFarmosWorkersRoute: typeof AuthenticatedAppFarmosWorkersRoute
+  AuthenticatedAppFarmosIndexRoute: typeof AuthenticatedAppFarmosIndexRoute
+}
+
+const AuthenticatedAppFarmosRouteChildren: AuthenticatedAppFarmosRouteChildren =
+  {
+    AuthenticatedAppFarmosCalendarRoute: AuthenticatedAppFarmosCalendarRoute,
+    AuthenticatedAppFarmosEquipmentRoute: AuthenticatedAppFarmosEquipmentRoute,
+    AuthenticatedAppFarmosExpensesRoute: AuthenticatedAppFarmosExpensesRoute,
+    AuthenticatedAppFarmosHarvestRoute: AuthenticatedAppFarmosHarvestRoute,
+    AuthenticatedAppFarmosInventoryRoute: AuthenticatedAppFarmosInventoryRoute,
+    AuthenticatedAppFarmosTasksRoute: AuthenticatedAppFarmosTasksRoute,
+    AuthenticatedAppFarmosWorkersRoute: AuthenticatedAppFarmosWorkersRoute,
+    AuthenticatedAppFarmosIndexRoute: AuthenticatedAppFarmosIndexRoute,
+  }
+
+const AuthenticatedAppFarmosRouteWithChildren =
+  AuthenticatedAppFarmosRoute._addFileChildren(
+    AuthenticatedAppFarmosRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppAgrimindRoute: typeof AuthenticatedAppAgrimindRoute
   AuthenticatedAppAgrisenseRoute: typeof AuthenticatedAppAgrisenseRoute
   AuthenticatedAppDashboardRoute: typeof AuthenticatedAppDashboardRoute
   AuthenticatedAppDigitalTwinRoute: typeof AuthenticatedAppDigitalTwinRoute
-  AuthenticatedAppFarmosRoute: typeof AuthenticatedAppFarmosRoute
+  AuthenticatedAppFarmosRoute: typeof AuthenticatedAppFarmosRouteWithChildren
   AuthenticatedAppIrrigationRoute: typeof AuthenticatedAppIrrigationRoute
   AuthenticatedAppMarketplaceRoute: typeof AuthenticatedAppMarketplaceRoute
   AuthenticatedAppReportsRoute: typeof AuthenticatedAppReportsRoute
@@ -957,7 +1283,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppAgrisenseRoute: AuthenticatedAppAgrisenseRoute,
   AuthenticatedAppDashboardRoute: AuthenticatedAppDashboardRoute,
   AuthenticatedAppDigitalTwinRoute: AuthenticatedAppDigitalTwinRoute,
-  AuthenticatedAppFarmosRoute: AuthenticatedAppFarmosRoute,
+  AuthenticatedAppFarmosRoute: AuthenticatedAppFarmosRouteWithChildren,
   AuthenticatedAppIrrigationRoute: AuthenticatedAppIrrigationRoute,
   AuthenticatedAppMarketplaceRoute: AuthenticatedAppMarketplaceRoute,
   AuthenticatedAppReportsRoute: AuthenticatedAppReportsRoute,
@@ -1002,6 +1328,13 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAgrisenseSatelliteRoute: ApiAgrisenseSatelliteRoute,
   ApiAgrisenseSensorsRoute: ApiAgrisenseSensorsRoute,
   ApiAiAnalyzeRoute: ApiAiAnalyzeRoute,
+  ApiFarmosCalendarRoute: ApiFarmosCalendarRoute,
+  ApiFarmosEquipmentRoute: ApiFarmosEquipmentRoute,
+  ApiFarmosExpensesRoute: ApiFarmosExpensesRoute,
+  ApiFarmosHarvestRoute: ApiFarmosHarvestRoute,
+  ApiFarmosInventoryRoute: ApiFarmosInventoryRoute,
+  ApiFarmosTasksRoute: ApiFarmosTasksRoute,
+  ApiFarmosWorkersRoute: ApiFarmosWorkersRoute,
   ApiWeatherAlertsRoute: ApiWeatherAlertsRoute,
   ApiWeatherCurrentRoute: ApiWeatherCurrentRoute,
   ApiWeatherForecastRoute: ApiWeatherForecastRoute,

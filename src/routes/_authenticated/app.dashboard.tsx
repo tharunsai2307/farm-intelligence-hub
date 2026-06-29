@@ -33,6 +33,7 @@ import { CardSkeleton } from "@/components/common/loading-skeleton";
 import { ErrorState } from "@/components/common/error-state";
 import { DataSourceStatusBadge } from "@/components/common/data-source-status-badge";
 import { AgriMindInsightsWidget } from "@/components/dashboard/agrimind-insights-widget";
+import { FarmOSDashboardWidget } from "@/components/dashboard/farmos-widget";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
@@ -127,6 +128,10 @@ function DashboardPage() {
           />
 
           <AgriMindInsightsWidget farmId={primary.id} />
+
+          <FarmOSDashboardWidget farmId={primary.id} />
+
+
 
           <QuickActions />
 

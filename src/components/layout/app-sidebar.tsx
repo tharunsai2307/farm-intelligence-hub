@@ -43,7 +43,7 @@ export const NAV_ITEMS = [
   { title: "Weather", url: "/app/weather", icon: CloudSun, group: "Intelligence", ready: false },
   { title: "Irrigation", url: "/app/irrigation", icon: Droplets, group: "Intelligence", ready: false },
   { title: "Yield Prediction", url: "/app/yield-prediction", icon: LineChart, group: "Intelligence", ready: false },
-  { title: "FarmOS", url: "/app/farmos", icon: Tractor, group: "Operations", ready: false },
+  { title: "FarmOS", url: "/app/farmos", icon: Tractor, group: "Operations", ready: true },
   { title: "Marketplace", url: "/app/marketplace", icon: ShoppingBag, group: "Operations", ready: false },
   { title: "Reports", url: "/app/reports", icon: FileBarChart2, group: "Operations", ready: false },
   { title: "AgriMind AI", url: "/app/agrimind", icon: Bot, group: "Intelligence", ready: true },

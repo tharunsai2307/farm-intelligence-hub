@@ -14,6 +14,79 @@ export type Database = {
   }
   public: {
     Tables: {
+      calendar_events: {
+        Row: {
+          all_day: boolean
+          created_at: string
+          deleted_at: string | null
+          description: string | null
+          ends_at: string | null
+          event_type: Database["public"]["Enums"]["calendar_event_type"]
+          farm_id: string
+          id: string
+          related_harvest_id: string | null
+          related_task_id: string | null
+          starts_at: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          all_day?: boolean
+          created_at?: string
+          deleted_at?: string | null
+          description?: string | null
+          ends_at?: string | null
+          event_type?: Database["public"]["Enums"]["calendar_event_type"]
+          farm_id: string
+          id?: string
+          related_harvest_id?: string | null
+          related_task_id?: string | null
+          starts_at: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          all_day?: boolean
+          created_at?: string
+          deleted_at?: string | null
+          description?: string | null
+          ends_at?: string | null
+          event_type?: Database["public"]["Enums"]["calendar_event_type"]
+          farm_id?: string
+          id?: string
+          related_harvest_id?: string | null
+          related_task_id?: string | null
+          starts_at?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "calendar_events_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "calendar_events_related_harvest_id_fkey"
+            columns: ["related_harvest_id"]
+            isOneToOne: false
+            referencedRelation: "harvest_records"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "calendar_events_related_task_id_fkey"
+            columns: ["related_task_id"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       crop_analysis: {
         Row: {
           affected_area: number | null
@@ -366,6 +439,127 @@ export type Database = {
           },
         ]
       }
+      equipment: {
+        Row: {
+          created_at: string
+          deleted_at: string | null
+          farm_id: string
+          id: string
+          last_maintenance_date: string | null
+          manufacturer: string | null
+          name: string
+          next_maintenance_date: string | null
+          notes: string | null
+          operating_hours: number | null
+          purchase_date: string | null
+          serial_number: string | null
+          status: Database["public"]["Enums"]["equipment_status"]
+          type: Database["public"]["Enums"]["equipment_type"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          deleted_at?: string | null
+          farm_id: string
+          id?: string
+          last_maintenance_date?: string | null
+          manufacturer?: string | null
+          name: string
+          next_maintenance_date?: string | null
+          notes?: string | null
+          operating_hours?: number | null
+          purchase_date?: string | null
+          serial_number?: string | null
+          status?: Database["public"]["Enums"]["equipment_status"]
+          type: Database["public"]["Enums"]["equipment_type"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          deleted_at?: string | null
+          farm_id?: string
+          id?: string
+          last_maintenance_date?: string | null
+          manufacturer?: string | null
+          name?: string
+          next_maintenance_date?: string | null
+          notes?: string | null
+          operating_hours?: number | null
+          purchase_date?: string | null
+          serial_number?: string | null
+          status?: Database["public"]["Enums"]["equipment_status"]
+          type?: Database["public"]["Enums"]["equipment_type"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "equipment_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      expenses: {
+        Row: {
+          amount: number
+          category: Database["public"]["Enums"]["expense_category"]
+          created_at: string
+          currency: string
+          deleted_at: string | null
+          description: string | null
+          expense_date: string
+          farm_id: string
+          id: string
+          payment_method: Database["public"]["Enums"]["payment_method"] | null
+          receipt_url: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          category: Database["public"]["Enums"]["expense_category"]
+          created_at?: string
+          currency?: string
+          deleted_at?: string | null
+          description?: string | null
+          expense_date?: string
+          farm_id: string
+          id?: string
+          payment_method?: Database["public"]["Enums"]["payment_method"] | null
+          receipt_url?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          category?: Database["public"]["Enums"]["expense_category"]
+          created_at?: string
+          currency?: string
+          deleted_at?: string | null
+          description?: string | null
+          expense_date?: string
+          farm_id?: string
+          id?: string
+          payment_method?: Database["public"]["Enums"]["payment_method"] | null
+          receipt_url?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expenses_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       farm_locations: {
         Row: {
           created_at: string
@@ -636,6 +830,149 @@ export type Database = {
           water_source?: string | null
         }
         Relationships: []
+      }
+      harvest_records: {
+        Row: {
+          actual_harvest_date: string | null
+          actual_quantity: number | null
+          buyer: string | null
+          created_at: string
+          crop: string
+          deleted_at: string | null
+          expected_harvest_date: string | null
+          expected_quantity: number | null
+          farm_id: string
+          id: string
+          notes: string | null
+          plot_id: string | null
+          status: Database["public"]["Enums"]["harvest_status"]
+          storage_location: string | null
+          unit: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          actual_harvest_date?: string | null
+          actual_quantity?: number | null
+          buyer?: string | null
+          created_at?: string
+          crop: string
+          deleted_at?: string | null
+          expected_harvest_date?: string | null
+          expected_quantity?: number | null
+          farm_id: string
+          id?: string
+          notes?: string | null
+          plot_id?: string | null
+          status?: Database["public"]["Enums"]["harvest_status"]
+          storage_location?: string | null
+          unit?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          actual_harvest_date?: string | null
+          actual_quantity?: number | null
+          buyer?: string | null
+          created_at?: string
+          crop?: string
+          deleted_at?: string | null
+          expected_harvest_date?: string | null
+          expected_quantity?: number | null
+          farm_id?: string
+          id?: string
+          notes?: string | null
+          plot_id?: string | null
+          status?: Database["public"]["Enums"]["harvest_status"]
+          storage_location?: string | null
+          unit?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "harvest_records_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "harvest_records_plot_id_fkey"
+            columns: ["plot_id"]
+            isOneToOne: false
+            referencedRelation: "farm_plots"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      inventory_items: {
+        Row: {
+          category: Database["public"]["Enums"]["inventory_category"]
+          cost: number | null
+          created_at: string
+          deleted_at: string | null
+          expiry_date: string | null
+          farm_id: string
+          id: string
+          min_stock_level: number | null
+          name: string
+          notes: string | null
+          purchase_date: string | null
+          quantity: number
+          storage_location: string | null
+          supplier: string | null
+          unit: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category: Database["public"]["Enums"]["inventory_category"]
+          cost?: number | null
+          created_at?: string
+          deleted_at?: string | null
+          expiry_date?: string | null
+          farm_id: string
+          id?: string
+          min_stock_level?: number | null
+          name: string
+          notes?: string | null
+          purchase_date?: string | null
+          quantity?: number
+          storage_location?: string | null
+          supplier?: string | null
+          unit?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: Database["public"]["Enums"]["inventory_category"]
+          cost?: number | null
+          created_at?: string
+          deleted_at?: string | null
+          expiry_date?: string | null
+          farm_id?: string
+          id?: string
+          min_stock_level?: number | null
+          name?: string
+          notes?: string | null
+          purchase_date?: string | null
+          quantity?: number
+          storage_location?: string | null
+          supplier?: string | null
+          unit?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inventory_items_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       irrigation_records: {
         Row: {
@@ -1045,6 +1382,98 @@ export type Database = {
           },
         ]
       }
+      tasks: {
+        Row: {
+          completed_at: string | null
+          completion_notes: string | null
+          created_at: string
+          deleted_at: string | null
+          description: string | null
+          due_date: string | null
+          farm_id: string
+          id: string
+          plot_id: string | null
+          priority: Database["public"]["Enums"]["task_priority"]
+          progress: number
+          source_recommendation_id: string | null
+          status: Database["public"]["Enums"]["task_status"]
+          task_type: Database["public"]["Enums"]["task_type"]
+          title: string
+          updated_at: string
+          user_id: string
+          worker_id: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          completion_notes?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          description?: string | null
+          due_date?: string | null
+          farm_id: string
+          id?: string
+          plot_id?: string | null
+          priority?: Database["public"]["Enums"]["task_priority"]
+          progress?: number
+          source_recommendation_id?: string | null
+          status?: Database["public"]["Enums"]["task_status"]
+          task_type?: Database["public"]["Enums"]["task_type"]
+          title: string
+          updated_at?: string
+          user_id: string
+          worker_id?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          completion_notes?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          description?: string | null
+          due_date?: string | null
+          farm_id?: string
+          id?: string
+          plot_id?: string | null
+          priority?: Database["public"]["Enums"]["task_priority"]
+          progress?: number
+          source_recommendation_id?: string | null
+          status?: Database["public"]["Enums"]["task_status"]
+          task_type?: Database["public"]["Enums"]["task_type"]
+          title?: string
+          updated_at?: string
+          user_id?: string
+          worker_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tasks_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tasks_plot_id_fkey"
+            columns: ["plot_id"]
+            isOneToOne: false
+            referencedRelation: "farm_plots"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tasks_source_recommendation_id_fkey"
+            columns: ["source_recommendation_id"]
+            isOneToOne: false
+            referencedRelation: "farm_recommendations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tasks_worker_id_fkey"
+            columns: ["worker_id"]
+            isOneToOne: false
+            referencedRelation: "workers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -1282,6 +1711,106 @@ export type Database = {
           },
         ]
       }
+      worker_attendance: {
+        Row: {
+          created_at: string
+          date: string
+          hours_worked: number | null
+          id: string
+          notes: string | null
+          status: Database["public"]["Enums"]["attendance_status"]
+          updated_at: string
+          user_id: string
+          worker_id: string
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          hours_worked?: number | null
+          id?: string
+          notes?: string | null
+          status?: Database["public"]["Enums"]["attendance_status"]
+          updated_at?: string
+          user_id: string
+          worker_id: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          hours_worked?: number | null
+          id?: string
+          notes?: string | null
+          status?: Database["public"]["Enums"]["attendance_status"]
+          updated_at?: string
+          user_id?: string
+          worker_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "worker_attendance_worker_id_fkey"
+            columns: ["worker_id"]
+            isOneToOne: false
+            referencedRelation: "workers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workers: {
+        Row: {
+          available: boolean
+          created_at: string
+          daily_wage: number | null
+          deleted_at: string | null
+          farm_id: string
+          id: string
+          name: string
+          notes: string | null
+          phone: string | null
+          role: string | null
+          skills: string[] | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          available?: boolean
+          created_at?: string
+          daily_wage?: number | null
+          deleted_at?: string | null
+          farm_id: string
+          id?: string
+          name: string
+          notes?: string | null
+          phone?: string | null
+          role?: string | null
+          skills?: string[] | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          available?: boolean
+          created_at?: string
+          daily_wage?: number | null
+          deleted_at?: string | null
+          farm_id?: string
+          id?: string
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          role?: string | null
+          skills?: string[] | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workers_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -1298,12 +1827,62 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "agronomist" | "farmer"
+      attendance_status: "present" | "absent" | "half_day" | "leave"
+      calendar_event_type:
+        | "task"
+        | "harvest"
+        | "maintenance"
+        | "weather"
+        | "observation"
+        | "irrigation"
+        | "custom"
       drone_survey_status:
         | "planned"
         | "in_progress"
         | "completed"
         | "failed"
         | "cancelled"
+      equipment_status: "operational" | "maintenance_due" | "out_of_service"
+      equipment_type:
+        | "tractor"
+        | "pump_set"
+        | "drip_system"
+        | "sprayer"
+        | "harvest_machine"
+        | "sensor"
+        | "other"
+      expense_category:
+        | "seeds"
+        | "labor"
+        | "fuel"
+        | "water"
+        | "electricity"
+        | "equipment"
+        | "maintenance"
+        | "transport"
+        | "other"
+      harvest_status:
+        | "planned"
+        | "in_progress"
+        | "completed"
+        | "sold"
+        | "cancelled"
+      inventory_category:
+        | "seeds"
+        | "fertilizers"
+        | "pesticides"
+        | "organic_inputs"
+        | "tools"
+        | "spare_parts"
+        | "storage_materials"
+        | "other"
+      payment_method:
+        | "cash"
+        | "bank_transfer"
+        | "upi"
+        | "card"
+        | "credit"
+        | "other"
       sensor_device_status:
         | "online"
         | "offline"
@@ -1318,6 +1897,17 @@ export type Database = {
         | "weather_station"
         | "soil_probe"
         | "camera"
+        | "other"
+      task_priority: "low" | "medium" | "high" | "urgent"
+      task_status: "pending" | "in_progress" | "completed" | "cancelled"
+      task_type:
+        | "irrigation"
+        | "spraying"
+        | "harvest"
+        | "inspection"
+        | "fertilizer_application"
+        | "maintenance"
+        | "manual_work"
         | "other"
     }
     CompositeTypes: {
@@ -1447,12 +2037,68 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "agronomist", "farmer"],
+      attendance_status: ["present", "absent", "half_day", "leave"],
+      calendar_event_type: [
+        "task",
+        "harvest",
+        "maintenance",
+        "weather",
+        "observation",
+        "irrigation",
+        "custom",
+      ],
       drone_survey_status: [
         "planned",
         "in_progress",
         "completed",
         "failed",
         "cancelled",
+      ],
+      equipment_status: ["operational", "maintenance_due", "out_of_service"],
+      equipment_type: [
+        "tractor",
+        "pump_set",
+        "drip_system",
+        "sprayer",
+        "harvest_machine",
+        "sensor",
+        "other",
+      ],
+      expense_category: [
+        "seeds",
+        "labor",
+        "fuel",
+        "water",
+        "electricity",
+        "equipment",
+        "maintenance",
+        "transport",
+        "other",
+      ],
+      harvest_status: [
+        "planned",
+        "in_progress",
+        "completed",
+        "sold",
+        "cancelled",
+      ],
+      inventory_category: [
+        "seeds",
+        "fertilizers",
+        "pesticides",
+        "organic_inputs",
+        "tools",
+        "spare_parts",
+        "storage_materials",
+        "other",
+      ],
+      payment_method: [
+        "cash",
+        "bank_transfer",
+        "upi",
+        "card",
+        "credit",
+        "other",
       ],
       sensor_device_status: [
         "online",
@@ -1469,6 +2115,18 @@ export const Constants = {
         "weather_station",
         "soil_probe",
         "camera",
+        "other",
+      ],
+      task_priority: ["low", "medium", "high", "urgent"],
+      task_status: ["pending", "in_progress", "completed", "cancelled"],
+      task_type: [
+        "irrigation",
+        "spraying",
+        "harvest",
+        "inspection",
+        "fertilizer_application",
+        "maintenance",
+        "manual_work",
         "other",
       ],
     },

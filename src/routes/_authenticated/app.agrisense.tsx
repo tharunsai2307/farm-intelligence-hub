@@ -450,6 +450,7 @@ function AgriSensePage() {
               <SatelliteCard
                 records={satRecords}
                 configured={satelliteStatusQ.data?.success === true}
+                farmId={farmId}
                 provider={
                   satelliteStatusQ.data?.success
                     ? satelliteStatusQ.data.data.provider

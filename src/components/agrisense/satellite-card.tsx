@@ -6,19 +6,21 @@ import type { SatelliteRecordRow } from "@/lib/services/agrisense.server";
 /**
  * SatelliteCard
  *
- * Renders the last imported satellite scene's headline metrics or, when no
- * provider is configured and no records exist, the canonical
- * "Satellite service unavailable." message. NDVI/moisture are never
- * synthesized.
+ * Renders the last imported satellite scene's headline metrics. When the
+ * provider is configured but no scene has been imported yet, shows a live
+ * Google Maps Static satellite tile centred on the farm's GPS coordinates
+ * (proxied through /api/agrisense/satellite-image so the key stays server-side).
  */
 export function SatelliteCard({
   records,
   configured,
   provider,
+  farmId,
 }: {
   records: SatelliteRecordRow[];
   configured: boolean;
   provider?: string | null;
+  farmId?: string | null;
 }) {
   const latest = records[0];
 
@@ -50,15 +52,29 @@ export function SatelliteCard({
 
       <div className="mt-4">
         {!latest ? (
-          <EmptyState
-            icon={Satellite}
-            title={configured ? "No satellite imagery yet" : "Satellite service unavailable."}
-            description={
-              configured
-                ? "Imported scenes will appear here once available."
-                : "Connect a Sentinel Hub, Google Earth Engine, or Planet Labs key to begin imports."
-            }
-          />
+          configured && farmId ? (
+            <figure className="overflow-hidden rounded-lg border">
+              <img
+                src={`/api/agrisense/satellite-image?farm_id=${farmId}&zoom=16`}
+                alt="Live satellite view of your farm"
+                className="h-48 w-full object-cover"
+                loading="lazy"
+              />
+              <figcaption className="px-3 py-2 text-xs text-muted-foreground">
+                Live satellite tile · centred on your farm GPS · {provider ?? "Google"}
+              </figcaption>
+            </figure>
+          ) : (
+            <EmptyState
+              icon={Satellite}
+              title={configured ? "No satellite imagery yet" : "Satellite service unavailable."}
+              description={
+                configured
+                  ? "Add your farm GPS coordinates to see a live satellite view."
+                  : "Connect a Sentinel Hub, Google Earth Engine, or Planet Labs key to begin imports."
+              }
+            />
+          )
         ) : (
           <dl className="grid grid-cols-3 gap-2 text-xs">
             <Metric label="NDVI" value={fmt(latest.ndvi)} />

@@ -1,9 +1,7 @@
-import { useEffect, useRef, useState } from "react";
-import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
-import { MapPin, KeyRound } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { useEffect, useRef } from "react";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import { MapPin } from "lucide-react";
 import { EmptyState } from "@/components/common/empty-state";
 
 export type MapMarker = {
@@ -14,57 +12,13 @@ export type MapMarker = {
   color?: string;
 };
 
-const TOKEN_KEY = "agritwin.mapbox.token";
-
+// Kept for backwards compatibility with any existing imports.
+// No API key is required — we use free OpenStreetMap tiles via Leaflet.
 export function getMapboxToken(): string | null {
-  if (typeof window === "undefined") return null;
-  return window.localStorage.getItem(TOKEN_KEY);
+  return "openstreetmap";
 }
-
-export function setMapboxToken(token: string) {
-  window.localStorage.setItem(TOKEN_KEY, token);
-}
-
-export function MapboxConfigPrompt({ onSaved }: { onSaved?: () => void }) {
-  const [value, setValue] = useState("");
-  return (
-    <div className="surface-card p-6">
-      <div className="flex items-center gap-2 text-sm font-semibold">
-        <KeyRound className="h-4 w-4 text-primary" />
-        Mapbox API key required
-      </div>
-      <p className="mt-2 text-sm text-muted-foreground">
-        Paste your Mapbox public token (starts with <code className="rounded bg-muted px-1">pk.</code>) to enable the map.
-        Get one free at{" "}
-        <a
-          href="https://account.mapbox.com/access-tokens/"
-          target="_blank"
-          rel="noreferrer"
-          className="underline"
-        >
-          mapbox.com
-        </a>
-        . Stored only in your browser.
-      </p>
-      <form
-        className="mt-4 flex flex-col gap-2 sm:flex-row"
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (!value.trim()) return;
-          setMapboxToken(value.trim());
-          onSaved?.();
-        }}
-      >
-        <Input
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          placeholder="pk.eyJ1Ijoi..."
-          autoComplete="off"
-        />
-        <Button type="submit">Save token</Button>
-      </form>
-    </div>
-  );
+export function setMapboxToken(_token: string) {
+  /* no-op */
 }
 
 export function FarmLocationMap({
@@ -79,72 +33,87 @@ export function FarmLocationMap({
   height?: number;
 }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const mapRef = useRef<mapboxgl.Map | null>(null);
-  const markerObjsRef = useRef<mapboxgl.Marker[]>([]);
-  const [token, setToken] = useState<string | null>(getMapboxToken());
+  const mapRef = useRef<L.Map | null>(null);
+  const markerLayerRef = useRef<L.LayerGroup | null>(null);
+  const onPickRef = useRef(onPick);
+  onPickRef.current = onPick;
 
-  // Init map once token + container ready
+  // Init map once
   useEffect(() => {
-    if (!token || !containerRef.current || mapRef.current) return;
-    mapboxgl.accessToken = token;
-    const map = new mapboxgl.Map({
-      container: containerRef.current,
-      style: "mapbox://styles/mapbox/satellite-streets-v12",
-      center: center ? [center.longitude, center.latitude] : [78.9629, 20.5937],
+    if (!containerRef.current || mapRef.current) return;
+    const map = L.map(containerRef.current, {
+      center: center ? [center.latitude, center.longitude] : [20.5937, 78.9629],
       zoom: center ? 14 : 4,
+      zoomControl: true,
     });
-    map.addControl(new mapboxgl.NavigationControl({ visualizePitch: true }), "top-right");
-    if (onPick) {
-      map.on("click", (e) => {
-        onPick({ latitude: e.lngLat.lat, longitude: e.lngLat.lng });
-      });
-    }
+
+    // Satellite-style basemap (Esri World Imagery — no API key required, free for non-commercial use).
+    L.tileLayer(
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      {
+        attribution:
+          "Imagery © Esri, Maxar, Earthstar Geographics | © OpenStreetMap contributors",
+        maxZoom: 19,
+      },
+    ).addTo(map);
+
+    // Roads + labels overlay
+    L.tileLayer(
+      "https://stamen-tiles.a.ssl.fastly.net/toner-lines/{z}/{x}/{y}.png",
+      { opacity: 0.35, maxZoom: 19, attribution: "" },
+    ).addTo(map);
+
+    markerLayerRef.current = L.layerGroup().addTo(map);
+    map.on("click", (e: L.LeafletMouseEvent) => {
+      onPickRef.current?.({ latitude: e.latlng.lat, longitude: e.latlng.lng });
+    });
     mapRef.current = map;
+
+    // Ensure correct sizing after mount.
+    setTimeout(() => map.invalidateSize(), 60);
+
     return () => {
       map.remove();
       mapRef.current = null;
+      markerLayerRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+  }, []);
 
   // Update markers + bounds
   useEffect(() => {
     const map = mapRef.current;
-    if (!map) return;
-    for (const m of markerObjsRef.current) m.remove();
-    markerObjsRef.current = [];
+    const layer = markerLayerRef.current;
+    if (!map || !layer) return;
+    layer.clearLayers();
     const coords: [number, number][] = [];
     for (const m of markers) {
-      const el = document.createElement("div");
-      el.style.cssText = `width:18px;height:18px;border-radius:9999px;border:2px solid #fff;box-shadow:0 0 0 1px rgba(16,72,52,0.35);background:${m.color ?? "#10b981"}`;
-      const marker = new mapboxgl.Marker({ element: el })
-        .setLngLat([m.longitude, m.latitude])
-        .setPopup(m.label ? new mapboxgl.Popup({ offset: 12 }).setText(m.label) : undefined)
-        .addTo(map);
-      markerObjsRef.current.push(marker);
-      coords.push([m.longitude, m.latitude]);
+      const color = m.color ?? "#10b981";
+      const icon = L.divIcon({
+        className: "agritwin-pin",
+        html: `<span style="display:block;width:18px;height:18px;border-radius:9999px;border:2px solid #fff;box-shadow:0 0 0 1px rgba(16,72,52,0.45);background:${color}"></span>`,
+        iconSize: [18, 18],
+        iconAnchor: [9, 9],
+      });
+      const marker = L.marker([m.latitude, m.longitude], { icon }).addTo(layer);
+      if (m.label) marker.bindPopup(m.label);
+      coords.push([m.latitude, m.longitude]);
     }
     if (coords.length === 1) {
-      map.flyTo({ center: coords[0], zoom: 15, essential: true });
+      map.flyTo(coords[0], 15, { duration: 0.6 });
     } else if (coords.length > 1) {
-      const bounds = coords.reduce(
-        (b, c) => b.extend(c),
-        new mapboxgl.LngLatBounds(coords[0], coords[0]),
-      );
-      map.fitBounds(bounds, { padding: 60, maxZoom: 16, duration: 600 });
+      map.fitBounds(L.latLngBounds(coords), { padding: [50, 50], maxZoom: 16 });
+    } else if (center) {
+      map.flyTo([center.latitude, center.longitude], 14, { duration: 0.4 });
     }
-  }, [markers]);
-
-  if (!token) {
-    return <MapboxConfigPrompt onSaved={() => setToken(getMapboxToken())} />;
-  }
+  }, [markers, center]);
 
   if (!center && markers.length === 0) {
     return (
       <EmptyState
         icon={MapPin}
         title="Farm location not set"
-        description="Add latitude and longitude below to place your farm on the map."
+        description="Tap the map below or enter latitude and longitude to place your farm."
       />
     );
   }

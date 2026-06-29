@@ -92,6 +92,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:description", content: "Farm Intelligence Hub is an AI-powered platform for farm monitoring, prediction, and management." },
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/iFhklxQP16Vot2Yssc7gvKUmN9c2/social-images/social-1782714339411-ChatGPT_Image_Jun_29,_2026,_11_54_10_AM.webp" },
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/iFhklxQP16Vot2Yssc7gvKUmN9c2/social-images/social-1782714339411-ChatGPT_Image_Jun_29,_2026,_11_54_10_AM.webp" },
+      { name: "google-site-verification", content: "9sGGl5UZRL7MnbKonNyzS5AvBBnkz1flBu75kIpTN4c" },
     ],
     links: [{ rel: "stylesheet", href: appCss }],
   }),

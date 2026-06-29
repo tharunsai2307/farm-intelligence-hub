@@ -37,7 +37,7 @@ function ResetPage() {
     setSubmitting(false);
     if (error) return toast.error(error.message);
     toast.success("Password updated");
-    navigate({ to: "/dashboard", replace: true });
+    navigate({ to: "/app/dashboard", replace: true });
   };
 
   return (

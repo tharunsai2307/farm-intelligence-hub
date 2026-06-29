@@ -28,18 +28,19 @@ function ForgotPage() {
   const onSubmit = async ({ email }: Values) => {
     setSubmitting(true);
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/auth/reset-password`,
+      redirectTo: `${window.location.origin}/reset-password`,
     });
     setSubmitting(false);
     if (error) return toast.error(error.message);
     setSent(true);
+    toast.success("If an account exists, a reset link is on the way.");
   };
 
   return (
     <AuthLayout
       title="Forgot your password?"
       subtitle="Enter your email and we'll send you a link to reset it."
-      footer={<Link to="/auth" className="text-primary hover:underline">Back to sign in</Link>}
+      footer={<Link to="/login" className="text-primary hover:underline">Back to sign in</Link>}
     >
       {sent ? (
         <div className="rounded-2xl border bg-card p-6 text-sm">

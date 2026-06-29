@@ -231,3 +231,27 @@
 @utility bg-gradient-brand {
   background-image: var(--gradient-primary);
 }
+
+@utility bg-canopy {
+  background-image: var(--gradient-canopy);
+}
+
+@utility font-serif {
+  font-family: var(--font-serif);
+  font-optical-sizing: auto;
+  font-variation-settings: "SOFT" 50, "WONK" 0;
+}
+
+@utility gold-rule {
+  background: linear-gradient(90deg, transparent 0%, var(--color-gold) 15%, var(--color-gold) 85%, transparent 100%);
+  height: 1px;
+  width: 100%;
+}
+
+@utility eyebrow {
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+  font-weight: 500;
+}

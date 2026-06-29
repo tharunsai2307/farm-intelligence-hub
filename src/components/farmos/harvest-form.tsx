@@ -159,8 +159,8 @@ export function HarvestPlanner({ items, farmId }: { items: HarvestRow[]; farmId:
             <div><dt className="text-muted-foreground">Buyer</dt><dd className="truncate">{h.buyer ?? "—"}</dd></div>
           </dl>
           <div className="mt-3 flex justify-end gap-1">
-            <HarvestForm farmId={farmId} initial={h} trigger={<Button size="icon" variant="ghost"><Pencil className="h-4 w-4" /></Button>} />
-            <Button size="icon" variant="ghost" onClick={() => del.mutate(h.id)} disabled={del.isPending}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+            <HarvestForm farmId={farmId} initial={h} trigger={<Button size="icon" variant="ghost" aria-label="Edit harvest record"><Pencil className="h-4 w-4" /></Button>} />
+            <Button size="icon" variant="ghost" aria-label="Delete harvest record" onClick={() => del.mutate(h.id)} disabled={del.isPending}><Trash2 className="h-4 w-4 text-destructive" /></Button>
           </div>
         </div>
       ))}

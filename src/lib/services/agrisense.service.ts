@@ -139,10 +139,12 @@ export const listSatelliteRecordsFn = createServerFn({ method: "GET" })
   });
 
 export const getSatelliteStatus = createServerFn({ method: "GET" }).handler(async () => {
+  const hasGmaps = Boolean(process.env.LOVABLE_API_KEY && process.env.GOOGLE_MAPS_API_KEY);
   const configured = Boolean(
     process.env.SENTINEL_HUB_API_KEY ||
       process.env.GOOGLE_EARTH_ENGINE_API_KEY ||
-      process.env.PLANET_LABS_API_KEY,
+      process.env.PLANET_LABS_API_KEY ||
+      hasGmaps,
   );
   const result: ServiceResult<{ configured: boolean; provider: string | null }> = configured
     ? ok({
@@ -151,7 +153,9 @@ export const getSatelliteStatus = createServerFn({ method: "GET" }).handler(asyn
           ? "Sentinel Hub"
           : process.env.GOOGLE_EARTH_ENGINE_API_KEY
             ? "Google Earth Engine"
-            : "Planet Labs",
+            : process.env.PLANET_LABS_API_KEY
+              ? "Planet Labs"
+              : "Google Maps Platform",
       })
     : fail("Satellite service unavailable.");
   return result;

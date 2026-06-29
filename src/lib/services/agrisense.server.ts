@@ -216,7 +216,8 @@ export function isSatelliteConfigured(): boolean {
   return Boolean(
     process.env.SENTINEL_HUB_API_KEY ||
       process.env.GOOGLE_EARTH_ENGINE_API_KEY ||
-      process.env.PLANET_LABS_API_KEY,
+      process.env.PLANET_LABS_API_KEY ||
+      (process.env.LOVABLE_API_KEY && process.env.GOOGLE_MAPS_API_KEY),
   );
 }
 

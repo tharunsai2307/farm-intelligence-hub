@@ -102,6 +102,59 @@ async function callRoboflow(base64: string): Promise<RoboflowPrediction | null> 
   return null;
 }
 
+/**
+ * Fallback CV: ask Lovable AI Gemini Vision to identify the disease directly
+ * from the image when Roboflow is not configured or fails.
+ */
+async function callGeminiVision(
+  base64: string,
+  cropType: string | null,
+): Promise<RoboflowPrediction | null> {
+  const key = process.env.LOVABLE_API_KEY;
+  if (!key) return null;
+  try {
+    const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Lovable-API-Key": key },
+      body: JSON.stringify({
+        model: "google/gemini-3-flash-preview",
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are a plant pathology classifier. Given a crop photo, identify the most likely disease or 'healthy'. Reply ONLY as JSON: {\"label\": string, \"confidence\": number between 0 and 1}.",
+          },
+          {
+            role: "user",
+            content: [
+              {
+                type: "text",
+                text: `Crop (user-provided): ${cropType ?? "unknown"}. Classify the disease.`,
+              },
+              { type: "image_url", image_url: { url: `data:image/jpeg;base64,${base64}` } },
+            ],
+          },
+        ],
+        response_format: { type: "json_object" },
+      }),
+    });
+    if (!res.ok) {
+      console.error("[ai-crop] gemini-vision failed", res.status, await res.text().catch(() => ""));
+      return null;
+    }
+    const j = (await res.json()) as { choices?: Array<{ message?: { content?: string } }> };
+    const raw = j.choices?.[0]?.message?.content;
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as { label?: string; confidence?: number };
+    if (!parsed.label) return null;
+    const conf = Math.max(0, Math.min(1, Number(parsed.confidence ?? 0.6)));
+    return { class: String(parsed.label), confidence: conf, raw: parsed };
+  } catch (e) {
+    console.error("[ai-crop] gemini-vision error", e);
+    return null;
+  }
+}
+
 export type LlmExplanation = {
   disease_name: string;
   scientific_name: string | null;

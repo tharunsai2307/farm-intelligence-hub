@@ -105,8 +105,9 @@ function WeatherPage() {
       ) : (
         <div className="grid gap-6">
           <CurrentCard data={current} loading={currentQ.isLoading} />
-          <ForecastCard data={forecast} loading={forecastQ.isLoading} />
-          <AlertsCard data={alerts} loading={alertsQ.isLoading} />
+          <ForecastCard data={forecast ?? []} loading={forecastQ.isLoading} />
+          <AlertsCard data={alerts ?? []} loading={alertsQ.isLoading} />
+
         </div>
       )}
     </div>

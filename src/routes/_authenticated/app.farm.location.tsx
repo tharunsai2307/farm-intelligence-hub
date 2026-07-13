@@ -35,7 +35,7 @@ export const Route = createFileRoute("/_authenticated/app/farm/location")({
         property: "og:description",
         content: "Pin GPS coordinates and manage plot boundaries on a satellite map.",
       },
-      { property: "og:url", content: "https://agri-twin-os.lovable.app/app/farm/location" },
+      { property: "og:url", content: "https://farm-intelligence-hub.pages.dev/app/farm/location" },
     ],
   }),
   component: LocationPage,

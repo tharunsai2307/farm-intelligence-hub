@@ -38,7 +38,7 @@ export const Route = createFileRoute("/_authenticated/app/crop-health/")({
         property: "og:description",
         content: "Detect crop diseases from photos with computer vision and AI treatment plans.",
       },
-      { property: "og:url", content: "https://agri-twin-os.lovable.app/app/crop-health" },
+      { property: "og:url", content: "https://farm-intelligence-hub.pages.dev/app/crop-health" },
     ],
   }),
   component: CropHealthPage,

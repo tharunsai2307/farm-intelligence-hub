@@ -58,7 +58,7 @@ export const Route = createFileRoute("/_authenticated/app/agrimind")({
         property: "og:description",
         content: "AI decision engine turning real farm data into explainable recommendations.",
       },
-      { property: "og:url", content: "https://agri-twin-os.lovable.app/app/agrimind" },
+      { property: "og:url", content: "https://farm-intelligence-hub.pages.dev/app/agrimind" },
     ],
   }),
   component: AgriMindPage,

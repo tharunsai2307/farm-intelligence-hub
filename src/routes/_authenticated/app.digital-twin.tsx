@@ -68,9 +68,9 @@ export const Route = createFileRoute("/_authenticated/app/digital-twin")({
         content:
           "A real-time digital twin of your farm combining IoT, satellite, and AI insight into one operational view.",
       },
-      { property: "og:url", content: "https://agri-twin-os.lovable.app/app/digital-twin" },
+      { property: "og:url", content: "https://farm-intelligence-hub.pages.dev/app/digital-twin" },
     ],
-    links: [{ rel: "canonical", href: "https://agri-twin-os.lovable.app/app/digital-twin" }],
+    links: [{ rel: "canonical", href: "https://farm-intelligence-hub.pages.dev/app/digital-twin" }],
   }),
   component: DigitalTwinPage,
 });

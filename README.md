@@ -46,9 +46,9 @@ AgriTwin OS unifies a farm's environmental, operational, and commercial data int
 
 - **Framework**: TanStack Start v1 (React 19, Vite 7, SSR, file-based routing)
 - **Styling**: Tailwind CSS v4 with OKLCH design tokens
-- **Backend**: Lovable Cloud (PostgreSQL + Auth + Storage + Realtime)
+- **Backend**: Supabase (PostgreSQL + Auth + Storage + Realtime)
 - **Server Logic**: TanStack `createServerFn` + `/api/*` server routes
-- **AI**: Lovable AI Gateway (Gemini 1.5 Flash, GPT-4o-mini-tts), Roboflow CV
+- **AI**: Gemini AI (Gemini 1.5 Flash, GPT-4o-mini-tts), Roboflow CV
 - **Maps**: Mapbox GL JS
 - **Charts**: Recharts
 - **Deployment**: Cloudflare Workers (edge)
@@ -69,17 +69,17 @@ The app will be available at `http://localhost:8080`.
 
 ### Environment Variables
 
-Auto-managed by Lovable Cloud:
+Auto-managed by Supabase:
 
 - `VITE_SUPABASE_URL`
 - `VITE_SUPABASE_PUBLISHABLE_KEY`
 - `VITE_SUPABASE_PROJECT_ID`
 
-User-supplied secrets (configure in Lovable Cloud secrets):
+User-supplied secrets:
 
 - `OPENWEATHER_API_KEY` — One Call 3.0
 - `ROBOFLOW_API_KEY` — Crop disease CV
-- `LOVABLE_API_KEY` — AI Gateway (Gemini + TTS)
+- `LOVABLE_API_KEY` — Gemini API Key (Gemini + TTS)
 - `MAPBOX_ACCESS_TOKEN` — Map tiles
 - `DATA_GOV_IN_API_KEY` — Agmarknet market prices
 
@@ -112,16 +112,6 @@ src/
 - Auth-gated server functions via `requireSupabaseAuth` middleware.
 - Private storage buckets (`farm-records`, `farmos-receipts`, `drone-uploads`) with owner-scoped policies.
 - Same-origin redirect validation on the login flow.
-
----
-
-## Lovable
-
-This project is built and maintained with [Lovable](https://lovable.dev).
-
-- **Live editor**: edits made in Lovable sync to this repo automatically.
-- **Local development**: clone, edit, push — changes sync back to Lovable.
-
 ---
 
 ## Author

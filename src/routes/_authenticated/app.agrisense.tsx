@@ -102,7 +102,7 @@ export const Route = createFileRoute("/_authenticated/app/agrisense")({
         property: "og:description",
         content: "Live sensor, satellite, and drone telemetry unified for your Digital Twin.",
       },
-      { property: "og:url", content: "https://agri-twin-os.lovable.app/app/agrisense" },
+      { property: "og:url", content: "https://farm-intelligence-hub.pages.dev/app/agrisense" },
     ],
   }),
   component: AgriSensePage,
@@ -249,7 +249,7 @@ function AgriSensePage() {
       },
       {
         key: "agrimind",
-        label: "AgriMind AI (Lovable AI)",
+        label: "AgriMind AI (AI Engine)",
         configured: agrimindStatusQ.data?.success === true,
         detail: agrimindStatusQ.data?.success
           ? "Generated on demand"

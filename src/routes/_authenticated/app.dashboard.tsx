@@ -61,9 +61,9 @@ export const Route = createFileRoute("/_authenticated/app/dashboard")({
         content:
           "Real-time overview of your farms: plots, soil, irrigation, weather, and AI recommendations.",
       },
-      { property: "og:url", content: "https://agri-twin-os.lovable.app/app/dashboard" },
+      { property: "og:url", content: "https://farm-intelligence-hub.pages.dev/app/dashboard" },
     ],
-    links: [{ rel: "canonical", href: "https://agri-twin-os.lovable.app/app/dashboard" }],
+    links: [{ rel: "canonical", href: "https://farm-intelligence-hub.pages.dev/app/dashboard" }],
   }),
   component: DashboardPage,
 });

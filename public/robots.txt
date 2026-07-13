@@ -4,4 +4,4 @@ Disallow: /app/
 Disallow: /onboarding/
 Disallow: /api/
 
-Sitemap: https://agri-twin-os.lovable.app/sitemap.xml
+Sitemap: https://farm-intelligence-hub.pages.dev/sitemap.xml

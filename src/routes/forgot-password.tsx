@@ -19,9 +19,15 @@ export const Route = createFileRoute("/forgot-password")({
   head: () => ({
     meta: [
       { title: "Reset password — AgriTwin OS" },
-      { name: "description", content: "Request a password reset link for your AgriTwin OS account." },
+      {
+        name: "description",
+        content: "Request a password reset link for your AgriTwin OS account.",
+      },
       { property: "og:title", content: "Reset password — AgriTwin OS" },
-      { property: "og:description", content: "Get a secure link to reset your AgriTwin OS password." },
+      {
+        property: "og:description",
+        content: "Get a secure link to reset your AgriTwin OS password.",
+      },
       { property: "og:url", content: "/forgot-password" },
     ],
     links: [{ rel: "canonical", href: "/forgot-password" }],
@@ -49,7 +55,11 @@ function ForgotPage() {
     <AuthLayout
       title="Forgot your password?"
       subtitle="Enter your email and we'll send you a link to reset it."
-      footer={<Link to="/login" className="text-primary hover:underline">Back to sign in</Link>}
+      footer={
+        <Link to="/login" className="text-primary hover:underline">
+          Back to sign in
+        </Link>
+      }
     >
       {sent ? (
         <div className="rounded-2xl border bg-card p-6 text-sm">

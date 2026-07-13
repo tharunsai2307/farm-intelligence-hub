@@ -12,16 +12,26 @@ export const Route = createFileRoute("/api/farmos/workers")({
         const farmId = url.searchParams.get("farm_id") ?? undefined;
         const { listWorkers } = await import("@/lib/services/farmos.server");
         const result = await listWorkers(auth.supabase, farmId);
-        return new Response(JSON.stringify(result), { status: result.success ? 200 : 500, headers: { "Content-Type": "application/json" } });
+        return new Response(JSON.stringify(result), {
+          status: result.success ? 200 : 500,
+          headers: { "Content-Type": "application/json" },
+        });
       },
       POST: async ({ request }) => {
         const auth = await getRequestSupabase(request);
         if (!auth) return jsonError("Unauthorized", 401);
         let body: any;
-        try { body = await request.json(); } catch { return jsonError("Invalid JSON", 400); }
+        try {
+          body = await request.json();
+        } catch {
+          return jsonError("Invalid JSON", 400);
+        }
         const { upsertWorker } = await import("@/lib/services/farmos.server");
         const result = await upsertWorker(auth.supabase, auth.userId, body);
-        return new Response(JSON.stringify(result), { status: result.success ? 200 : 400, headers: { "Content-Type": "application/json" } });
+        return new Response(JSON.stringify(result), {
+          status: result.success ? 200 : 400,
+          headers: { "Content-Type": "application/json" },
+        });
       },
       DELETE: async ({ request }) => {
         const auth = await getRequestSupabase(request);
@@ -30,7 +40,10 @@ export const Route = createFileRoute("/api/farmos/workers")({
         if (!id) return jsonError("Missing id", 400);
         const { softDeleteWorker } = await import("@/lib/services/farmos.server");
         const result = await softDeleteWorker(auth.supabase, id);
-        return new Response(JSON.stringify(result), { status: result.success ? 200 : 400, headers: { "Content-Type": "application/json" } });
+        return new Response(JSON.stringify(result), {
+          status: result.success ? 200 : 400,
+          headers: { "Content-Type": "application/json" },
+        });
       },
     },
   },

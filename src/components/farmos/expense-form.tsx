@@ -2,23 +2,75 @@ import { useState, useMemo, type ReactNode } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, Receipt, Upload } from "lucide-react";
-import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis, Legend } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+  Legend,
+} from "recharts";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { EmptyState } from "@/components/common/empty-state";
 import { supabase } from "@/integrations/supabase/client";
 import { saveFarmExpense, deleteFarmExpense } from "@/lib/services/farmos.service";
 import type { ExpenseRow } from "@/lib/services/farmos.server";
 
-const CATEGORIES = ["seeds", "labor", "fuel", "water", "electricity", "equipment", "maintenance", "transport", "other"] as const;
+const CATEGORIES = [
+  "seeds",
+  "labor",
+  "fuel",
+  "water",
+  "electricity",
+  "equipment",
+  "maintenance",
+  "transport",
+  "other",
+] as const;
 const METHODS = ["cash", "bank_transfer", "upi", "card", "credit", "other"] as const;
-const COLORS = ["#10b981", "#0ea5e9", "#f59e0b", "#ef4444", "#6366f1", "#a855f7", "#14b8a6", "#f97316", "#84cc16"];
+const COLORS = [
+  "#10b981",
+  "#0ea5e9",
+  "#f59e0b",
+  "#ef4444",
+  "#6366f1",
+  "#a855f7",
+  "#14b8a6",
+  "#f97316",
+  "#84cc16",
+];
 
 export function ExpenseForm({
   farmId,
@@ -49,9 +101,13 @@ export function ExpenseForm({
       if (!u.user) throw new Error("Not signed in");
       const ext = file.name.split(".").pop() ?? "bin";
       const path = `${u.user.id}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-      const { error: upErr } = await supabase.storage.from("farmos-receipts").upload(path, file, { upsert: false });
+      const { error: upErr } = await supabase.storage
+        .from("farmos-receipts")
+        .upload(path, file, { upsert: false });
       if (upErr) throw upErr;
-      const { data: signed, error: sErr } = await supabase.storage.from("farmos-receipts").createSignedUrl(path, 60 * 60 * 24 * 365);
+      const { data: signed, error: sErr } = await supabase.storage
+        .from("farmos-receipts")
+        .createSignedUrl(path, 60 * 60 * 24 * 365);
       if (sErr) throw sErr;
       setForm((f) => ({ ...f, receipt_url: signed.signedUrl }));
       toast.success("Receipt uploaded");
@@ -90,53 +146,119 @@ export function ExpenseForm({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        {trigger ?? <Button size="sm"><Plus className="mr-2 h-4 w-4" /> Log expense</Button>}
+        {trigger ?? (
+          <Button size="sm">
+            <Plus className="mr-2 h-4 w-4" /> Log expense
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className="max-w-xl">
-        <DialogHeader><DialogTitle>{initial ? "Edit expense" : "Log expense"}</DialogTitle></DialogHeader>
+        <DialogHeader>
+          <DialogTitle>{initial ? "Edit expense" : "Log expense"}</DialogTitle>
+        </DialogHeader>
         <div className="grid gap-3 sm:grid-cols-2">
           <div>
             <Label>Amount</Label>
-            <Input type="number" step="0.01" value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value as any })} />
+            <Input
+              type="number"
+              step="0.01"
+              value={form.amount}
+              onChange={(e) => setForm({ ...form, amount: e.target.value as any })}
+            />
           </div>
           <div>
             <Label>Currency</Label>
-            <Input value={form.currency} onChange={(e) => setForm({ ...form, currency: e.target.value })} />
+            <Input
+              value={form.currency}
+              onChange={(e) => setForm({ ...form, currency: e.target.value })}
+            />
           </div>
           <div>
             <Label>Category</Label>
-            <Select value={form.category} onValueChange={(v) => setForm({ ...form, category: v as any })}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>{CATEGORIES.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}</SelectContent>
+            <Select
+              value={form.category}
+              onValueChange={(v) => setForm({ ...form, category: v as any })}
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {CATEGORIES.map((c) => (
+                  <SelectItem key={c} value={c}>
+                    {c}
+                  </SelectItem>
+                ))}
+              </SelectContent>
             </Select>
           </div>
           <div>
             <Label>Payment method</Label>
-            <Select value={form.payment_method} onValueChange={(v) => setForm({ ...form, payment_method: v as any })}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>{METHODS.map((c) => <SelectItem key={c} value={c}>{c.replace("_", " ")}</SelectItem>)}</SelectContent>
+            <Select
+              value={form.payment_method}
+              onValueChange={(v) => setForm({ ...form, payment_method: v as any })}
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {METHODS.map((c) => (
+                  <SelectItem key={c} value={c}>
+                    {c.replace("_", " ")}
+                  </SelectItem>
+                ))}
+              </SelectContent>
             </Select>
           </div>
           <div>
             <Label>Date</Label>
-            <Input type="date" value={form.expense_date} onChange={(e) => setForm({ ...form, expense_date: e.target.value })} />
+            <Input
+              type="date"
+              value={form.expense_date}
+              onChange={(e) => setForm({ ...form, expense_date: e.target.value })}
+            />
           </div>
           <div>
             <Label>Receipt (optional)</Label>
-            <Input type="file" accept="image/*,application/pdf" onChange={(e) => e.target.files?.[0] && handleFile(e.target.files[0])} disabled={uploading} />
+            <Input
+              type="file"
+              accept="image/*,application/pdf"
+              onChange={(e) => e.target.files?.[0] && handleFile(e.target.files[0])}
+              disabled={uploading}
+            />
             {form.receipt_url && (
-              <a href={form.receipt_url} target="_blank" rel="noreferrer" className="mt-1 inline-block text-xs text-primary underline">View receipt</a>
+              <a
+                href={form.receipt_url}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-1 inline-block text-xs text-primary underline"
+              >
+                View receipt
+              </a>
             )}
           </div>
           <div className="sm:col-span-2">
             <Label>Description</Label>
-            <Textarea rows={2} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
+            <Textarea
+              rows={2}
+              value={form.description}
+              onChange={(e) => setForm({ ...form, description: e.target.value })}
+            />
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
+          <Button variant="outline" onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
           <Button onClick={() => m.mutate()} disabled={!form.amount || m.isPending || uploading}>
-            {m.isPending ? "Saving…" : uploading ? <><Upload className="mr-2 h-3 w-3 animate-pulse" /> Uploading…</> : "Save"}
+            {m.isPending ? (
+              "Saving…"
+            ) : uploading ? (
+              <>
+                <Upload className="mr-2 h-3 w-3 animate-pulse" /> Uploading…
+              </>
+            ) : (
+              "Save"
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -150,7 +272,11 @@ export function ExpenseChart({
   farmId,
 }: {
   items: ExpenseRow[];
-  totals: { byCategory: Record<string, number>; byMonth: Record<string, number>; grandTotal: number };
+  totals: {
+    byCategory: Record<string, number>;
+    byMonth: Record<string, number>;
+    grandTotal: number;
+  };
   farmId: string;
 }) {
   const qc = useQueryClient();
@@ -172,7 +298,10 @@ export function ExpenseChart({
     [totals.byCategory],
   );
   const monthData = useMemo(
-    () => Object.entries(totals.byMonth).sort((a, b) => (a[0] < b[0] ? -1 : 1)).map(([m, v]) => ({ m, v })),
+    () =>
+      Object.entries(totals.byMonth)
+        .sort((a, b) => (a[0] < b[0] ? -1 : 1))
+        .map(([m, v]) => ({ m, v })),
     [totals.byMonth],
   );
 
@@ -214,7 +343,9 @@ export function ExpenseChart({
           <ResponsiveContainer width="100%" height={220}>
             <PieChart>
               <Pie data={pieData} dataKey="value" nameKey="name" outerRadius={70} label={false}>
-                {pieData.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
+                {pieData.map((_, i) => (
+                  <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                ))}
               </Pie>
               <Tooltip />
               <Legend wrapperStyle={{ fontSize: 10 }} />
@@ -236,13 +367,40 @@ export function ExpenseChart({
               {items.slice(0, 30).map((e) => (
                 <TableRow key={e.id}>
                   <TableCell className="text-xs text-muted-foreground">{e.expense_date}</TableCell>
-                  <TableCell><Badge variant="outline" className="text-[10px] capitalize">{e.category}</Badge></TableCell>
+                  <TableCell>
+                    <Badge variant="outline" className="text-[10px] capitalize">
+                      {e.category}
+                    </Badge>
+                  </TableCell>
                   <TableCell className="max-w-[260px] truncate">{e.description ?? "—"}</TableCell>
-                  <TableCell className="text-right font-medium">{e.currency} {Number(e.amount).toFixed(2)}</TableCell>
+                  <TableCell className="text-right font-medium">
+                    {e.currency} {Number(e.amount).toFixed(2)}
+                  </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-1">
-                      <ExpenseForm farmId={farmId} initial={e} trigger={<Button size="icon" variant="ghost" aria-label="Edit expense" className="h-7 w-7"><Pencil className="h-3.5 w-3.5" /></Button>} />
-                      <Button size="icon" variant="ghost" aria-label="Delete expense" className="h-7 w-7" onClick={() => del.mutate(e.id)}><Trash2 className="h-3.5 w-3.5 text-destructive" /></Button>
+                      <ExpenseForm
+                        farmId={farmId}
+                        initial={e}
+                        trigger={
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            aria-label="Edit expense"
+                            className="h-7 w-7"
+                          >
+                            <Pencil className="h-3.5 w-3.5" />
+                          </Button>
+                        }
+                      />
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        aria-label="Delete expense"
+                        className="h-7 w-7"
+                        onClick={() => del.mutate(e.id)}
+                      >
+                        <Trash2 className="h-3.5 w-3.5 text-destructive" />
+                      </Button>
                     </div>
                   </TableCell>
                 </TableRow>

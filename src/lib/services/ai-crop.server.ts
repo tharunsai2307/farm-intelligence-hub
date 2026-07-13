@@ -31,11 +31,9 @@ export const AI_CROP_ERRORS = {
 
 export function isAiCropConfigured(): boolean {
   return Boolean(
-    (process.env.ROBOFLOW_API_KEY && process.env.ROBOFLOW_MODEL_ID) ||
-      process.env.LOVABLE_API_KEY,
+    (process.env.ROBOFLOW_API_KEY && process.env.ROBOFLOW_MODEL_ID) || process.env.LOVABLE_API_KEY,
   );
 }
-
 
 export type RoboflowPrediction = {
   class: string;
@@ -54,7 +52,6 @@ async function callRoboflow(base64: string): Promise<RoboflowPrediction | null> 
     console.warn("[ai-crop] ROBOFLOW_MODEL_ID is not in 'slug/version' form — skipping Roboflow");
     return null;
   }
-
 
   // Try classify endpoint first (works for plant-disease classification models).
   // Roboflow's serverless endpoint handles both detection and classification.
@@ -83,9 +80,7 @@ async function callRoboflow(base64: string): Promise<RoboflowPrediction | null> 
       // Detection response: { predictions: [{class, confidence, ...}] }
       const preds = json.predictions as unknown;
       if (Array.isArray(preds) && preds.length > 0) {
-        const sorted = [...preds].sort(
-          (a, b) => (b.confidence ?? 0) - (a.confidence ?? 0),
-        );
+        const sorted = [...preds].sort((a, b) => (b.confidence ?? 0) - (a.confidence ?? 0));
         const top = sorted[0];
         if (top?.class && typeof top.confidence === "number") {
           return { class: String(top.class), confidence: Number(top.confidence), raw: json };
@@ -94,9 +89,7 @@ async function callRoboflow(base64: string): Promise<RoboflowPrediction | null> 
       // Some classification models return predictions as object map
       if (preds && typeof preds === "object" && !Array.isArray(preds)) {
         const entries = Object.entries(preds as Record<string, { confidence?: number }>);
-        const sorted = entries.sort(
-          (a, b) => (b[1]?.confidence ?? 0) - (a[1]?.confidence ?? 0),
-        );
+        const sorted = entries.sort((a, b) => (b[1]?.confidence ?? 0) - (a[1]?.confidence ?? 0));
         const [cls, val] = sorted[0] ?? [];
         if (cls && typeof val?.confidence === "number") {
           return { class: cls, confidence: val.confidence, raw: json };
@@ -170,7 +163,6 @@ async function callGeminiVision(
   }
 }
 
-
 export type LlmExplanation = {
   disease_name: string;
   scientific_name: string | null;
@@ -202,8 +194,7 @@ Respond strictly as JSON matching the requested schema. Write all human-readable
 text in the requested language. Keep prose simple and practical. Never invent
 scientific references. If a field is unknown, return an empty string.`;
 
-  const langName =
-    { en: "English", ta: "Tamil", te: "Telugu", hi: "Hindi" }[language] ?? "English";
+  const langName = { en: "English", ta: "Tamil", te: "Telugu", hi: "Hindi" }[language] ?? "English";
 
   const user = `CV model prediction:
 - Predicted class: ${prediction.class}
@@ -255,9 +246,7 @@ Write a farmer-friendly explanation in ${langName}. Output JSON with:
       disease_name: String(parsed.disease_name ?? prediction.class),
       scientific_name: parsed.scientific_name ? String(parsed.scientific_name) : null,
       severity:
-        parsed.severity === "low" ||
-        parsed.severity === "medium" ||
-        parsed.severity === "high"
+        parsed.severity === "low" || parsed.severity === "medium" || parsed.severity === "high"
           ? parsed.severity
           : "unknown",
       explanation: String(parsed.explanation ?? ""),
@@ -337,12 +326,7 @@ export async function analyzeCrop(
   }
   if (!prediction) return fail(AI_CROP_ERRORS.PROVIDER_FAILED);
 
-
-  const llm = await callLlmExplain(
-    prediction,
-    input.crop_type ?? null,
-    input.language ?? "en",
-  );
+  const llm = await callLlmExplain(prediction, input.crop_type ?? null, input.language ?? "en");
 
   const recommendation = llm
     ? [llm.immediate_action, llm.organic_treatment].filter(Boolean).join(" ")
@@ -425,11 +409,7 @@ export async function getAnalysisById(supabase: SB, id: string) {
   return ok(data);
 }
 
-export async function createSignedImageUrl(
-  supabase: SB,
-  imagePath: string,
-  expiresIn = 3600,
-) {
+export async function createSignedImageUrl(supabase: SB, imagePath: string, expiresIn = 3600) {
   const { data, error } = await supabase.storage
     .from("crop-analysis-images")
     .createSignedUrl(imagePath, expiresIn);

@@ -1,6 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Tractor, ClipboardList, Boxes, Wrench, Receipt, Sprout, AlertTriangle, ArrowRight } from "lucide-react";
+import {
+  Tractor,
+  ClipboardList,
+  Boxes,
+  Wrench,
+  Receipt,
+  Sprout,
+  AlertTriangle,
+  ArrowRight,
+} from "lucide-react";
 import { useState } from "react";
 import { PageHeader } from "@/components/common/page-header";
 import { EmptyState } from "@/components/common/empty-state";
@@ -35,7 +44,11 @@ function FarmOSIndexPage() {
         icon={Tractor}
         title="Add a farm to use FarmOS"
         description="FarmOS turns AgriMind recommendations into real tasks, inventory, equipment, expenses, and harvest plans."
-        action={<Button asChild><Link to="/onboarding/farm">Add farm</Link></Button>}
+        action={
+          <Button asChild>
+            <Link to="/onboarding/farm">Add farm</Link>
+          </Button>
+        }
       />
     );
   }
@@ -52,28 +65,65 @@ function FarmOSIndexPage() {
       />
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <StatCard icon={ClipboardList} label="Today's tasks" value={data?.today_tasks.length ?? 0} href="/app/farmos/tasks" />
-        <StatCard icon={ClipboardList} label="Open tasks" value={data?.open_task_count ?? 0} href="/app/farmos/tasks" />
-        <StatCard icon={Boxes} label="Stock alerts" value={data?.low_stock.length ?? 0} tone={data?.low_stock.length ? "warn" : undefined} href="/app/farmos/inventory" />
-        <StatCard icon={Wrench} label="Maintenance due" value={data?.maintenance_due.length ?? 0} tone={data?.maintenance_due.length ? "warn" : undefined} href="/app/farmos/equipment" />
+        <StatCard
+          icon={ClipboardList}
+          label="Today's tasks"
+          value={data?.today_tasks.length ?? 0}
+          href="/app/farmos/tasks"
+        />
+        <StatCard
+          icon={ClipboardList}
+          label="Open tasks"
+          value={data?.open_task_count ?? 0}
+          href="/app/farmos/tasks"
+        />
+        <StatCard
+          icon={Boxes}
+          label="Stock alerts"
+          value={data?.low_stock.length ?? 0}
+          tone={data?.low_stock.length ? "warn" : undefined}
+          href="/app/farmos/inventory"
+        />
+        <StatCard
+          icon={Wrench}
+          label="Maintenance due"
+          value={data?.maintenance_due.length ?? 0}
+          tone={data?.maintenance_due.length ? "warn" : undefined}
+          href="/app/farmos/equipment"
+        />
       </div>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-3">
         <div className="surface-card p-4 lg:col-span-2">
           <div className="mb-3 flex items-center justify-between">
             <h2 className="text-sm font-semibold">Expense summary</h2>
-            <Button asChild variant="ghost" size="sm"><Link to="/app/farmos/expenses">Open <ArrowRight className="ml-1 h-3 w-3" /></Link></Button>
+            <Button asChild variant="ghost" size="sm">
+              <Link to="/app/farmos/expenses">
+                Open <ArrowRight className="ml-1 h-3 w-3" />
+              </Link>
+            </Button>
           </div>
           {exp && (exp.thisMonth || exp.lastMonth) ? (
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-              <div><p className="text-xs text-muted-foreground">This month</p><p className="text-xl font-semibold">₹{exp.thisMonth.toLocaleString()}</p></div>
-              <div><p className="text-xs text-muted-foreground">Last month</p><p className="text-xl font-semibold">₹{exp.lastMonth.toLocaleString()}</p></div>
+              <div>
+                <p className="text-xs text-muted-foreground">This month</p>
+                <p className="text-xl font-semibold">₹{exp.thisMonth.toLocaleString()}</p>
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground">Last month</p>
+                <p className="text-xl font-semibold">₹{exp.lastMonth.toLocaleString()}</p>
+              </div>
               <div className="col-span-2 sm:col-span-1">
                 <p className="text-xs text-muted-foreground">Top categories</p>
                 <div className="mt-1 flex flex-wrap gap-1">
-                  {Object.entries(exp.byCategory).sort((a, b) => b[1] - a[1]).slice(0, 4).map(([k, v]) => (
-                    <Badge key={k} variant="outline" className="text-[10px] capitalize">{k}: ₹{v.toLocaleString()}</Badge>
-                  ))}
+                  {Object.entries(exp.byCategory)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 4)
+                    .map(([k, v]) => (
+                      <Badge key={k} variant="outline" className="text-[10px] capitalize">
+                        {k}: ₹{v.toLocaleString()}
+                      </Badge>
+                    ))}
                 </div>
               </div>
             </div>
@@ -85,10 +135,14 @@ function FarmOSIndexPage() {
         <div className="surface-card p-4">
           <div className="mb-3 flex items-center justify-between">
             <h2 className="text-sm font-semibold">Upcoming harvest</h2>
-            <Button asChild variant="ghost" size="sm"><Link to="/app/farmos/harvest">Open</Link></Button>
+            <Button asChild variant="ghost" size="sm">
+              <Link to="/app/farmos/harvest">Open</Link>
+            </Button>
           </div>
           {(data?.upcoming_harvest ?? []).length === 0 ? (
-            <p className="text-sm text-muted-foreground">No upcoming harvest in the next 30 days.</p>
+            <p className="text-sm text-muted-foreground">
+              No upcoming harvest in the next 30 days.
+            </p>
           ) : (
             <ul className="space-y-2">
               {data!.upcoming_harvest.map((h) => (
@@ -111,11 +165,32 @@ function FarmOSIndexPage() {
   );
 }
 
-function StatCard({ icon: Icon, label, value, tone, href }: { icon: any; label: string; value: number; tone?: "warn"; href: string }) {
+function StatCard({
+  icon: Icon,
+  label,
+  value,
+  tone,
+  href,
+}: {
+  icon: any;
+  label: string;
+  value: number;
+  tone?: "warn";
+  href: string;
+}) {
   return (
-    <Link to={href} className="surface-card group flex items-center gap-3 p-4 transition hover:bg-accent">
-      <div className={`grid h-10 w-10 place-items-center rounded-lg ${tone === "warn" ? "bg-amber-500/15 text-amber-600" : "bg-primary/15 text-primary"}`}>
-        {tone === "warn" && value > 0 ? <AlertTriangle className="h-5 w-5" /> : <Icon className="h-5 w-5" />}
+    <Link
+      to={href}
+      className="surface-card group flex items-center gap-3 p-4 transition hover:bg-accent"
+    >
+      <div
+        className={`grid h-10 w-10 place-items-center rounded-lg ${tone === "warn" ? "bg-amber-500/15 text-amber-600" : "bg-primary/15 text-primary"}`}
+      >
+        {tone === "warn" && value > 0 ? (
+          <AlertTriangle className="h-5 w-5" />
+        ) : (
+          <Icon className="h-5 w-5" />
+        )}
       </div>
       <div className="min-w-0">
         <p className="text-xs text-muted-foreground">{label}</p>

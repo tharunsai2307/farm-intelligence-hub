@@ -68,9 +68,7 @@ export const getPrimaryFarm = createServerFn({ method: "GET" })
 
 export const getFarmById = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: { id: string }) =>
-    z.object({ id: z.string().uuid() }).parse(input),
-  )
+  .inputValidator((input: { id: string }) => z.object({ id: z.string().uuid() }).parse(input))
   .handler(async ({ data, context }) => {
     const { data: farm, error } = await context.supabase
       .from("farms")

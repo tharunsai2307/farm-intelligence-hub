@@ -215,9 +215,9 @@ export async function ingestReading(
 export function isSatelliteConfigured(): boolean {
   return Boolean(
     process.env.SENTINEL_HUB_API_KEY ||
-      process.env.GOOGLE_EARTH_ENGINE_API_KEY ||
-      process.env.PLANET_LABS_API_KEY ||
-      (process.env.LOVABLE_API_KEY && process.env.GOOGLE_MAPS_API_KEY),
+    process.env.GOOGLE_EARTH_ENGINE_API_KEY ||
+    process.env.PLANET_LABS_API_KEY ||
+    (process.env.LOVABLE_API_KEY && process.env.GOOGLE_MAPS_API_KEY),
   );
 }
 
@@ -289,10 +289,7 @@ export async function listDroneSurveys(
   return ok(data ?? []);
 }
 
-export async function deleteDroneSurvey(
-  supabase: SB,
-  id: string,
-): Promise<ServiceResult<true>> {
+export async function deleteDroneSurvey(supabase: SB, id: string): Promise<ServiceResult<true>> {
   const { error } = await supabase.from("drone_surveys").delete().eq("id", id);
   if (error) return fail(error.message);
   return ok(true as const);

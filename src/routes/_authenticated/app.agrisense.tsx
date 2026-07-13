@@ -65,10 +65,7 @@ import { SensorCard } from "@/components/agrisense/sensor-card";
 import { SensorTable } from "@/components/agrisense/sensor-table";
 import { DeviceRegistration } from "@/components/agrisense/device-registration";
 import { SatelliteCard } from "@/components/agrisense/satellite-card";
-import {
-  DroneSurveyCard,
-  DroneSurveyUploader,
-} from "@/components/agrisense/drone-survey-card";
+import { DroneSurveyCard, DroneSurveyUploader } from "@/components/agrisense/drone-survey-card";
 import { RealtimeIndicator } from "@/components/agrisense/realtime-indicator";
 
 import { listFarms } from "@/lib/services/farms.functions";
@@ -87,20 +84,24 @@ import { getAiCropStatus } from "@/lib/services/ai-crop.service";
 import { getAgriMindStatus } from "@/lib/services/agrimind.service";
 import { supabase } from "@/integrations/supabase/client";
 import { getDataSourceStatuses } from "@/lib/env";
-import type {
-  SensorDeviceRow,
-  SensorReadingRow,
-} from "@/lib/services/agrisense.server";
+import type { SensorDeviceRow, SensorReadingRow } from "@/lib/services/agrisense.server";
 import { deriveDeviceHealth } from "@/lib/services/agrisense.server";
 
 export const Route = createFileRoute("/_authenticated/app/agrisense")({
   head: () => ({
     meta: [
       { title: "AgriSense — AgriTwin OS" },
-      { name: "description", content: "Real-time telemetry from IoT sensors, satellite, and drone sources normalized into your farm's Digital Twin." },
+      {
+        name: "description",
+        content:
+          "Real-time telemetry from IoT sensors, satellite, and drone sources normalized into your farm's Digital Twin.",
+      },
       { name: "robots", content: "noindex, nofollow" },
       { property: "og:title", content: "AgriSense — AgriTwin OS" },
-      { property: "og:description", content: "Live sensor, satellite, and drone telemetry unified for your Digital Twin." },
+      {
+        property: "og:description",
+        content: "Live sensor, satellite, and drone telemetry unified for your Digital Twin.",
+      },
       { property: "og:url", content: "https://agri-twin-os.lovable.app/app/agrisense" },
     ],
   }),
@@ -179,7 +180,12 @@ function AgriSensePage() {
       .channel(`agrisense-${farmId}`)
       .on(
         "postgres_changes",
-        { event: "INSERT", schema: "public", table: "sensor_readings", filter: `farm_id=eq.${farmId}` },
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "sensor_readings",
+          filter: `farm_id=eq.${farmId}`,
+        },
         () => {
           if (farmRef.current !== farmId) return;
           setLastRealtimeAt(new Date().toISOString());
@@ -205,24 +211,31 @@ function AgriSensePage() {
     const weatherOk = weatherQ.data?.success === true;
     const weatherError = weatherQ.data && !weatherQ.data.success ? weatherQ.data.error : undefined;
     return [
-      { key: "supabase", label: "Supabase", configured: base.supabase.configured, detail: base.supabase.reason },
-      { key: "mapbox", label: "Mapbox", configured: base.mapbox.configured, detail: base.mapbox.reason },
+      {
+        key: "supabase",
+        label: "Supabase",
+        configured: base.supabase.configured,
+        detail: base.supabase.reason,
+      },
+      {
+        key: "mapbox",
+        label: "Mapbox",
+        configured: base.mapbox.configured,
+        detail: base.mapbox.reason,
+      },
       {
         key: "weather",
         label: "Weather (OpenWeather)",
         configured: weatherOk,
-        detail: weatherOk
-          ? "Live data flowing"
-          : weatherError ?? "Sync to verify",
+        detail: weatherOk ? "Live data flowing" : (weatherError ?? "Sync to verify"),
       },
       {
         key: "satellite",
         label: "Satellite imagery",
         configured: satelliteStatusQ.data?.success === true,
-        detail:
-          satelliteStatusQ.data?.success
-            ? `Provider: ${satelliteStatusQ.data.data.provider}`
-            : "Satellite service unavailable.",
+        detail: satelliteStatusQ.data?.success
+          ? `Provider: ${satelliteStatusQ.data.data.provider}`
+          : "Satellite service unavailable.",
       },
       {
         key: "ai_crop",
@@ -452,9 +465,7 @@ function AgriSensePage() {
                 configured={satelliteStatusQ.data?.success === true}
                 farmId={farmId}
                 provider={
-                  satelliteStatusQ.data?.success
-                    ? satelliteStatusQ.data.data.provider
-                    : null
+                  satelliteStatusQ.data?.success ? satelliteStatusQ.data.data.provider : null
                 }
               />
             </Section>

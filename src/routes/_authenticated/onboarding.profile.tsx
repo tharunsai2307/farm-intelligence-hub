@@ -84,8 +84,7 @@ function ProfileOnboarding() {
   });
 
   const mutation = useMutation({
-    mutationFn: (patch: Values) =>
-      updateMyProfile({ data: { ...patch } }),
+    mutationFn: (patch: Values) => updateMyProfile({ data: { ...patch } }),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["profile"] }),
   });
 
@@ -120,7 +119,12 @@ function ProfileOnboarding() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="phone">Phone number</Label>
-            <Input id="phone" type="tel" placeholder="+91 98765 43210" {...form.register("phone")} />
+            <Input
+              id="phone"
+              type="tel"
+              placeholder="+91 98765 43210"
+              {...form.register("phone")}
+            />
             {form.formState.errors.phone && (
               <p className="text-xs text-danger">{form.formState.errors.phone.message}</p>
             )}
@@ -129,12 +133,18 @@ function ProfileOnboarding() {
             <Label>Preferred language</Label>
             <Select
               value={form.watch("language")}
-              onValueChange={(v) => form.setValue("language", v as Values["language"], { shouldValidate: true })}
+              onValueChange={(v) =>
+                form.setValue("language", v as Values["language"], { shouldValidate: true })
+              }
             >
-              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
                 {LANGUAGES.map((l) => (
-                  <SelectItem key={l.value} value={l.value}>{l.label}</SelectItem>
+                  <SelectItem key={l.value} value={l.value}>
+                    {l.label}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -160,12 +170,18 @@ function ProfileOnboarding() {
             <Label>I am a</Label>
             <Select
               value={form.watch("user_role")}
-              onValueChange={(v) => form.setValue("user_role", v as Values["user_role"], { shouldValidate: true })}
+              onValueChange={(v) =>
+                form.setValue("user_role", v as Values["user_role"], { shouldValidate: true })
+              }
             >
-              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
                 {ROLES.map((r) => (
-                  <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>
+                  <SelectItem key={r.value} value={r.value}>
+                    {r.label}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>

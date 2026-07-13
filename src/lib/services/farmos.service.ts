@@ -10,18 +10,60 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 // ----- Enum sources -----
 const inventoryCategory = z.enum([
-  "seeds", "fertilizers", "pesticides", "organic_inputs", "tools", "spare_parts", "storage_materials", "other",
+  "seeds",
+  "fertilizers",
+  "pesticides",
+  "organic_inputs",
+  "tools",
+  "spare_parts",
+  "storage_materials",
+  "other",
 ]);
-const equipmentType = z.enum(["tractor", "pump_set", "drip_system", "sprayer", "harvest_machine", "sensor", "other"]);
+const equipmentType = z.enum([
+  "tractor",
+  "pump_set",
+  "drip_system",
+  "sprayer",
+  "harvest_machine",
+  "sensor",
+  "other",
+]);
 const equipmentStatus = z.enum(["operational", "maintenance_due", "out_of_service"]);
-const taskType = z.enum(["irrigation", "spraying", "harvest", "inspection", "fertilizer_application", "maintenance", "manual_work", "other"]);
+const taskType = z.enum([
+  "irrigation",
+  "spraying",
+  "harvest",
+  "inspection",
+  "fertilizer_application",
+  "maintenance",
+  "manual_work",
+  "other",
+]);
 const taskPriority = z.enum(["low", "medium", "high", "urgent"]);
 const taskStatus = z.enum(["pending", "in_progress", "completed", "cancelled"]);
-const expenseCategory = z.enum(["seeds", "labor", "fuel", "water", "electricity", "equipment", "maintenance", "transport", "other"]);
+const expenseCategory = z.enum([
+  "seeds",
+  "labor",
+  "fuel",
+  "water",
+  "electricity",
+  "equipment",
+  "maintenance",
+  "transport",
+  "other",
+]);
 const paymentMethod = z.enum(["cash", "bank_transfer", "upi", "card", "credit", "other"]);
 const harvestStatus = z.enum(["planned", "in_progress", "completed", "sold", "cancelled"]);
 const attendanceStatus = z.enum(["present", "absent", "half_day", "leave"]);
-const calendarEventType = z.enum(["task", "harvest", "maintenance", "weather", "observation", "irrigation", "custom"]);
+const calendarEventType = z.enum([
+  "task",
+  "harvest",
+  "maintenance",
+  "weather",
+  "observation",
+  "irrigation",
+  "custom",
+]);
 
 const uuid = z.string().uuid();
 
@@ -44,7 +86,9 @@ const inventoryInput = z.object({
 
 export const listInventoryItems = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: { farm_id?: string }) => z.object({ farm_id: uuid.optional() }).parse(input ?? {}))
+  .inputValidator((input: { farm_id?: string }) =>
+    z.object({ farm_id: uuid.optional() }).parse(input ?? {}),
+  )
   .handler(async ({ data, context }) => {
     const { listInventory } = await import("./farmos.server");
     return listInventory(context.supabase, { farmId: data.farm_id });
@@ -84,7 +128,9 @@ const equipmentInput = z.object({
 
 export const listEquipmentItems = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: { farm_id?: string }) => z.object({ farm_id: uuid.optional() }).parse(input ?? {}))
+  .inputValidator((input: { farm_id?: string }) =>
+    z.object({ farm_id: uuid.optional() }).parse(input ?? {}),
+  )
   .handler(async ({ data, context }) => {
     const { listEquipment } = await import("./farmos.server");
     return listEquipment(context.supabase, data.farm_id);
@@ -121,7 +167,9 @@ const workerInput = z.object({
 
 export const listFarmWorkers = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: { farm_id?: string }) => z.object({ farm_id: uuid.optional() }).parse(input ?? {}))
+  .inputValidator((input: { farm_id?: string }) =>
+    z.object({ farm_id: uuid.optional() }).parse(input ?? {}),
+  )
   .handler(async ({ data, context }) => {
     const { listWorkers } = await import("./farmos.server");
     return listWorkers(context.supabase, data.farm_id);
@@ -146,23 +194,42 @@ export const deleteFarmWorker = createServerFn({ method: "POST" })
 export const listWorkerAttendance = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: { worker_id?: string; from?: string; to?: string }) =>
-    z.object({ worker_id: uuid.optional(), from: z.string().optional(), to: z.string().optional() }).parse(input ?? {}),
+    z
+      .object({
+        worker_id: uuid.optional(),
+        from: z.string().optional(),
+        to: z.string().optional(),
+      })
+      .parse(input ?? {}),
   )
   .handler(async ({ data, context }) => {
     const { listAttendance } = await import("./farmos.server");
-    return listAttendance(context.supabase, { workerId: data.worker_id, from: data.from, to: data.to });
+    return listAttendance(context.supabase, {
+      workerId: data.worker_id,
+      from: data.from,
+      to: data.to,
+    });
   });
 
 export const saveWorkerAttendance = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: { worker_id: string; date: string; status: z.infer<typeof attendanceStatus>; hours_worked?: number | null; notes?: string | null }) =>
-    z.object({
-      worker_id: uuid,
-      date: z.string(),
-      status: attendanceStatus,
-      hours_worked: z.number().nonnegative().nullable().optional(),
-      notes: z.string().max(2000).nullable().optional(),
-    }).parse(input),
+  .inputValidator(
+    (input: {
+      worker_id: string;
+      date: string;
+      status: z.infer<typeof attendanceStatus>;
+      hours_worked?: number | null;
+      notes?: string | null;
+    }) =>
+      z
+        .object({
+          worker_id: uuid,
+          date: z.string(),
+          status: attendanceStatus,
+          hours_worked: z.number().nonnegative().nullable().optional(),
+          notes: z.string().max(2000).nullable().optional(),
+        })
+        .parse(input),
   )
   .handler(async ({ data, context }) => {
     const { recordAttendance } = await import("./farmos.server");
@@ -187,12 +254,23 @@ const taskInput = z.object({
 
 export const listFarmTasks = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: { farm_id?: string; status?: z.infer<typeof taskStatus>; worker_id?: string }) =>
-    z.object({ farm_id: uuid.optional(), status: taskStatus.optional(), worker_id: uuid.optional() }).parse(input ?? {}),
+  .inputValidator(
+    (input: { farm_id?: string; status?: z.infer<typeof taskStatus>; worker_id?: string }) =>
+      z
+        .object({
+          farm_id: uuid.optional(),
+          status: taskStatus.optional(),
+          worker_id: uuid.optional(),
+        })
+        .parse(input ?? {}),
   )
   .handler(async ({ data, context }) => {
     const { listTasks } = await import("./farmos.server");
-    return listTasks(context.supabase, { farmId: data.farm_id, status: data.status, workerId: data.worker_id });
+    return listTasks(context.supabase, {
+      farmId: data.farm_id,
+      status: data.status,
+      workerId: data.worker_id,
+    });
   });
 
 export const saveFarmTask = createServerFn({ method: "POST" })
@@ -213,12 +291,15 @@ export const deleteFarmTask = createServerFn({ method: "POST" })
 
 export const taskFromRecommendation = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: { recommendation_id: string; due_date?: string | null; worker_id?: string | null }) =>
-    z.object({
-      recommendation_id: uuid,
-      due_date: z.string().nullable().optional(),
-      worker_id: uuid.nullable().optional(),
-    }).parse(input),
+  .inputValidator(
+    (input: { recommendation_id: string; due_date?: string | null; worker_id?: string | null }) =>
+      z
+        .object({
+          recommendation_id: uuid,
+          due_date: z.string().nullable().optional(),
+          worker_id: uuid.nullable().optional(),
+        })
+        .parse(input),
   )
   .handler(async ({ data, context }) => {
     const { createTaskFromRecommendation } = await import("./farmos.server");
@@ -240,17 +321,30 @@ const expenseInput = z.object({
 
 export const listFarmExpenses = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: { farm_id?: string; from?: string; to?: string; category?: z.infer<typeof expenseCategory> }) =>
-    z.object({
-      farm_id: uuid.optional(),
-      from: z.string().optional(),
-      to: z.string().optional(),
-      category: expenseCategory.optional(),
-    }).parse(input ?? {}),
+  .inputValidator(
+    (input: {
+      farm_id?: string;
+      from?: string;
+      to?: string;
+      category?: z.infer<typeof expenseCategory>;
+    }) =>
+      z
+        .object({
+          farm_id: uuid.optional(),
+          from: z.string().optional(),
+          to: z.string().optional(),
+          category: expenseCategory.optional(),
+        })
+        .parse(input ?? {}),
   )
   .handler(async ({ data, context }) => {
     const { listExpenses } = await import("./farmos.server");
-    return listExpenses(context.supabase, { farmId: data.farm_id, from: data.from, to: data.to, category: data.category });
+    return listExpenses(context.supabase, {
+      farmId: data.farm_id,
+      from: data.from,
+      to: data.to,
+      category: data.category,
+    });
   });
 
 export const saveFarmExpense = createServerFn({ method: "POST" })
@@ -288,7 +382,9 @@ const harvestInput = z.object({
 
 export const listFarmHarvests = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: { farm_id?: string }) => z.object({ farm_id: uuid.optional() }).parse(input ?? {}))
+  .inputValidator((input: { farm_id?: string }) =>
+    z.object({ farm_id: uuid.optional() }).parse(input ?? {}),
+  )
   .handler(async ({ data, context }) => {
     const { listHarvests } = await import("./farmos.server");
     return listHarvests(context.supabase, data.farm_id);
@@ -351,7 +447,9 @@ export const deleteCalendarEvent = createServerFn({ method: "POST" })
 // =================== DASHBOARD ===================
 export const getFarmOSOverview = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: { farm_id?: string }) => z.object({ farm_id: uuid.optional() }).parse(input ?? {}))
+  .inputValidator((input: { farm_id?: string }) =>
+    z.object({ farm_id: uuid.optional() }).parse(input ?? {}),
+  )
   .handler(async ({ data, context }) => {
     const { getFarmOSDashboard } = await import("./farmos.server");
     return getFarmOSDashboard(context.supabase, data.farm_id);

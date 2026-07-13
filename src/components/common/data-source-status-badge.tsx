@@ -27,7 +27,6 @@ const MAP: Record<
   not_available: { label: "Phase 2", tone: "muted", icon: MinusCircle },
 };
 
-
 export function DataSourceStatusBadge({ status }: { status: DataStatus }) {
   const m = MAP[status];
   const Icon = m.icon;
@@ -35,8 +34,10 @@ export function DataSourceStatusBadge({ status }: { status: DataStatus }) {
     <span
       className={cn(
         "inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-xs font-medium",
-        m.tone === "success" && "border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
-        m.tone === "warning" && "border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400",
+        m.tone === "success" &&
+          "border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+        m.tone === "warning" &&
+          "border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400",
         m.tone === "muted" && "border-border bg-muted/40 text-muted-foreground",
       )}
     >

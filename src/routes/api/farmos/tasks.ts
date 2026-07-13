@@ -14,13 +14,20 @@ export const Route = createFileRoute("/api/farmos/tasks")({
         const workerId = url.searchParams.get("worker_id") ?? undefined;
         const { listTasks } = await import("@/lib/services/farmos.server");
         const result = await listTasks(auth.supabase, { farmId, status, workerId });
-        return new Response(JSON.stringify(result), { status: result.success ? 200 : 500, headers: { "Content-Type": "application/json" } });
+        return new Response(JSON.stringify(result), {
+          status: result.success ? 200 : 500,
+          headers: { "Content-Type": "application/json" },
+        });
       },
       POST: async ({ request }) => {
         const auth = await getRequestSupabase(request);
         if (!auth) return jsonError("Unauthorized", 401);
         let body: any;
-        try { body = await request.json(); } catch { return jsonError("Invalid JSON", 400); }
+        try {
+          body = await request.json();
+        } catch {
+          return jsonError("Invalid JSON", 400);
+        }
         if (body?.from_recommendation_id) {
           const { createTaskFromRecommendation } = await import("@/lib/services/farmos.server");
           const result = await createTaskFromRecommendation(auth.supabase, auth.userId, {
@@ -28,11 +35,17 @@ export const Route = createFileRoute("/api/farmos/tasks")({
             due_date: body.due_date ?? null,
             worker_id: body.worker_id ?? null,
           });
-          return new Response(JSON.stringify(result), { status: result.success ? 200 : 400, headers: { "Content-Type": "application/json" } });
+          return new Response(JSON.stringify(result), {
+            status: result.success ? 200 : 400,
+            headers: { "Content-Type": "application/json" },
+          });
         }
         const { upsertTask } = await import("@/lib/services/farmos.server");
         const result = await upsertTask(auth.supabase, auth.userId, body);
-        return new Response(JSON.stringify(result), { status: result.success ? 200 : 400, headers: { "Content-Type": "application/json" } });
+        return new Response(JSON.stringify(result), {
+          status: result.success ? 200 : 400,
+          headers: { "Content-Type": "application/json" },
+        });
       },
       DELETE: async ({ request }) => {
         const auth = await getRequestSupabase(request);
@@ -41,7 +54,10 @@ export const Route = createFileRoute("/api/farmos/tasks")({
         if (!id) return jsonError("Missing id", 400);
         const { softDeleteTask } = await import("@/lib/services/farmos.server");
         const result = await softDeleteTask(auth.supabase, id);
-        return new Response(JSON.stringify(result), { status: result.success ? 200 : 400, headers: { "Content-Type": "application/json" } });
+        return new Response(JSON.stringify(result), {
+          status: result.success ? 200 : 400,
+          headers: { "Content-Type": "application/json" },
+        });
       },
     },
   },

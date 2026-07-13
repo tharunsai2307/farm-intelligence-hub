@@ -16,7 +16,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Sheet,
   SheetContent,
@@ -150,7 +156,9 @@ function PlotsPage() {
 
       {farmQ.isLoading && (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 3 }).map((_, i) => <CardSkeleton key={i} />)}
+          {Array.from({ length: 3 }).map((_, i) => (
+            <CardSkeleton key={i} />
+          ))}
         </div>
       )}
 
@@ -208,7 +216,11 @@ function PlotsPage() {
                 <Fact label="Irrigation" value={p.irrigation_type ?? "—"} />
                 <Fact
                   label="Coords"
-                  value={p.latitude != null && p.longitude != null ? `${p.latitude.toFixed(4)}, ${p.longitude.toFixed(4)}` : "—"}
+                  value={
+                    p.latitude != null && p.longitude != null
+                      ? `${p.latitude.toFixed(4)}, ${p.longitude.toFixed(4)}`
+                      : "—"
+                  }
                 />
               </dl>
               <div className="mt-auto flex items-center justify-end gap-2 pt-2">
@@ -291,10 +303,7 @@ function PlotSheet({
           </SheetDescription>
         </SheetHeader>
 
-        <form
-          className="grid gap-4 px-4 pb-6"
-          onSubmit={form.handleSubmit((v) => onSubmit(v))}
-        >
+        <form className="grid gap-4 px-4 pb-6" onSubmit={form.handleSubmit((v) => onSubmit(v))}>
           <Field label="Plot name" error={form.formState.errors.name?.message}>
             <Input {...form.register("name")} placeholder="North Field" />
           </Field>
@@ -317,7 +326,9 @@ function PlotSheet({
                 value={form.watch("area_unit")}
                 onValueChange={(v) => form.setValue("area_unit", v as "hectares" | "acres")}
               >
-                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="hectares">hectares</SelectItem>
                   <SelectItem value="acres">acres</SelectItem>
@@ -337,10 +348,20 @@ function PlotSheet({
 
           <div className="grid grid-cols-2 gap-3">
             <Field label="Latitude" error={form.formState.errors.latitude?.message as string}>
-              <Input type="number" step="0.000001" {...form.register("latitude")} placeholder="28.6139" />
+              <Input
+                type="number"
+                step="0.000001"
+                {...form.register("latitude")}
+                placeholder="28.6139"
+              />
             </Field>
             <Field label="Longitude" error={form.formState.errors.longitude?.message as string}>
-              <Input type="number" step="0.000001" {...form.register("longitude")} placeholder="77.2090" />
+              <Input
+                type="number"
+                step="0.000001"
+                {...form.register("longitude")}
+                placeholder="77.2090"
+              />
             </Field>
           </div>
 

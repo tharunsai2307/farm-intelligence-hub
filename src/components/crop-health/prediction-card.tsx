@@ -63,12 +63,7 @@ export function PredictionCard(p: PredictionCardProps) {
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           <Metric label="Confidence" value={`${confPct}%`} />
           <Metric label="Severity" value={p.severity} />
-          <Metric
-            label="Model"
-            value={`${p.modelName}`}
-            sub={p.modelVersion}
-            Icon={Cpu}
-          />
+          <Metric label="Model" value={`${p.modelName}`} sub={p.modelVersion} Icon={Cpu} />
           <Metric
             label="Processing"
             value={`${(p.processingMs / 1000).toFixed(1)}s`}

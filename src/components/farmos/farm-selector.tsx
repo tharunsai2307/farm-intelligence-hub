@@ -1,5 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { listFarms, type FarmRow } from "@/lib/services/farms.functions";
 
 export function useFarms() {
@@ -27,7 +33,9 @@ export function FarmSelector({
       </SelectTrigger>
       <SelectContent>
         {farms.map((f) => (
-          <SelectItem key={f.id} value={f.id}>{f.name}</SelectItem>
+          <SelectItem key={f.id} value={f.id}>
+            {f.name}
+          </SelectItem>
         ))}
       </SelectContent>
     </Select>

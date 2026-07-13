@@ -21,13 +21,21 @@ function applyTheme(resolved: "light" | "dark") {
   document.documentElement.classList.toggle("dark", resolved === "dark");
 }
 
-export function ThemeProvider({ children, defaultTheme = "system" }: { children: ReactNode; defaultTheme?: Theme }) {
+export function ThemeProvider({
+  children,
+  defaultTheme = "system",
+}: {
+  children: ReactNode;
+  defaultTheme?: Theme;
+}) {
   const [theme, setThemeState] = useState<Theme>(defaultTheme);
   const [resolvedTheme, setResolvedTheme] = useState<"light" | "dark">("light");
 
   // Hydrate from localStorage on mount
   useEffect(() => {
-    const stored = (typeof window !== "undefined" && (localStorage.getItem(STORAGE_KEY) as Theme | null)) || null;
+    const stored =
+      (typeof window !== "undefined" && (localStorage.getItem(STORAGE_KEY) as Theme | null)) ||
+      null;
     if (stored) setThemeState(stored);
   }, []);
 

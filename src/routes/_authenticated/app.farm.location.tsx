@@ -12,7 +12,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-import { getFarmLocation, getPrimaryFarm, updateFarmLocation } from "@/lib/services/farms.functions";
+import {
+  getFarmLocation,
+  getPrimaryFarm,
+  updateFarmLocation,
+} from "@/lib/services/farms.functions";
 import { listFarmPlots } from "@/lib/services/farm-plots.functions";
 import { FarmLocationMap, type MapMarker } from "@/components/farm/farm-location-map";
 
@@ -20,10 +24,17 @@ export const Route = createFileRoute("/_authenticated/app/farm/location")({
   head: () => ({
     meta: [
       { title: "Farm Location — AgriTwin OS" },
-      { name: "description", content: "Pin your farm's GPS coordinates on a free satellite map and manage plot boundaries for accurate AI insights." },
+      {
+        name: "description",
+        content:
+          "Pin your farm's GPS coordinates on a free satellite map and manage plot boundaries for accurate AI insights.",
+      },
       { name: "robots", content: "noindex, nofollow" },
       { property: "og:title", content: "Farm Location — AgriTwin OS" },
-      { property: "og:description", content: "Pin GPS coordinates and manage plot boundaries on a satellite map." },
+      {
+        property: "og:description",
+        content: "Pin GPS coordinates and manage plot boundaries on a satellite map.",
+      },
       { property: "og:url", content: "https://agri-twin-os.lovable.app/app/farm/location" },
     ],
   }),
@@ -68,7 +79,8 @@ function LocationPage() {
       const lat = Number(v.latitude);
       const lng = Number(v.longitude);
       if (!Number.isFinite(lat) || lat < -90 || lat > 90) throw new Error("Latitude out of range");
-      if (!Number.isFinite(lng) || lng < -180 || lng > 180) throw new Error("Longitude out of range");
+      if (!Number.isFinite(lng) || lng < -180 || lng > 180)
+        throw new Error("Longitude out of range");
       return updateFarmLocation({
         data: { farm_id: farm!.id, latitude: lat, longitude: lng, label: v.label || "Primary" },
       });
@@ -101,10 +113,23 @@ function LocationPage() {
   const hasCoords = Number.isFinite(lat) && Number.isFinite(lng);
 
   const markers: MapMarker[] = [];
-  if (hasCoords) markers.push({ id: "farm", latitude: lat, longitude: lng, label: farm?.name, color: "#10b981" });
+  if (hasCoords)
+    markers.push({
+      id: "farm",
+      latitude: lat,
+      longitude: lng,
+      label: farm?.name,
+      color: "#10b981",
+    });
   for (const p of plotsQ.data?.items ?? []) {
     if (p.latitude != null && p.longitude != null) {
-      markers.push({ id: p.id, latitude: p.latitude, longitude: p.longitude, label: p.name, color: "#f59e0b" });
+      markers.push({
+        id: p.id,
+        latitude: p.latitude,
+        longitude: p.longitude,
+        label: p.name,
+        color: "#f59e0b",
+      });
     }
   }
 
@@ -142,11 +167,21 @@ function LocationPage() {
             <div className="grid grid-cols-2 gap-3">
               <div className="grid gap-1.5">
                 <Label className="text-xs">Latitude</Label>
-                <Input type="number" step="0.000001" {...form.register("latitude")} placeholder="28.6139" />
+                <Input
+                  type="number"
+                  step="0.000001"
+                  {...form.register("latitude")}
+                  placeholder="28.6139"
+                />
               </div>
               <div className="grid gap-1.5">
                 <Label className="text-xs">Longitude</Label>
-                <Input type="number" step="0.000001" {...form.register("longitude")} placeholder="77.2090" />
+                <Input
+                  type="number"
+                  step="0.000001"
+                  {...form.register("longitude")}
+                  placeholder="77.2090"
+                />
               </div>
             </div>
             <div className="grid gap-1.5">

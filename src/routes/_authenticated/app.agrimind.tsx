@@ -54,7 +54,10 @@ export const Route = createFileRoute("/_authenticated/app/agrimind")({
       },
       { name: "robots", content: "noindex, nofollow" },
       { property: "og:title", content: "AgriMind AI — AgriTwin OS" },
-      { property: "og:description", content: "AI decision engine turning real farm data into explainable recommendations." },
+      {
+        property: "og:description",
+        content: "AI decision engine turning real farm data into explainable recommendations.",
+      },
       { property: "og:url", content: "https://agri-twin-os.lovable.app/app/agrimind" },
     ],
   }),
@@ -88,20 +91,20 @@ function AgriMindPage() {
 
   const recs = useQuery({
     queryKey: ["agrimind", "list", activeFarmId, false],
-    queryFn: () =>
-      listFn({ data: { farm_id: activeFarmId, include_dismissed: false } }),
+    queryFn: () => listFn({ data: { farm_id: activeFarmId, include_dismissed: false } }),
     enabled: !!activeFarmId,
   });
 
   const generate = useMutation({
-    mutationFn: () =>
-      generateFn({ data: { farm_id: activeFarmId!, language: lang } }),
+    mutationFn: () => generateFn({ data: { farm_id: activeFarmId!, language: lang } }),
     onSuccess: (r) => {
       if (!r.success) {
         toast.error(r.error);
         return;
       }
-      toast.success(`Generated ${r.data.generated} recommendation${r.data.generated === 1 ? "" : "s"}`);
+      toast.success(
+        `Generated ${r.data.generated} recommendation${r.data.generated === 1 ? "" : "s"}`,
+      );
       qc.invalidateQueries({ queryKey: ["agrimind"] });
     },
     onError: () => toast.error("AgriMind AI is currently unavailable."),
@@ -215,8 +218,8 @@ function AgriMindPage() {
         ) : active.length === 0 ? (
           <Card>
             <CardContent className="py-10 text-center text-sm text-muted-foreground">
-              No recommendations yet. Click <strong>Generate insights</strong>{" "}
-              to produce decisions from your latest weather, crop AI, soil, and irrigation data.
+              No recommendations yet. Click <strong>Generate insights</strong> to produce decisions
+              from your latest weather, crop AI, soil, and irrigation data.
             </CardContent>
           </Card>
         ) : (
@@ -226,12 +229,8 @@ function AgriMindPage() {
                 key={r.id}
                 rec={r}
                 lang={lang}
-                onAccept={() =>
-                  updateStatus.mutate({ id: r.id, accepted: !r.accepted })
-                }
-                onDismiss={() =>
-                  updateStatus.mutate({ id: r.id, dismissed: true })
-                }
+                onAccept={() => updateStatus.mutate({ id: r.id, accepted: !r.accepted })}
+                onDismiss={() => updateStatus.mutate({ id: r.id, dismissed: true })}
               />
             ))}
           </div>
@@ -241,15 +240,7 @@ function AgriMindPage() {
   );
 }
 
-function StatCard({
-  icon,
-  label,
-  value,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-}) {
+function StatCard({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
     <Card className="bg-card/60 backdrop-blur">
       <CardContent className="flex items-center gap-4 py-5">
@@ -353,9 +344,7 @@ function RecommendationCard({
 
         <Accordion type="single" collapsible>
           <AccordionItem value="why" className="border-t">
-            <AccordionTrigger className="text-sm">
-              Why this recommendation?
-            </AccordionTrigger>
+            <AccordionTrigger className="text-sm">Why this recommendation?</AccordionTrigger>
             <AccordionContent>
               <p className="mb-3 text-sm text-muted-foreground">{t.reason}</p>
               <div className="flex flex-wrap gap-1.5">

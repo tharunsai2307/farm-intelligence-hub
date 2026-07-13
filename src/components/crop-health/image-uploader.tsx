@@ -55,9 +55,7 @@ export function ImageUploader({ value, onChange, disabled }: ImageUploaderProps)
           if (f) accept(f);
         }}
         className={`relative flex min-h-[280px] flex-col items-center justify-center rounded-xl border-2 border-dashed p-6 transition ${
-          dragging
-            ? "border-primary bg-primary/5"
-            : "border-border bg-muted/30 hover:bg-muted/50"
+          dragging ? "border-primary bg-primary/5" : "border-border bg-muted/30 hover:bg-muted/50"
         }`}
       >
         {value && previewUrl ? (

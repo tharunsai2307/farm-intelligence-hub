@@ -18,9 +18,7 @@ export const Route = createFileRoute("/api/agrisense/realtime")({
         const url = new URL(request.url);
         const farmId = url.searchParams.get("farm_id");
         if (!farmId) return jsonError("farm_id required", 400);
-        const { getLatestReadings, listDevices } = await import(
-          "@/lib/services/agrisense.server"
-        );
+        const { getLatestReadings, listDevices } = await import("@/lib/services/agrisense.server");
         const [readings, devices] = await Promise.all([
           getLatestReadings(auth.supabase, farmId),
           listDevices(auth.supabase, farmId),

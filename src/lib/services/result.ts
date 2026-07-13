@@ -6,8 +6,7 @@
  * without ever exposing raw provider errors.
  */
 export type ServiceResult<T> =
-  | { success: true; data: T; error: null }
-  | { success: false; data: null; error: string };
+  { success: true; data: T; error: null } | { success: false; data: null; error: string };
 
 export const ok = <T>(data: T): ServiceResult<T> => ({
   success: true,

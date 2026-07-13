@@ -37,9 +37,7 @@ export const listCropAnalyses = createServerFn({ method: "GET" })
 
 export const getCropAnalysis = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: { id: string }) =>
-    z.object({ id: z.string().uuid() }).parse(input),
-  )
+  .inputValidator((input: { id: string }) => z.object({ id: z.string().uuid() }).parse(input))
   .handler(async ({ data, context }) => {
     const { getAnalysisById, createSignedImageUrl } = await import("./ai-crop.server");
     const result = await getAnalysisById(context.supabase, data.id);
@@ -51,9 +49,7 @@ export const getCropAnalysis = createServerFn({ method: "GET" })
 
 export const getSignedAnalysisImage = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: { path: string }) =>
-    z.object({ path: z.string().min(1) }).parse(input),
-  )
+  .inputValidator((input: { path: string }) => z.object({ path: z.string().min(1) }).parse(input))
   .handler(async ({ data, context }) => {
     const { createSignedImageUrl } = await import("./ai-crop.server");
     const url = await createSignedImageUrl(context.supabase, data.path);
@@ -61,13 +57,15 @@ export const getSignedAnalysisImage = createServerFn({ method: "GET" })
     return ok({ url });
   });
 
-export const getAiCropStatus = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth]).handler(async () => {
-  const hasRoboflow = Boolean(process.env.ROBOFLOW_API_KEY && process.env.ROBOFLOW_MODEL_ID);
-  const hasGemini = Boolean(process.env.LOVABLE_API_KEY);
-  const configured = hasRoboflow || hasGemini;
-  const provider = hasRoboflow ? "roboflow" : hasGemini ? "gemini-vision" : "none";
-  const result: ServiceResult<{ configured: boolean; provider: string }> = configured
-    ? { success: true, data: { configured: true, provider }, error: null }
-    : fail("AI Crop Analysis service is currently unavailable.");
-  return result;
-});
+export const getAiCropStatus = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async () => {
+    const hasRoboflow = Boolean(process.env.ROBOFLOW_API_KEY && process.env.ROBOFLOW_MODEL_ID);
+    const hasGemini = Boolean(process.env.LOVABLE_API_KEY);
+    const configured = hasRoboflow || hasGemini;
+    const provider = hasRoboflow ? "roboflow" : hasGemini ? "gemini-vision" : "none";
+    const result: ServiceResult<{ configured: boolean; provider: string }> = configured
+      ? { success: true, data: { configured: true, provider }, error: null }
+      : fail("AI Crop Analysis service is currently unavailable.");
+    return result;
+  });

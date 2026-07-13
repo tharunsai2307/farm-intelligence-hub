@@ -1,14 +1,7 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import {
-  Plane,
-  Upload,
-  FileText,
-  Map as MapIcon,
-  Image as ImageIcon,
-  Trash2,
-} from "lucide-react";
+import { Plane, Upload, FileText, Map as MapIcon, Image as ImageIcon, Trash2 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -31,10 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
-import {
-  createDroneSurveyFn,
-  deleteDroneSurveyFn,
-} from "@/lib/services/agrisense.service";
+import { createDroneSurveyFn, deleteDroneSurveyFn } from "@/lib/services/agrisense.service";
 import type { DroneSurveyRow } from "@/lib/services/agrisense.server";
 
 /**
@@ -142,13 +132,7 @@ function AssetLink({
 
 const STATUSES = ["planned", "in_progress", "completed", "failed", "cancelled"] as const;
 
-export function DroneSurveyUploader({
-  farmId,
-  userId,
-}: {
-  farmId: string;
-  userId: string;
-}) {
+export function DroneSurveyUploader({ farmId, userId }: { farmId: string; userId: string }) {
   const [open, setOpen] = useState(false);
   const [surveyDate, setSurveyDate] = useState(() => new Date().toISOString().slice(0, 10));
   const [pilot, setPilot] = useState("");
@@ -170,7 +154,9 @@ export function DroneSurveyUploader({
       contentType: file.type || "application/octet-stream",
     });
     if (error) throw new Error(`${kind} upload failed: ${error.message}`);
-    const { data } = await supabase.storage.from("drone-uploads").createSignedUrl(path, 60 * 60 * 24 * 7);
+    const { data } = await supabase.storage
+      .from("drone-uploads")
+      .createSignedUrl(path, 60 * 60 * 24 * 7);
     return data?.signedUrl ?? null;
   }
 
@@ -274,9 +260,17 @@ export function DroneSurveyUploader({
               />
             </div>
           </div>
-          <FileField label="Survey report (PDF, DOCX)" onChange={setReportFile} accept=".pdf,.doc,.docx" />
+          <FileField
+            label="Survey report (PDF, DOCX)"
+            onChange={setReportFile}
+            accept=".pdf,.doc,.docx"
+          />
           <FileField label="GeoJSON boundary" onChange={setGeoFile} accept=".json,.geojson" />
-          <FileField label="Orthomosaic (TIF, JPG, PNG)" onChange={setOrthoFile} accept="image/*,.tif,.tiff" />
+          <FileField
+            label="Orthomosaic (TIF, JPG, PNG)"
+            onChange={setOrthoFile}
+            accept="image/*,.tif,.tiff"
+          />
           <div className="grid gap-1.5">
             <Label htmlFor="ds-notes">Notes</Label>
             <Input id="ds-notes" value={notes} onChange={(e) => setNotes(e.target.value)} />
@@ -307,11 +301,7 @@ function FileField({
   return (
     <div className="grid gap-1.5">
       <Label>{label}</Label>
-      <Input
-        type="file"
-        accept={accept}
-        onChange={(e) => onChange(e.target.files?.[0] ?? null)}
-      />
+      <Input type="file" accept={accept} onChange={(e) => onChange(e.target.files?.[0] ?? null)} />
     </div>
   );
 }

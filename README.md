@@ -10,21 +10,25 @@ AgriTwin OS unifies a farm's environmental, operational, and commercial data int
 ## Modules
 
 ### Core Platform
+
 - **Auth & Onboarding** — Email + Google OAuth, profile and farm onboarding gate, multi-tenant RLS.
 - **Farm Management** — Farms, plots, GPS boundaries on Mapbox, crop metadata, soil/irrigation/observation records with image uploads.
 - **Digital Twin** — Living 2D representation of plots with real per-plot signals (sensors, observations, irrigation, AgriMind insights) and a unified farm timeline.
 
 ### Intelligence (Phase 2)
+
 - **Weather Intelligence** — OpenWeather One Call 3.0 with current, forecast, and derived alerts.
 - **Crop AI** — Roboflow CV disease detection + Gemini-generated multilingual treatment plans.
 - **AgriMind AI** — Central decision engine that fuses weather, soil, irrigation, observations, and crop AI into explainable recommendations with English / Tamil / Telugu translation and voice playback.
 - **AgriSense** — IoT, satellite, and drone ingestion with realtime device health.
 
 ### Operations — FarmOS (Phase 3)
+
 - Inventory, Equipment, Workers & Attendance, Tasks, Expenses (with receipts), Harvest Planning, Calendar, Notifications.
 - AgriMind → Task converter so AI recommendations become real operations.
 
 ### Commerce & Compliance (Phase 3)
+
 - **Live Market Prices** via data.gov.in Agmarknet API.
 - **Marketplace + Buyer Matching** — listings and inquiries (no payments).
 - **Logistics & Warehouse** planning.
@@ -32,6 +36,7 @@ AgriTwin OS unifies a farm's environmental, operational, and commercial data int
 - **Sustainability & ESG** carbon scoring.
 
 ### Platform (Phase 4 in progress)
+
 - Multi-user farm collaboration, push subscriptions, admin audit log.
 - PWA, offline-first, monitoring, demo mode (planned).
 
@@ -65,11 +70,13 @@ The app will be available at `http://localhost:8080`.
 ### Environment Variables
 
 Auto-managed by Lovable Cloud:
+
 - `VITE_SUPABASE_URL`
 - `VITE_SUPABASE_PUBLISHABLE_KEY`
 - `VITE_SUPABASE_PROJECT_ID`
 
 User-supplied secrets (configure in Lovable Cloud secrets):
+
 - `OPENWEATHER_API_KEY` — One Call 3.0
 - `ROBOFLOW_API_KEY` — Crop disease CV
 - `LOVABLE_API_KEY` — AI Gateway (Gemini + TTS)
@@ -127,4 +134,3 @@ This project is built and maintained with [Lovable](https://lovable.dev).
 ## License
 
 Proprietary — AgriTwin OS. All rights reserved.
-

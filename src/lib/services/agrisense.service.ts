@@ -20,13 +20,7 @@ const deviceTypeEnum = z.enum([
   "other",
 ]);
 
-const droneStatusEnum = z.enum([
-  "planned",
-  "in_progress",
-  "completed",
-  "failed",
-  "cancelled",
-]);
+const droneStatusEnum = z.enum(["planned", "in_progress", "completed", "failed", "cancelled"]);
 
 const registerDeviceInput = z.object({
   farm_id: z.string().uuid(),
@@ -49,7 +43,9 @@ export const registerSensorDevice = createServerFn({ method: "POST" })
 export const renameSensorDevice = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: { id: string; device_name: string }) =>
-    z.object({ id: z.string().uuid(), device_name: z.string().trim().min(1).max(120) }).parse(input),
+    z
+      .object({ id: z.string().uuid(), device_name: z.string().trim().min(1).max(120) })
+      .parse(input),
   )
   .handler(async ({ data, context }) => {
     const { renameDevice } = await import("./agrisense.server");
@@ -106,22 +102,23 @@ export const getLatestSensorReadings = createServerFn({ method: "GET" })
 
 export const ingestSensorReading = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: {
-    device_id: string;
-    sensor_type: string;
-    value: number;
-    unit?: string | null;
-    recorded_at?: string;
-  }) =>
-    z
-      .object({
-        device_id: z.string().uuid(),
-        sensor_type: z.string().trim().min(1).max(60),
-        value: z.number().finite(),
-        unit: z.string().trim().max(20).nullable().optional(),
-        recorded_at: z.string().datetime().optional(),
-      })
-      .parse(input),
+  .inputValidator(
+    (input: {
+      device_id: string;
+      sensor_type: string;
+      value: number;
+      unit?: string | null;
+      recorded_at?: string;
+    }) =>
+      z
+        .object({
+          device_id: z.string().uuid(),
+          sensor_type: z.string().trim().min(1).max(60),
+          value: z.number().finite(),
+          unit: z.string().trim().max(20).nullable().optional(),
+          recorded_at: z.string().datetime().optional(),
+        })
+        .parse(input),
   )
   .handler(async ({ data, context }) => {
     const { ingestReading } = await import("./agrisense.server");
@@ -142,9 +139,9 @@ export const getSatelliteStatus = createServerFn({ method: "GET" }).handler(asyn
   const hasGmaps = Boolean(process.env.LOVABLE_API_KEY && process.env.GOOGLE_MAPS_API_KEY);
   const configured = Boolean(
     process.env.SENTINEL_HUB_API_KEY ||
-      process.env.GOOGLE_EARTH_ENGINE_API_KEY ||
-      process.env.PLANET_LABS_API_KEY ||
-      hasGmaps,
+    process.env.GOOGLE_EARTH_ENGINE_API_KEY ||
+    process.env.PLANET_LABS_API_KEY ||
+    hasGmaps,
   );
   const result: ServiceResult<{ configured: boolean; provider: string | null }> = configured
     ? ok({

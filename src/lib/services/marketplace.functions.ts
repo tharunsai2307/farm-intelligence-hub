@@ -50,7 +50,10 @@ export const browseListings = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: { commodity?: string; state?: string } | undefined) =>
     z
-      .object({ commodity: z.string().trim().min(1).max(80).optional(), state: z.string().trim().min(1).max(80).optional() })
+      .object({
+        commodity: z.string().trim().min(1).max(80).optional(),
+        state: z.string().trim().min(1).max(80).optional(),
+      })
       .parse(input ?? {}),
   )
   .handler(async ({ data, context }) => {
@@ -103,7 +106,9 @@ export const createListing = createServerFn({ method: "POST" })
 export const updateListingStatus = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: { id: string; status: "active" | "sold" | "withdrawn" }) =>
-    z.object({ id: z.string().uuid(), status: z.enum(["active", "sold", "withdrawn"]) }).parse(input),
+    z
+      .object({ id: z.string().uuid(), status: z.enum(["active", "sold", "withdrawn"]) })
+      .parse(input),
   )
   .handler(async ({ data, context }) => {
     const { error } = await context.supabase

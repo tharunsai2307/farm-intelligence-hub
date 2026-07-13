@@ -27,10 +27,17 @@ export const Route = createFileRoute("/_authenticated/app/crop-health/")({
   head: () => ({
     meta: [
       { title: "AI Crop Intelligence — AgriTwin OS" },
-      { name: "description", content: "Upload a leaf photo to detect diseases and get AI-generated treatment plans powered by computer vision and Gemini." },
+      {
+        name: "description",
+        content:
+          "Upload a leaf photo to detect diseases and get AI-generated treatment plans powered by computer vision and Gemini.",
+      },
       { name: "robots", content: "noindex, nofollow" },
       { property: "og:title", content: "AI Crop Intelligence — AgriTwin OS" },
-      { property: "og:description", content: "Detect crop diseases from photos with computer vision and AI treatment plans." },
+      {
+        property: "og:description",
+        content: "Detect crop diseases from photos with computer vision and AI treatment plans.",
+      },
       { property: "og:url", content: "https://agri-twin-os.lovable.app/app/crop-health" },
     ],
   }),
@@ -127,8 +134,8 @@ function CropHealthPage() {
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>AI Crop Analysis service is currently unavailable.</AlertTitle>
           <AlertDescription>
-            A computer-vision model is not configured. Configure Roboflow credentials to
-            enable real predictions.
+            A computer-vision model is not configured. Configure Roboflow credentials to enable real
+            predictions.
           </AlertDescription>
         </Alert>
       )}
@@ -156,11 +163,7 @@ function CropHealthPage() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <ImageUploader
-              value={file}
-              onChange={setFile}
-              disabled={mutation.isPending}
-            />
+            <ImageUploader value={file} onChange={setFile} disabled={mutation.isPending} />
             <AnalysisProgress active={mutation.isPending} />
           </CardContent>
         </Card>
@@ -199,10 +202,7 @@ function CropHealthPage() {
 
             <div className="space-y-1.5">
               <Label htmlFor="lang">Explanation language</Label>
-              <Select
-                value={language}
-                onValueChange={(v) => setLanguage(v as typeof language)}
-              >
+              <Select value={language} onValueChange={(v) => setLanguage(v as typeof language)}>
                 <SelectTrigger id="lang">
                   <SelectValue />
                 </SelectTrigger>
@@ -221,9 +221,7 @@ function CropHealthPage() {
             <Button
               className="w-full"
               size="lg"
-              disabled={
-                !file || !farmId || !configured || mutation.isPending
-              }
+              disabled={!file || !farmId || !configured || mutation.isPending}
               onClick={() => mutation.mutate()}
             >
               {mutation.isPending ? "Analyzing…" : "Analyze Crop"}

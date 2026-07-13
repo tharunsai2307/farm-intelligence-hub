@@ -34,15 +34,25 @@ const FARM_TYPES = [
 ] as const;
 
 const SOIL_TYPES = [
-  "Red Soil", "Black Soil", "Alluvial Soil", "Sandy Soil", "Clay Soil", "Loamy Soil", "Unknown",
+  "Red Soil",
+  "Black Soil",
+  "Alluvial Soil",
+  "Sandy Soil",
+  "Clay Soil",
+  "Loamy Soil",
+  "Unknown",
 ] as const;
 
-const IRRIGATION_TYPES = [
-  "Drip", "Sprinkler", "Flood", "Manual", "Rainfed", "Unknown",
-] as const;
+const IRRIGATION_TYPES = ["Drip", "Sprinkler", "Flood", "Manual", "Rainfed", "Unknown"] as const;
 
 const WATER_SOURCES = [
-  "Borewell", "Canal", "River", "Tank", "Rainwater", "Mixed", "Unknown",
+  "Borewell",
+  "Canal",
+  "River",
+  "Tank",
+  "Rainwater",
+  "Mixed",
+  "Unknown",
 ] as const;
 
 const SEASONS = ["Kharif", "Rabi", "Zaid", "Year-round"] as const;
@@ -51,7 +61,6 @@ const optionalNum = z.preprocess(
   (v) => (v === "" || v === null || v === undefined ? undefined : Number(v)),
   z.number().optional(),
 ) as unknown as z.ZodType<number | undefined>;
-
 
 const schema = z.object({
   name: z.string().trim().min(2, "Required").max(120),
@@ -82,7 +91,6 @@ const schema = z.object({
   has_weather_station: z.boolean(),
   wants_api_connection: z.boolean(),
 });
-
 
 type Values = z.infer<typeof schema>;
 
@@ -147,8 +155,7 @@ function FarmOnboarding() {
   const onSubmit = async (values: Values) => {
     setSubmitting(true);
     try {
-      const area_hectares =
-        values.area_unit === "acres" ? values.area * 0.404686 : values.area;
+      const area_hectares = values.area_unit === "acres" ? values.area * 0.404686 : values.area;
 
       await createFarm({
         data: {
@@ -213,7 +220,10 @@ function FarmOnboarding() {
             <SelectInput
               value={form.watch("area_unit")}
               onChange={(v) => form.setValue("area_unit", v as Values["area_unit"])}
-              options={[{ value: "hectares", label: "Hectares" }, { value: "acres", label: "Acres" }]}
+              options={[
+                { value: "hectares", label: "Hectares" },
+                { value: "acres", label: "Acres" },
+              ]}
             />
           </Field>
           <Field label="Farm type">
@@ -225,7 +235,10 @@ function FarmOnboarding() {
           </Field>
         </FormSection>
 
-        <FormSection title="Location" description="We use location to fetch weather and satellite data later.">
+        <FormSection
+          title="Location"
+          description="We use location to fetch weather and satellite data later."
+        >
           <Field label="Country" error={form.formState.errors.country?.message}>
             <Input {...form.register("country")} />
           </Field>
@@ -242,7 +255,13 @@ function FarmOnboarding() {
             <Input {...form.register("pincode")} />
           </Field>
           <div className="sm:col-span-2">
-            <Button type="button" variant="outline" size="sm" onClick={useMyLocation} disabled={locating}>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={useMyLocation}
+              disabled={locating}
+            >
               {locating ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : (
@@ -305,7 +324,10 @@ function FarmOnboarding() {
           </Field>
         </FormSection>
 
-        <FormSection title="Data sources" description="No data is generated. We only show what you connect.">
+        <FormSection
+          title="Data sources"
+          description="No data is generated. We only show what you connect."
+        >
           <ToggleRow
             label="I have soil moisture sensors"
             checked={form.watch("has_soil_sensors")}
@@ -324,7 +346,11 @@ function FarmOnboarding() {
         </FormSection>
 
         <div className="flex items-center justify-between border-t pt-6">
-          <Button type="button" variant="ghost" onClick={() => navigate({ to: "/onboarding/profile" })}>
+          <Button
+            type="button"
+            variant="ghost"
+            onClick={() => navigate({ to: "/onboarding/profile" })}
+          >
             Back
           </Button>
           <Button type="submit" disabled={submitting}>
@@ -367,10 +393,14 @@ function SelectInput({
 }) {
   return (
     <Select value={value} onValueChange={onChange}>
-      <SelectTrigger><SelectValue /></SelectTrigger>
+      <SelectTrigger>
+        <SelectValue />
+      </SelectTrigger>
       <SelectContent>
         {options.map((o) => (
-          <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+          <SelectItem key={o.value} value={o.value}>
+            {o.label}
+          </SelectItem>
         ))}
       </SelectContent>
     </Select>

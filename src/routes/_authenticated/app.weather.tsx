@@ -3,7 +3,16 @@ import { useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
-import { CloudSun, RefreshCw, Droplets, Wind, ThermometerSun, AlertTriangle, Gauge, Sun } from "lucide-react";
+import {
+  CloudSun,
+  RefreshCw,
+  Droplets,
+  Wind,
+  ThermometerSun,
+  AlertTriangle,
+  Gauge,
+  Sun,
+} from "lucide-react";
 
 import { PageHeader } from "@/components/common/page-header";
 import { EmptyState } from "@/components/common/empty-state";
@@ -24,7 +33,11 @@ export const Route = createFileRoute("/_authenticated/app/weather")({
   head: () => ({
     meta: [
       { title: "Weather Intelligence — AgriTwin OS" },
-      { name: "description", content: "Live hyperlocal weather, 7-day forecast, and agronomy alerts for your exact farm coordinates." },
+      {
+        name: "description",
+        content:
+          "Live hyperlocal weather, 7-day forecast, and agronomy alerts for your exact farm coordinates.",
+      },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),
@@ -86,7 +99,11 @@ function WeatherPage() {
         actions={
           <div className="flex items-center gap-2">
             <FarmSelector value={activeFarmId} onChange={setFarmId} />
-            <Button onClick={() => sync.mutate()} disabled={!activeFarmId || !configured || sync.isPending} size="sm">
+            <Button
+              onClick={() => sync.mutate()}
+              disabled={!activeFarmId || !configured || sync.isPending}
+              size="sm"
+            >
               <RefreshCw className={`mr-2 h-4 w-4 ${sync.isPending ? "animate-spin" : ""}`} />
               Sync now
             </Button>
@@ -98,16 +115,23 @@ function WeatherPage() {
         <EmptyState
           icon={CloudSun}
           title="Weather provider not configured"
-          description={statusQ.data && !statusQ.data.success ? statusQ.data.error : "Set OPENWEATHER_API_KEY in your backend secrets to enable weather."}
+          description={
+            statusQ.data && !statusQ.data.success
+              ? statusQ.data.error
+              : "Set OPENWEATHER_API_KEY in your backend secrets to enable weather."
+          }
         />
       ) : !activeFarmId ? (
-        <EmptyState icon={CloudSun} title="Add a farm to see weather" description="Create a farm with GPS coordinates first." />
+        <EmptyState
+          icon={CloudSun}
+          title="Add a farm to see weather"
+          description="Create a farm with GPS coordinates first."
+        />
       ) : (
         <div className="grid gap-6">
           <CurrentCard data={current} loading={currentQ.isLoading} />
           <ForecastCard data={forecast ?? []} loading={forecastQ.isLoading} />
           <AlertsCard data={alerts ?? []} loading={alertsQ.isLoading} />
-
         </div>
       )}
     </div>
@@ -184,20 +208,27 @@ function ForecastCard({ data, loading }: { data: ForecastRow[]; loading: boolean
   if (!data.length) return null;
   return (
     <Card>
-      <CardHeader><CardTitle className="text-base">7-day forecast</CardTitle></CardHeader>
+      <CardHeader>
+        <CardTitle className="text-base">7-day forecast</CardTitle>
+      </CardHeader>
       <CardContent>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">
           {data.map((d) => (
             <div key={d.forecast_date} className="rounded-md border bg-card/50 p-3">
               <div className="text-xs font-medium text-muted-foreground">
-                {new Date(d.forecast_date).toLocaleDateString(undefined, { weekday: "short", day: "numeric" })}
+                {new Date(d.forecast_date).toLocaleDateString(undefined, {
+                  weekday: "short",
+                  day: "numeric",
+                })}
               </div>
               <div className="mt-1 text-sm capitalize">{d.weather_condition ?? "—"}</div>
               <div className="mt-2 text-lg font-semibold tabular-nums">
-                {fmt(d.max_temp, "°")} <span className="text-sm text-muted-foreground">/ {fmt(d.min_temp, "°")}</span>
+                {fmt(d.max_temp, "°")}{" "}
+                <span className="text-sm text-muted-foreground">/ {fmt(d.min_temp, "°")}</span>
               </div>
               <div className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
-                <Droplets className="h-3 w-3" /> {d.rain_probability ?? 0}% · {fmt(d.rainfall, " mm")}
+                <Droplets className="h-3 w-3" /> {d.rain_probability ?? 0}% ·{" "}
+                {fmt(d.rainfall, " mm")}
               </div>
             </div>
           ))}
@@ -217,8 +248,8 @@ type AlertRow = {
 };
 
 function AlertsCard({ data, loading }: { data: AlertRow[]; loading: boolean }) {
-  if (loading) return <Skeleton className="h-32 w-full" />;
   const recent = useMemo(() => data.slice(0, 10), [data]);
+  if (loading) return <Skeleton className="h-32 w-full" />;
   return (
     <Card>
       <CardHeader>
@@ -228,16 +259,24 @@ function AlertsCard({ data, loading }: { data: AlertRow[]; loading: boolean }) {
       </CardHeader>
       <CardContent>
         {recent.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No active alerts. Run a sync to generate fresh ones.</p>
+          <p className="text-sm text-muted-foreground">
+            No active alerts. Run a sync to generate fresh ones.
+          </p>
         ) : (
           <ul className="space-y-3">
             {recent.map((a) => (
               <li key={a.id} className="flex items-start gap-3 rounded-md border bg-card/50 p-3">
-                <Badge variant={a.severity === "high" ? "destructive" : "secondary"}>{a.severity}</Badge>
+                <Badge variant={a.severity === "high" ? "destructive" : "secondary"}>
+                  {a.severity}
+                </Badge>
                 <div className="min-w-0 flex-1">
                   <div className="font-medium">{a.title}</div>
-                  {a.description && <div className="mt-0.5 text-sm text-muted-foreground">{a.description}</div>}
-                  <div className="mt-1 text-xs text-muted-foreground">{new Date(a.created_at).toLocaleString()}</div>
+                  {a.description && (
+                    <div className="mt-0.5 text-sm text-muted-foreground">{a.description}</div>
+                  )}
+                  <div className="mt-1 text-xs text-muted-foreground">
+                    {new Date(a.created_at).toLocaleString()}
+                  </div>
                 </div>
               </li>
             ))}

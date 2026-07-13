@@ -53,7 +53,11 @@ export async function listInventory(
   supabase: SB,
   args: { farmId?: string; category?: InventoryRow["category"] },
 ): Promise<ServiceResult<{ items: InventoryWithAlerts[] }>> {
-  let q = supabase.from("inventory_items").select("*").is("deleted_at", null).order("created_at", { ascending: false });
+  let q = supabase
+    .from("inventory_items")
+    .select("*")
+    .is("deleted_at", null)
+    .order("created_at", { ascending: false });
   if (args.farmId) q = q.eq("farm_id", args.farmId);
   if (args.category) q = q.eq("category", args.category);
   const { data, error } = await q;
@@ -64,18 +68,33 @@ export async function listInventory(
 export async function upsertInventory(
   supabase: SB,
   userId: string,
-  payload: Partial<InventoryRow> & { farm_id: string; name: string; category: InventoryRow["category"] },
+  payload: Partial<InventoryRow> & {
+    farm_id: string;
+    name: string;
+    category: InventoryRow["category"];
+  },
 ): Promise<ServiceResult<InventoryRow>> {
   const row = { ...payload, user_id: userId };
   const { data, error } = payload.id
-    ? await supabase.from("inventory_items").update(row).eq("id", payload.id).select("*").maybeSingle()
+    ? await supabase
+        .from("inventory_items")
+        .update(row)
+        .eq("id", payload.id)
+        .select("*")
+        .maybeSingle()
     : await supabase.from("inventory_items").insert(row).select("*").maybeSingle();
   if (error || !data) return fail(error?.message ?? "Insert failed");
   return ok(data);
 }
 
-export async function softDeleteInventory(supabase: SB, id: string): Promise<ServiceResult<{ id: string }>> {
-  const { error } = await supabase.from("inventory_items").update({ deleted_at: new Date().toISOString() }).eq("id", id);
+export async function softDeleteInventory(
+  supabase: SB,
+  id: string,
+): Promise<ServiceResult<{ id: string }>> {
+  const { error } = await supabase
+    .from("inventory_items")
+    .update({ deleted_at: new Date().toISOString() })
+    .eq("id", id);
   if (error) return fail(error.message);
   return ok({ id });
 }
@@ -84,8 +103,15 @@ export async function softDeleteInventory(supabase: SB, id: string): Promise<Ser
 //  EQUIPMENT
 // ============================================================
 
-export async function listEquipment(supabase: SB, farmId?: string): Promise<ServiceResult<{ items: EquipmentRow[] }>> {
-  let q = supabase.from("equipment").select("*").is("deleted_at", null).order("created_at", { ascending: false });
+export async function listEquipment(
+  supabase: SB,
+  farmId?: string,
+): Promise<ServiceResult<{ items: EquipmentRow[] }>> {
+  let q = supabase
+    .from("equipment")
+    .select("*")
+    .is("deleted_at", null)
+    .order("created_at", { ascending: false });
   if (farmId) q = q.eq("farm_id", farmId);
   const { data, error } = await q;
   if (error) return fail(error.message);
@@ -105,8 +131,14 @@ export async function upsertEquipment(
   return ok(data);
 }
 
-export async function softDeleteEquipment(supabase: SB, id: string): Promise<ServiceResult<{ id: string }>> {
-  const { error } = await supabase.from("equipment").update({ deleted_at: new Date().toISOString() }).eq("id", id);
+export async function softDeleteEquipment(
+  supabase: SB,
+  id: string,
+): Promise<ServiceResult<{ id: string }>> {
+  const { error } = await supabase
+    .from("equipment")
+    .update({ deleted_at: new Date().toISOString() })
+    .eq("id", id);
   if (error) return fail(error.message);
   return ok({ id });
 }
@@ -115,7 +147,10 @@ export async function softDeleteEquipment(supabase: SB, id: string): Promise<Ser
 //  WORKERS
 // ============================================================
 
-export async function listWorkers(supabase: SB, farmId?: string): Promise<ServiceResult<{ items: WorkerRow[] }>> {
+export async function listWorkers(
+  supabase: SB,
+  farmId?: string,
+): Promise<ServiceResult<{ items: WorkerRow[] }>> {
   let q = supabase.from("workers").select("*").is("deleted_at", null).order("name");
   if (farmId) q = q.eq("farm_id", farmId);
   const { data, error } = await q;
@@ -136,8 +171,14 @@ export async function upsertWorker(
   return ok(data);
 }
 
-export async function softDeleteWorker(supabase: SB, id: string): Promise<ServiceResult<{ id: string }>> {
-  const { error } = await supabase.from("workers").update({ deleted_at: new Date().toISOString() }).eq("id", id);
+export async function softDeleteWorker(
+  supabase: SB,
+  id: string,
+): Promise<ServiceResult<{ id: string }>> {
+  const { error } = await supabase
+    .from("workers")
+    .update({ deleted_at: new Date().toISOString() })
+    .eq("id", id);
   if (error) return fail(error.message);
   return ok({ id });
 }
@@ -158,7 +199,13 @@ export async function listAttendance(
 export async function recordAttendance(
   supabase: SB,
   userId: string,
-  payload: { worker_id: string; date: string; status: AttendanceRow["status"]; hours_worked?: number | null; notes?: string | null },
+  payload: {
+    worker_id: string;
+    date: string;
+    status: AttendanceRow["status"];
+    hours_worked?: number | null;
+    notes?: string | null;
+  },
 ): Promise<ServiceResult<AttendanceRow>> {
   const { data, error } = await supabase
     .from("worker_attendance")
@@ -177,7 +224,11 @@ export async function listTasks(
   supabase: SB,
   args: { farmId?: string; status?: TaskRow["status"]; workerId?: string },
 ): Promise<ServiceResult<{ items: TaskRow[] }>> {
-  let q = supabase.from("tasks").select("*").is("deleted_at", null).order("due_date", { ascending: true, nullsFirst: false });
+  let q = supabase
+    .from("tasks")
+    .select("*")
+    .is("deleted_at", null)
+    .order("due_date", { ascending: true, nullsFirst: false });
   if (args.farmId) q = q.eq("farm_id", args.farmId);
   if (args.status) q = q.eq("status", args.status);
   if (args.workerId) q = q.eq("worker_id", args.workerId);
@@ -202,8 +253,14 @@ export async function upsertTask(
   return ok(data);
 }
 
-export async function softDeleteTask(supabase: SB, id: string): Promise<ServiceResult<{ id: string }>> {
-  const { error } = await supabase.from("tasks").update({ deleted_at: new Date().toISOString() }).eq("id", id);
+export async function softDeleteTask(
+  supabase: SB,
+  id: string,
+): Promise<ServiceResult<{ id: string }>> {
+  const { error } = await supabase
+    .from("tasks")
+    .update({ deleted_at: new Date().toISOString() })
+    .eq("id", id);
   if (error) return fail(error.message);
   return ok({ id });
 }
@@ -215,7 +272,9 @@ export async function createTaskFromRecommendation(
 ): Promise<ServiceResult<TaskRow>> {
   const { data: rec, error: recErr } = await supabase
     .from("farm_recommendations")
-    .select("id, farm_id, plot_id, recommendation_type, title, recommendation, source_modules, confidence")
+    .select(
+      "id, farm_id, plot_id, recommendation_type, title, recommendation, source_modules, confidence",
+    )
     .eq("id", args.recommendation_id)
     .maybeSingle();
   if (recErr || !rec) return fail(recErr?.message ?? "Recommendation not found");
@@ -264,8 +323,21 @@ export async function createTaskFromRecommendation(
 export async function listExpenses(
   supabase: SB,
   args: { farmId?: string; from?: string; to?: string; category?: ExpenseRow["category"] },
-): Promise<ServiceResult<{ items: ExpenseRow[]; totals: { byCategory: Record<string, number>; byMonth: Record<string, number>; grandTotal: number } }>> {
-  let q = supabase.from("expenses").select("*").is("deleted_at", null).order("expense_date", { ascending: false });
+): Promise<
+  ServiceResult<{
+    items: ExpenseRow[];
+    totals: {
+      byCategory: Record<string, number>;
+      byMonth: Record<string, number>;
+      grandTotal: number;
+    };
+  }>
+> {
+  let q = supabase
+    .from("expenses")
+    .select("*")
+    .is("deleted_at", null)
+    .order("expense_date", { ascending: false });
   if (args.farmId) q = q.eq("farm_id", args.farmId);
   if (args.from) q = q.gte("expense_date", args.from);
   if (args.to) q = q.lte("expense_date", args.to);
@@ -290,7 +362,11 @@ export async function listExpenses(
 export async function upsertExpense(
   supabase: SB,
   userId: string,
-  payload: Partial<ExpenseRow> & { farm_id: string; amount: number; category: ExpenseRow["category"] },
+  payload: Partial<ExpenseRow> & {
+    farm_id: string;
+    amount: number;
+    category: ExpenseRow["category"];
+  },
 ): Promise<ServiceResult<ExpenseRow>> {
   const row = { ...payload, user_id: userId };
   const { data, error } = payload.id
@@ -300,8 +376,14 @@ export async function upsertExpense(
   return ok(data);
 }
 
-export async function softDeleteExpense(supabase: SB, id: string): Promise<ServiceResult<{ id: string }>> {
-  const { error } = await supabase.from("expenses").update({ deleted_at: new Date().toISOString() }).eq("id", id);
+export async function softDeleteExpense(
+  supabase: SB,
+  id: string,
+): Promise<ServiceResult<{ id: string }>> {
+  const { error } = await supabase
+    .from("expenses")
+    .update({ deleted_at: new Date().toISOString() })
+    .eq("id", id);
   if (error) return fail(error.message);
   return ok({ id });
 }
@@ -310,8 +392,15 @@ export async function softDeleteExpense(supabase: SB, id: string): Promise<Servi
 //  HARVEST RECORDS
 // ============================================================
 
-export async function listHarvests(supabase: SB, farmId?: string): Promise<ServiceResult<{ items: HarvestRow[] }>> {
-  let q = supabase.from("harvest_records").select("*").is("deleted_at", null).order("expected_harvest_date", { ascending: false, nullsFirst: false });
+export async function listHarvests(
+  supabase: SB,
+  farmId?: string,
+): Promise<ServiceResult<{ items: HarvestRow[] }>> {
+  let q = supabase
+    .from("harvest_records")
+    .select("*")
+    .is("deleted_at", null)
+    .order("expected_harvest_date", { ascending: false, nullsFirst: false });
   if (farmId) q = q.eq("farm_id", farmId);
   const { data, error } = await q;
   if (error) return fail(error.message);
@@ -325,14 +414,25 @@ export async function upsertHarvest(
 ): Promise<ServiceResult<HarvestRow>> {
   const row = { ...payload, user_id: userId };
   const { data, error } = payload.id
-    ? await supabase.from("harvest_records").update(row).eq("id", payload.id).select("*").maybeSingle()
+    ? await supabase
+        .from("harvest_records")
+        .update(row)
+        .eq("id", payload.id)
+        .select("*")
+        .maybeSingle()
     : await supabase.from("harvest_records").insert(row).select("*").maybeSingle();
   if (error || !data) return fail(error?.message ?? "Insert failed");
   return ok(data);
 }
 
-export async function softDeleteHarvest(supabase: SB, id: string): Promise<ServiceResult<{ id: string }>> {
-  const { error } = await supabase.from("harvest_records").update({ deleted_at: new Date().toISOString() }).eq("id", id);
+export async function softDeleteHarvest(
+  supabase: SB,
+  id: string,
+): Promise<ServiceResult<{ id: string }>> {
+  const { error } = await supabase
+    .from("harvest_records")
+    .update({ deleted_at: new Date().toISOString() })
+    .eq("id", id);
   if (error) return fail(error.message);
   return ok({ id });
 }
@@ -359,14 +459,22 @@ export async function listCalendar(
 
   const [tasks, harvests, equip, events] = await Promise.all([
     farmFilter(
-      supabase.from("tasks").select("id, title, due_date, status, farm_id").is("deleted_at", null).not("due_date", "is", null).gte("due_date", args.from).lte("due_date", args.to),
+      supabase
+        .from("tasks")
+        .select("id, title, due_date, status, farm_id")
+        .is("deleted_at", null)
+        .not("due_date", "is", null)
+        .gte("due_date", args.from)
+        .lte("due_date", args.to),
     ),
     farmFilter(
       supabase
         .from("harvest_records")
         .select("id, crop, expected_harvest_date, actual_harvest_date, status, farm_id")
         .is("deleted_at", null)
-        .or(`and(expected_harvest_date.gte.${args.from},expected_harvest_date.lte.${args.to}),and(actual_harvest_date.gte.${args.from},actual_harvest_date.lte.${args.to})`),
+        .or(
+          `and(expected_harvest_date.gte.${args.from},expected_harvest_date.lte.${args.to}),and(actual_harvest_date.gte.${args.from},actual_harvest_date.lte.${args.to})`,
+        ),
     ),
     farmFilter(
       supabase
@@ -390,20 +498,51 @@ export async function listCalendar(
   const items: CalendarItem[] = [];
   for (const t of tasks.data ?? []) {
     if (!t.due_date) continue;
-    items.push({ id: `task:${t.id}`, kind: "task", title: t.title, starts_at: t.due_date, ends_at: null, ref_id: t.id, meta: { status: t.status } });
+    items.push({
+      id: `task:${t.id}`,
+      kind: "task",
+      title: t.title,
+      starts_at: t.due_date,
+      ends_at: null,
+      ref_id: t.id,
+      meta: { status: t.status },
+    });
   }
   for (const h of harvests.data ?? []) {
     const d = h.actual_harvest_date ?? h.expected_harvest_date;
     if (!d) continue;
-    items.push({ id: `harvest:${h.id}`, kind: "harvest", title: `Harvest: ${h.crop}`, starts_at: d, ends_at: null, ref_id: h.id, meta: { status: h.status } });
+    items.push({
+      id: `harvest:${h.id}`,
+      kind: "harvest",
+      title: `Harvest: ${h.crop}`,
+      starts_at: d,
+      ends_at: null,
+      ref_id: h.id,
+      meta: { status: h.status },
+    });
   }
   for (const e of equip.data ?? []) {
     if (!e.next_maintenance_date) continue;
-    items.push({ id: `maint:${e.id}`, kind: "maintenance", title: `Maintenance: ${e.name}`, starts_at: e.next_maintenance_date, ends_at: null, ref_id: e.id });
+    items.push({
+      id: `maint:${e.id}`,
+      kind: "maintenance",
+      title: `Maintenance: ${e.name}`,
+      starts_at: e.next_maintenance_date,
+      ends_at: null,
+      ref_id: e.id,
+    });
   }
   const evRows = (events.data ?? []) as CalendarEventRow[];
   for (const ev of evRows) {
-    items.push({ id: `event:${ev.id}`, kind: "event", title: ev.title, starts_at: ev.starts_at, ends_at: ev.ends_at, ref_id: ev.id, meta: { type: ev.event_type } });
+    items.push({
+      id: `event:${ev.id}`,
+      kind: "event",
+      title: ev.title,
+      starts_at: ev.starts_at,
+      ends_at: ev.ends_at,
+      ref_id: ev.id,
+      meta: { type: ev.event_type },
+    });
   }
 
   items.sort((a, b) => (a.starts_at < b.starts_at ? -1 : 1));
@@ -417,14 +556,25 @@ export async function upsertCalendarEvent(
 ): Promise<ServiceResult<CalendarEventRow>> {
   const row = { ...payload, user_id: userId };
   const { data, error } = payload.id
-    ? await supabase.from("calendar_events").update(row).eq("id", payload.id).select("*").maybeSingle()
+    ? await supabase
+        .from("calendar_events")
+        .update(row)
+        .eq("id", payload.id)
+        .select("*")
+        .maybeSingle()
     : await supabase.from("calendar_events").insert(row).select("*").maybeSingle();
   if (error || !data) return fail(error?.message ?? "Insert failed");
   return ok(data);
 }
 
-export async function softDeleteCalendarEvent(supabase: SB, id: string): Promise<ServiceResult<{ id: string }>> {
-  const { error } = await supabase.from("calendar_events").update({ deleted_at: new Date().toISOString() }).eq("id", id);
+export async function softDeleteCalendarEvent(
+  supabase: SB,
+  id: string,
+): Promise<ServiceResult<{ id: string }>> {
+  const { error } = await supabase
+    .from("calendar_events")
+    .update({ deleted_at: new Date().toISOString() })
+    .eq("id", id);
   if (error) return fail(error.message);
   return ok({ id });
 }
@@ -442,17 +592,33 @@ export interface FarmOSDashboard {
   expense_summary: { thisMonth: number; lastMonth: number; byCategory: Record<string, number> };
 }
 
-export async function getFarmOSDashboard(supabase: SB, farmId?: string): Promise<ServiceResult<FarmOSDashboard>> {
+export async function getFarmOSDashboard(
+  supabase: SB,
+  farmId?: string,
+): Promise<ServiceResult<FarmOSDashboard>> {
   const todayStr = new Date().toISOString().slice(0, 10);
   const in30 = new Date(Date.now() + 30 * 86_400_000).toISOString().slice(0, 10);
 
-  const farmFilter = <T extends { eq: any }>(q: T): T => (farmId ? (q as any).eq("farm_id", farmId) : q);
+  const farmFilter = <T extends { eq: any }>(q: T): T =>
+    farmId ? (q as any).eq("farm_id", farmId) : q;
 
   const [tasksTodayRes, openTasksRes, inv, harvest, equip, expenses] = await Promise.all([
     farmFilter(
-      supabase.from("tasks").select("*").is("deleted_at", null).neq("status", "completed").neq("status", "cancelled").lte("due_date", todayStr),
+      supabase
+        .from("tasks")
+        .select("*")
+        .is("deleted_at", null)
+        .neq("status", "completed")
+        .neq("status", "cancelled")
+        .lte("due_date", todayStr),
     ),
-    farmFilter(supabase.from("tasks").select("id", { count: "exact", head: true }).is("deleted_at", null).in("status", ["pending", "in_progress"])),
+    farmFilter(
+      supabase
+        .from("tasks")
+        .select("id", { count: "exact", head: true })
+        .is("deleted_at", null)
+        .in("status", ["pending", "in_progress"]),
+    ),
     farmFilter(supabase.from("inventory_items").select("*").is("deleted_at", null)),
     farmFilter(
       supabase
@@ -469,9 +635,13 @@ export async function getFarmOSDashboard(supabase: SB, farmId?: string): Promise
         .from("equipment")
         .select("*")
         .is("deleted_at", null)
-        .or(`status.eq.maintenance_due,and(next_maintenance_date.lte.${in30},next_maintenance_date.not.is.null)`),
+        .or(
+          `status.eq.maintenance_due,and(next_maintenance_date.lte.${in30},next_maintenance_date.not.is.null)`,
+        ),
     ),
-    farmFilter(supabase.from("expenses").select("amount, category, expense_date").is("deleted_at", null)),
+    farmFilter(
+      supabase.from("expenses").select("amount, category, expense_date").is("deleted_at", null),
+    ),
   ]);
 
   const now = new Date();
@@ -482,7 +652,11 @@ export async function getFarmOSDashboard(supabase: SB, farmId?: string): Promise
   let thisTotal = 0;
   let lastTotal = 0;
   const byCategory: Record<string, number> = {};
-  for (const e of (expenses.data ?? []) as { amount: number; category: string; expense_date: string }[]) {
+  for (const e of (expenses.data ?? []) as {
+    amount: number;
+    category: string;
+    expense_date: string;
+  }[]) {
     const amt = Number(e.amount ?? 0);
     const m = e.expense_date.slice(0, 7);
     if (m === thisMonth) {
@@ -491,7 +665,10 @@ export async function getFarmOSDashboard(supabase: SB, farmId?: string): Promise
     } else if (m === lastMonth) lastTotal += amt;
   }
 
-  const invItems = ((inv.data ?? []) as InventoryRow[]).map((i) => ({ ...i, alerts: deriveInventoryAlerts(i) }));
+  const invItems = ((inv.data ?? []) as InventoryRow[]).map((i) => ({
+    ...i,
+    alerts: deriveInventoryAlerts(i),
+  }));
 
   return ok({
     today_tasks: (tasksTodayRes.data ?? []) as TaskRow[],

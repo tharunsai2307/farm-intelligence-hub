@@ -57,7 +57,12 @@ export function SensorCard({
         {(onRename || onRemove) && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" aria-label={`Device options for ${device.device_name}`}>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 shrink-0"
+                aria-label={`Device options for ${device.device_name}`}
+              >
                 <MoreVertical className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -110,9 +115,7 @@ export function SensorCard({
             ))}
           </dl>
         ) : (
-          <p className="text-xs text-muted-foreground">
-            No readings received yet.
-          </p>
+          <p className="text-xs text-muted-foreground">No readings received yet.</p>
         )}
       </div>
     </article>

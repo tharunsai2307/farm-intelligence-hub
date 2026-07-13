@@ -52,11 +52,7 @@ export function RealtimeIndicator({
           )}
         />
       </span>
-      {connected ? (
-        <Wifi className="h-3 w-3" />
-      ) : (
-        <WifiOff className="h-3 w-3" />
-      )}
+      {connected ? <Wifi className="h-3 w-3" /> : <WifiOff className="h-3 w-3" />}
       <span>{label ?? (connected ? "Live" : "Offline")}</span>
     </span>
   );

@@ -12,10 +12,21 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 import { getMyProfile, updateMyProfile, type ProfileRow } from "@/lib/services/profile.functions";
-import { getMySettings, updateMySettings, type SettingsRow, type SettingsPatch } from "@/lib/services/settings.functions";
+import {
+  getMySettings,
+  updateMySettings,
+  type SettingsRow,
+  type SettingsPatch,
+} from "@/lib/services/settings.functions";
 import { getWeatherSourceStatus } from "@/lib/services/weather.service";
 import { useTheme } from "@/components/theme/theme-provider";
 
@@ -65,9 +76,7 @@ function DataSourcesSection() {
     <div className="flex items-center justify-between py-3">
       <div>
         <p className="text-sm font-medium">{label}</p>
-        {!configured && reason && (
-          <p className="text-xs text-muted-foreground">{reason}</p>
-        )}
+        {!configured && reason && <p className="text-xs text-muted-foreground">{reason}</p>}
       </div>
       <span
         className={
@@ -142,7 +151,10 @@ function ProfileSection() {
     <section className="surface-card p-6">
       <h2 className="text-lg font-semibold">Profile</h2>
       <p className="mt-1 text-sm text-muted-foreground">Update your personal information.</p>
-      <form onSubmit={form.handleSubmit((v) => mutation.mutate(v))} className="mt-6 grid gap-4 sm:grid-cols-2">
+      <form
+        onSubmit={form.handleSubmit((v) => mutation.mutate(v))}
+        className="mt-6 grid gap-4 sm:grid-cols-2"
+      >
         <div className="space-y-2 sm:col-span-2">
           <Label htmlFor="full_name">Full name</Label>
           <Input id="full_name" disabled={isLoading} {...form.register("full_name")} />
@@ -202,7 +214,9 @@ function PreferencesSection() {
               mutation.mutate({ theme: v as "light" | "dark" | "system" });
             }}
           >
-            <SelectTrigger><SelectValue /></SelectTrigger>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
             <SelectContent>
               <SelectItem value="light">Light</SelectItem>
               <SelectItem value="dark">Dark</SelectItem>
@@ -217,7 +231,9 @@ function PreferencesSection() {
             value={settings?.language ?? "en"}
             onValueChange={(v) => mutation.mutate({ language: v })}
           >
-            <SelectTrigger><SelectValue /></SelectTrigger>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
             <SelectContent>
               <SelectItem value="en">English</SelectItem>
               <SelectItem value="hi">Hindi</SelectItem>
@@ -271,8 +287,16 @@ function NotificationsSection() {
     <section className="surface-card p-6">
       <h2 className="text-lg font-semibold">Notifications & privacy</h2>
       <div className="mt-4 divide-y">
-        <Row label="Email notifications" description="Critical alerts about your farm." field="notif_email" />
-        <Row label="Push notifications" description="In-app and mobile push alerts." field="notif_push" />
+        <Row
+          label="Email notifications"
+          description="Critical alerts about your farm."
+          field="notif_email"
+        />
+        <Row
+          label="Push notifications"
+          description="In-app and mobile push alerts."
+          field="notif_push"
+        />
         <Row
           label="Share anonymous analytics"
           description="Help improve AgriTwin OS by sharing anonymous usage data."

@@ -54,15 +54,14 @@ export const getLatestAgriMindRecommendation = createServerFn({ method: "GET" })
 
 export const updateAgriMindRecommendationStatus = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator(
-    (input: { id: string; accepted?: boolean; dismissed?: boolean }) =>
-      z
-        .object({
-          id: z.string().uuid(),
-          accepted: z.boolean().optional(),
-          dismissed: z.boolean().optional(),
-        })
-        .parse(input),
+  .inputValidator((input: { id: string; accepted?: boolean; dismissed?: boolean }) =>
+    z
+      .object({
+        id: z.string().uuid(),
+        accepted: z.boolean().optional(),
+        dismissed: z.boolean().optional(),
+      })
+      .parse(input),
   )
   .handler(async ({ data, context }) => {
     const { setRecommendationStatus } = await import("./agrimind.server");
@@ -92,10 +91,12 @@ export const speakAgriText = createServerFn({ method: "POST" })
     return speakText(data.text, data.language);
   });
 
-export const getAgriMindStatus = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth]).handler(async () => {
-  const configured = Boolean(process.env.LOVABLE_API_KEY);
-  const result: ServiceResult<{ configured: boolean; provider: string }> = configured
-    ? ok({ configured: true, provider: "lovable-ai" })
-    : fail("AgriMind AI is currently unavailable.");
-  return result;
-});
+export const getAgriMindStatus = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async () => {
+    const configured = Boolean(process.env.LOVABLE_API_KEY);
+    const result: ServiceResult<{ configured: boolean; provider: string }> = configured
+      ? ok({ configured: true, provider: "lovable-ai" })
+      : fail("AgriMind AI is currently unavailable.");
+    return result;
+  });

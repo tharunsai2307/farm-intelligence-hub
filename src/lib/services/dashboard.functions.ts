@@ -12,7 +12,6 @@ export type DataAvailabilityStatus = {
   farm_location: "missing" | "set";
 };
 
-
 export type ActivityItem = {
   id: string;
   kind: "plot" | "soil" | "irrigation" | "observation";
@@ -38,19 +37,18 @@ export const getDashboardSummary = createServerFn({ method: "GET" })
   .handler(async ({ context }): Promise<DashboardSummary> => {
     const sb = context.supabase;
 
-    const [
-      farms,
-      plots,
-      soil,
-      irrigation,
-      observations,
-      farmLocations,
-    ] = await Promise.all([
+    const [farms, plots, soil, irrigation, observations, farmLocations] = await Promise.all([
       sb.from("farms").select("id", { count: "exact", head: true }).is("deleted_at", null),
       sb.from("farm_plots").select("id", { count: "exact", head: true }).is("deleted_at", null),
       sb.from("soil_records").select("id", { count: "exact", head: true }).is("deleted_at", null),
-      sb.from("irrigation_records").select("id", { count: "exact", head: true }).is("deleted_at", null),
-      sb.from("crop_observations").select("id", { count: "exact", head: true }).is("deleted_at", null),
+      sb
+        .from("irrigation_records")
+        .select("id", { count: "exact", head: true })
+        .is("deleted_at", null),
+      sb
+        .from("crop_observations")
+        .select("id", { count: "exact", head: true })
+        .is("deleted_at", null),
       sb.from("farm_locations").select("id", { count: "exact", head: true }),
     ]);
 
@@ -129,7 +127,6 @@ export const getDashboardSummary = createServerFn({ method: "GET" })
       reports: "not_available",
       farm_location: (farmLocations.count ?? 0) > 0 ? "set" : "missing",
     };
-
 
     return {
       counts: {

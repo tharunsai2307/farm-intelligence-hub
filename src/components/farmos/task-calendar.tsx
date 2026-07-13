@@ -1,5 +1,13 @@
 import { useMemo, useState } from "react";
-import { ChevronLeft, ChevronRight, CalendarDays, ClipboardList, Sprout, Wrench, Star } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  CalendarDays,
+  ClipboardList,
+  Sprout,
+  Wrench,
+  Star,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import type { CalendarItem } from "@/lib/services/farmos.server";
@@ -18,9 +26,15 @@ const KIND_TONE: Record<CalendarItem["kind"], string> = {
   event: "bg-muted text-muted-foreground",
 };
 
-function startOfMonth(d: Date) { return new Date(d.getFullYear(), d.getMonth(), 1); }
-function endOfMonth(d: Date) { return new Date(d.getFullYear(), d.getMonth() + 1, 0); }
-function ymd(d: Date) { return d.toISOString().slice(0, 10); }
+function startOfMonth(d: Date) {
+  return new Date(d.getFullYear(), d.getMonth(), 1);
+}
+function endOfMonth(d: Date) {
+  return new Date(d.getFullYear(), d.getMonth() + 1, 0);
+}
+function ymd(d: Date) {
+  return d.toISOString().slice(0, 10);
+}
 
 export function TaskCalendar({
   items,
@@ -38,9 +52,18 @@ export function TaskCalendar({
     const last = endOfMonth(month);
     const startDow = first.getDay();
     const days: Date[] = [];
-    for (let i = 0; i < startDow; i++) days.push(new Date(first.getFullYear(), first.getMonth(), i - startDow + 1));
-    for (let d = 1; d <= last.getDate(); d++) days.push(new Date(first.getFullYear(), first.getMonth(), d));
-    while (days.length % 7 !== 0) days.push(new Date(first.getFullYear(), first.getMonth() + 1, days.length - last.getDate() - startDow + 1));
+    for (let i = 0; i < startDow; i++)
+      days.push(new Date(first.getFullYear(), first.getMonth(), i - startDow + 1));
+    for (let d = 1; d <= last.getDate(); d++)
+      days.push(new Date(first.getFullYear(), first.getMonth(), d));
+    while (days.length % 7 !== 0)
+      days.push(
+        new Date(
+          first.getFullYear(),
+          first.getMonth() + 1,
+          days.length - last.getDate() - startDow + 1,
+        ),
+      );
     return days;
   }, [month]);
 
@@ -55,21 +78,35 @@ export function TaskCalendar({
     return m;
   }, [items]);
 
-  const selectedItems = selected ? byDay.get(selected) ?? [] : [];
+  const selectedItems = selected ? (byDay.get(selected) ?? []) : [];
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <CalendarDays className="h-4 w-4 text-muted-foreground" />
-          <h2 className="text-lg font-semibold">{month.toLocaleString(undefined, { month: "long", year: "numeric" })}</h2>
+          <h2 className="text-lg font-semibold">
+            {month.toLocaleString(undefined, { month: "long", year: "numeric" })}
+          </h2>
         </div>
         <div className="flex gap-1">
-          <Button size="icon" variant="outline" aria-label="Previous month" onClick={() => onMonthChange(new Date(month.getFullYear(), month.getMonth() - 1, 1))}>
+          <Button
+            size="icon"
+            variant="outline"
+            aria-label="Previous month"
+            onClick={() => onMonthChange(new Date(month.getFullYear(), month.getMonth() - 1, 1))}
+          >
             <ChevronLeft className="h-4 w-4" />
           </Button>
-          <Button size="sm" variant="outline" onClick={() => onMonthChange(new Date())}>Today</Button>
-          <Button size="icon" variant="outline" aria-label="Next month" onClick={() => onMonthChange(new Date(month.getFullYear(), month.getMonth() + 1, 1))}>
+          <Button size="sm" variant="outline" onClick={() => onMonthChange(new Date())}>
+            Today
+          </Button>
+          <Button
+            size="icon"
+            variant="outline"
+            aria-label="Next month"
+            onClick={() => onMonthChange(new Date(month.getFullYear(), month.getMonth() + 1, 1))}
+          >
             <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
@@ -77,7 +114,11 @@ export function TaskCalendar({
 
       <div className="surface-card overflow-hidden">
         <div className="grid grid-cols-7 border-b text-center text-[11px] font-semibold uppercase text-muted-foreground">
-          {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => <div key={d} className="py-2">{d}</div>)}
+          {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
+            <div key={d} className="py-2">
+              {d}
+            </div>
+          ))}
         </div>
         <div className="grid grid-cols-7">
           {grid.map((d) => {
@@ -93,18 +134,30 @@ export function TaskCalendar({
                   inMonth ? "" : "bg-muted/30 text-muted-foreground"
                 } ${selected === key ? "ring-2 ring-primary ring-inset" : ""}`}
               >
-                <div className={`mb-1 inline-block rounded px-1 ${isToday ? "bg-primary text-primary-foreground" : ""}`}>{d.getDate()}</div>
+                <div
+                  className={`mb-1 inline-block rounded px-1 ${isToday ? "bg-primary text-primary-foreground" : ""}`}
+                >
+                  {d.getDate()}
+                </div>
                 <div className="flex flex-wrap gap-1">
                   {dayItems.slice(0, 3).map((it) => {
                     const Icon = KIND_ICON[it.kind];
                     return (
-                      <span key={it.id} className={`inline-flex max-w-full items-center gap-1 truncate rounded px-1 py-0.5 text-[10px] ${KIND_TONE[it.kind]}`} title={it.title}>
+                      <span
+                        key={it.id}
+                        className={`inline-flex max-w-full items-center gap-1 truncate rounded px-1 py-0.5 text-[10px] ${KIND_TONE[it.kind]}`}
+                        title={it.title}
+                      >
                         <Icon className="h-2.5 w-2.5 shrink-0" />
                         <span className="truncate">{it.title}</span>
                       </span>
                     );
                   })}
-                  {dayItems.length > 3 && <span className="text-[10px] text-muted-foreground">+{dayItems.length - 3}</span>}
+                  {dayItems.length > 3 && (
+                    <span className="text-[10px] text-muted-foreground">
+                      +{dayItems.length - 3}
+                    </span>
+                  )}
                 </div>
               </button>
             );
@@ -114,7 +167,9 @@ export function TaskCalendar({
 
       {selected && (
         <div className="surface-card p-4">
-          <h3 className="mb-2 text-sm font-semibold">{new Date(selected).toLocaleDateString(undefined, { dateStyle: "full" })}</h3>
+          <h3 className="mb-2 text-sm font-semibold">
+            {new Date(selected).toLocaleDateString(undefined, { dateStyle: "full" })}
+          </h3>
           {selectedItems.length === 0 ? (
             <p className="text-sm text-muted-foreground">No events on this day.</p>
           ) : (
@@ -123,14 +178,21 @@ export function TaskCalendar({
                 const Icon = KIND_ICON[it.kind];
                 return (
                   <li key={it.id} className="flex items-center gap-3 rounded-md border p-2">
-                    <span className={`inline-flex h-7 w-7 items-center justify-center rounded-md ${KIND_TONE[it.kind]}`}>
+                    <span
+                      className={`inline-flex h-7 w-7 items-center justify-center rounded-md ${KIND_TONE[it.kind]}`}
+                    >
                       <Icon className="h-3.5 w-3.5" />
                     </span>
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-medium">{it.title}</p>
                       <p className="text-xs capitalize text-muted-foreground">{it.kind}</p>
                     </div>
-                    <Badge variant="outline" className="text-[10px]">{new Date(it.starts_at).toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" })}</Badge>
+                    <Badge variant="outline" className="text-[10px]">
+                      {new Date(it.starts_at).toLocaleTimeString(undefined, {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </Badge>
                   </li>
                 );
               })}

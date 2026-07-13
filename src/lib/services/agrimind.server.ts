@@ -136,7 +136,9 @@ async function gatherContext(supabase: SB, farmId: string) {
       .limit(3),
     supabase
       .from("soil_records")
-      .select("ph, moisture, nitrogen, phosphorus, potassium, organic_matter, temperature, recorded_at")
+      .select(
+        "ph, moisture, nitrogen, phosphorus, potassium, organic_matter, temperature, recorded_at",
+      )
       .eq("farm_id", farmId)
       .is("deleted_at", null)
       .order("recorded_at", { ascending: false })
@@ -179,7 +181,11 @@ async function gatherContext(supabase: SB, farmId: string) {
 function summarizeSources(ctx: Awaited<ReturnType<typeof gatherContext>>): string[] {
   const sources: string[] = [];
   if (ctx.farm) sources.push("Farm Information");
-  if (ctx.weatherCurrent || (ctx.forecasts && ctx.forecasts.length > 0) || (ctx.alerts && ctx.alerts.length > 0))
+  if (
+    ctx.weatherCurrent ||
+    (ctx.forecasts && ctx.forecasts.length > 0) ||
+    (ctx.alerts && ctx.alerts.length > 0)
+  )
     sources.push("Weather API");
   if (ctx.cropAi && ctx.cropAi.length > 0) sources.push("Crop Disease AI");
   if (ctx.soil && ctx.soil.length > 0) sources.push("Soil Records");
@@ -355,7 +361,7 @@ export async function generateRecommendations(
     cleanRecs.push(clean);
     const chosen = clean.translations[lang];
     const plotId = clean.plot_hint
-      ? plotByName.get(String(clean.plot_hint).toLowerCase()) ?? null
+      ? (plotByName.get(String(clean.plot_hint).toLowerCase()) ?? null)
       : null;
     rows.push({
       user_id: userId,
@@ -368,7 +374,8 @@ export async function generateRecommendations(
       confidence: clean.confidence,
       source_modules: clean.source_modules,
       language: lang,
-      translations: clean.translations as unknown as Database["public"]["Tables"]["farm_recommendations"]["Insert"]["translations"],
+      translations:
+        clean.translations as unknown as Database["public"]["Tables"]["farm_recommendations"]["Insert"]["translations"],
       status: "active",
       accepted: false,
       dismissed: false,
@@ -392,7 +399,9 @@ export async function generateRecommendations(
   });
 }
 
-function rowToRec(row: Database["public"]["Tables"]["farm_recommendations"]["Row"]): AgriMindRecommendation {
+function rowToRec(
+  row: Database["public"]["Tables"]["farm_recommendations"]["Row"],
+): AgriMindRecommendation {
   return {
     id: row.id,
     recommendation_type: row.recommendation_type as RecType,

@@ -28,7 +28,9 @@ function TasksPage() {
   const all = q.data?.success ? q.data.data.items : [];
   const today = useMemo(() => {
     const d = new Date().toISOString().slice(0, 10);
-    return all.filter((t) => t.due_date && t.due_date <= d && t.status !== "completed" && t.status !== "cancelled");
+    return all.filter(
+      (t) => t.due_date && t.due_date <= d && t.status !== "completed" && t.status !== "cancelled",
+    );
   }, [all]);
   const fromAI = useMemo(() => all.filter((t) => !!t.source_recommendation_id), [all]);
 
@@ -58,7 +60,11 @@ function TasksPage() {
         <TabsContent value="ai" />
       </Tabs>
 
-      {q.isLoading || !activeFarm ? <CardSkeleton /> : <TaskBoard tasks={list} farmId={activeFarm} />}
+      {q.isLoading || !activeFarm ? (
+        <CardSkeleton />
+      ) : (
+        <TaskBoard tasks={list} farmId={activeFarm} />
+      )}
     </div>
   );
 }

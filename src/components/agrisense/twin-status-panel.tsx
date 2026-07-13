@@ -37,16 +37,16 @@ export function TwinStatusPanel({ items }: { items: TwinStatusItem[] }) {
                 : "border-border text-muted-foreground";
           return (
             <li key={i.label} className="flex items-start gap-2">
-              <span className={cn("mt-0.5 grid h-5 w-5 place-items-center rounded-full border", tone)}>
+              <span
+                className={cn("mt-0.5 grid h-5 w-5 place-items-center rounded-full border", tone)}
+              >
                 <Icon className="h-3 w-3" />
               </span>
               <div className="min-w-0">
                 <p className={cn("text-sm", i.state === "unavailable" && "text-muted-foreground")}>
                   {i.label}
                 </p>
-                {i.detail && (
-                  <p className="text-[11px] text-muted-foreground">{i.detail}</p>
-                )}
+                {i.detail && <p className="text-[11px] text-muted-foreground">{i.detail}</p>}
               </div>
             </li>
           );

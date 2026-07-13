@@ -13,9 +13,16 @@ export const Route = createFileRoute("/verify-email")({
   head: () => ({
     meta: [
       { title: "Verify your email — AgriTwin OS" },
-      { name: "description", content: "Confirm your email address to activate your AgriTwin OS account and access your farm dashboard." },
+      {
+        name: "description",
+        content:
+          "Confirm your email address to activate your AgriTwin OS account and access your farm dashboard.",
+      },
       { property: "og:title", content: "Verify your email — AgriTwin OS" },
-      { property: "og:description", content: "Confirm your email to finish setting up AgriTwin OS." },
+      {
+        property: "og:description",
+        content: "Confirm your email to finish setting up AgriTwin OS.",
+      },
       { property: "og:url", content: "/verify-email" },
     ],
     links: [{ rel: "canonical", href: "/verify-email" }],
@@ -44,7 +51,11 @@ function VerifyPage() {
     <AuthLayout
       title="Check your inbox"
       subtitle="We've sent you a verification link. Click it to activate your AgriTwin OS account."
-      footer={<Link to="/login" className="text-primary hover:underline">Back to sign in</Link>}
+      footer={
+        <Link to="/login" className="text-primary hover:underline">
+          Back to sign in
+        </Link>
+      }
     >
       <div className="flex flex-col items-center gap-4 rounded-2xl border bg-card p-8 text-center">
         <Mail className="h-10 w-10 text-primary" />

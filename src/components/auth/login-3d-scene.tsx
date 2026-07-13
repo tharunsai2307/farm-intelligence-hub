@@ -1,6 +1,13 @@
 import { Suspense, useMemo, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, Environment, MeshDistortMaterial, Sphere, Torus, Icosahedron } from "@react-three/drei";
+import {
+  Float,
+  Environment,
+  MeshDistortMaterial,
+  Sphere,
+  Torus,
+  Icosahedron,
+} from "@react-three/drei";
 import * as THREE from "three";
 
 /**
@@ -9,7 +16,15 @@ import * as THREE from "three";
  * - Quiet, physical motion (orbit, float, distort)
  */
 
-function FloatingLeaf({ position, scale = 1, color = "#a7f3d0" }: { position: [number, number, number]; scale?: number; color?: string }) {
+function FloatingLeaf({
+  position,
+  scale = 1,
+  color = "#a7f3d0",
+}: {
+  position: [number, number, number];
+  scale?: number;
+  color?: string;
+}) {
   const ref = useRef<THREE.Mesh>(null!);
   // Build a leaf-ish shape from a stretched, slightly bent plane
   const geometry = useMemo(() => {
@@ -17,7 +32,13 @@ function FloatingLeaf({ position, scale = 1, color = "#a7f3d0" }: { position: [n
     shape.moveTo(0, 0);
     shape.bezierCurveTo(0.6, 0.2, 0.9, 0.7, 0, 1.4);
     shape.bezierCurveTo(-0.9, 0.7, -0.6, 0.2, 0, 0);
-    const g = new THREE.ExtrudeGeometry(shape, { depth: 0.04, bevelEnabled: true, bevelSize: 0.03, bevelThickness: 0.03, bevelSegments: 4 });
+    const g = new THREE.ExtrudeGeometry(shape, {
+      depth: 0.04,
+      bevelEnabled: true,
+      bevelSize: 0.03,
+      bevelThickness: 0.03,
+      bevelSegments: 4,
+    });
     g.center();
     return g;
   }, []);
@@ -44,16 +65,24 @@ function OrbitingSeeds() {
       Array.from({ length: 9 }).map((_, i) => {
         const a = (i / 9) * Math.PI * 2;
         const r = 2.4;
-        return [Math.cos(a) * r, Math.sin(a * 2) * 0.4, Math.sin(a) * r] as [number, number, number];
+        return [Math.cos(a) * r, Math.sin(a * 2) * 0.4, Math.sin(a) * r] as [
+          number,
+          number,
+          number,
+        ];
       }),
-    []
+    [],
   );
   return (
     <group ref={group}>
       {items.map((p, i) => (
         <mesh key={i} position={p} castShadow>
           <icosahedronGeometry args={[0.11, 0]} />
-          <meshStandardMaterial color={i % 2 ? "#e8c97a" : "#34d399"} roughness={0.3} metalness={0.5} />
+          <meshStandardMaterial
+            color={i % 2 ? "#e8c97a" : "#34d399"}
+            roughness={0.3}
+            metalness={0.5}
+          />
         </mesh>
       ))}
     </group>
@@ -69,7 +98,15 @@ function CoreOrb() {
   return (
     <Float speed={1.1} rotationIntensity={0.3} floatIntensity={0.6}>
       <Sphere ref={ref} args={[1.05, 96, 96]} castShadow>
-        <MeshDistortMaterial color="#10b981" emissive="#0a7a4e" emissiveIntensity={0.25} roughness={0.25} metalness={0.55} distort={0.32} speed={1.4} />
+        <MeshDistortMaterial
+          color="#10b981"
+          emissive="#0a7a4e"
+          emissiveIntensity={0.25}
+          roughness={0.25}
+          metalness={0.55}
+          distort={0.32}
+          speed={1.4}
+        />
       </Sphere>
     </Float>
   );
@@ -83,7 +120,13 @@ function GoldRing() {
   });
   return (
     <Torus ref={ref} args={[1.7, 0.025, 32, 200]}>
-      <meshStandardMaterial color="#e8c97a" emissive="#c9a84c" emissiveIntensity={0.35} roughness={0.25} metalness={0.85} />
+      <meshStandardMaterial
+        color="#e8c97a"
+        emissive="#c9a84c"
+        emissiveIntensity={0.35}
+        roughness={0.25}
+        metalness={0.85}
+      />
     </Torus>
   );
 }

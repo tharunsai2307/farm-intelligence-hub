@@ -8,7 +8,14 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { saveFarmWorker, deleteFarmWorker } from "@/lib/services/farmos.service";
 import type { WorkerRow } from "@/lib/services/farmos.server";
 
@@ -42,7 +49,10 @@ export function WorkerForm({
         phone: form.phone.trim() || null,
         role: form.role.trim() || null,
         daily_wage: form.daily_wage === "" ? null : Number(form.daily_wage),
-        skills: form.skills.split(",").map((s) => s.trim()).filter(Boolean),
+        skills: form.skills
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean),
         available: form.available,
         notes: form.notes.trim() || null,
       };
@@ -60,25 +70,76 @@ export function WorkerForm({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        {trigger ?? <Button size="sm"><Plus className="mr-2 h-4 w-4" /> Add worker</Button>}
+        {trigger ?? (
+          <Button size="sm">
+            <Plus className="mr-2 h-4 w-4" /> Add worker
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader><DialogTitle>{initial ? "Edit worker" : "Add worker"}</DialogTitle></DialogHeader>
+        <DialogHeader>
+          <DialogTitle>{initial ? "Edit worker" : "Add worker"}</DialogTitle>
+        </DialogHeader>
         <div className="grid gap-3 sm:grid-cols-2">
-          <div className="sm:col-span-2"><Label>Name</Label><Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} /></div>
-          <div><Label>Phone</Label><Input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} /></div>
-          <div><Label>Role</Label><Input value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })} placeholder="Field hand, driver…" /></div>
-          <div><Label>Daily wage</Label><Input type="number" step="0.01" value={form.daily_wage} onChange={(e) => setForm({ ...form, daily_wage: e.target.value as any })} /></div>
+          <div className="sm:col-span-2">
+            <Label>Name</Label>
+            <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+          </div>
+          <div>
+            <Label>Phone</Label>
+            <Input
+              value={form.phone}
+              onChange={(e) => setForm({ ...form, phone: e.target.value })}
+            />
+          </div>
+          <div>
+            <Label>Role</Label>
+            <Input
+              value={form.role}
+              onChange={(e) => setForm({ ...form, role: e.target.value })}
+              placeholder="Field hand, driver…"
+            />
+          </div>
+          <div>
+            <Label>Daily wage</Label>
+            <Input
+              type="number"
+              step="0.01"
+              value={form.daily_wage}
+              onChange={(e) => setForm({ ...form, daily_wage: e.target.value as any })}
+            />
+          </div>
           <div className="flex items-end gap-2">
-            <Switch checked={form.available} onCheckedChange={(v) => setForm({ ...form, available: v })} />
+            <Switch
+              checked={form.available}
+              onCheckedChange={(v) => setForm({ ...form, available: v })}
+            />
             <Label>Available</Label>
           </div>
-          <div className="sm:col-span-2"><Label>Skills (comma-separated)</Label><Input value={form.skills} onChange={(e) => setForm({ ...form, skills: e.target.value })} placeholder="spraying, harvesting" /></div>
-          <div className="sm:col-span-2"><Label>Notes</Label><Textarea rows={2} value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} /></div>
+          <div className="sm:col-span-2">
+            <Label>Skills (comma-separated)</Label>
+            <Input
+              value={form.skills}
+              onChange={(e) => setForm({ ...form, skills: e.target.value })}
+              placeholder="spraying, harvesting"
+            />
+          </div>
+          <div className="sm:col-span-2">
+            <Label>Notes</Label>
+            <Textarea
+              rows={2}
+              value={form.notes}
+              onChange={(e) => setForm({ ...form, notes: e.target.value })}
+            />
+          </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
-          <Button onClick={() => m.mutate()} disabled={!form.name.trim() || m.isPending}>{m.isPending ? "Saving…" : "Save"}</Button>
+          <Button variant="outline" onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
+          <Button onClick={() => m.mutate()} disabled={!form.name.trim() || m.isPending}>
+            {m.isPending ? "Saving…" : "Save"}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -110,24 +171,51 @@ export function WorkerCard({ worker }: { worker: WorkerRow }) {
             <p className="text-xs text-muted-foreground">{worker.role ?? "Worker"}</p>
           </div>
         </div>
-        <Badge variant={worker.available ? "default" : "outline"} className="text-[10px]">{worker.available ? "Available" : "Off"}</Badge>
+        <Badge variant={worker.available ? "default" : "outline"} className="text-[10px]">
+          {worker.available ? "Available" : "Off"}
+        </Badge>
       </div>
       <dl className="mt-3 space-y-1 text-xs">
         {worker.phone && (
-          <div className="flex items-center gap-2 text-muted-foreground"><Phone className="h-3 w-3" /> {worker.phone}</div>
+          <div className="flex items-center gap-2 text-muted-foreground">
+            <Phone className="h-3 w-3" /> {worker.phone}
+          </div>
         )}
         {worker.daily_wage != null && (
-          <div><span className="text-muted-foreground">Wage:</span> ₹{Number(worker.daily_wage).toFixed(2)} / day</div>
+          <div>
+            <span className="text-muted-foreground">Wage:</span> ₹
+            {Number(worker.daily_wage).toFixed(2)} / day
+          </div>
         )}
         {(worker.skills ?? []).length > 0 && (
           <div className="mt-2 flex flex-wrap gap-1">
-            {worker.skills!.map((s) => <Badge key={s} variant="outline" className="text-[10px]">{s}</Badge>)}
+            {worker.skills!.map((s) => (
+              <Badge key={s} variant="outline" className="text-[10px]">
+                {s}
+              </Badge>
+            ))}
           </div>
         )}
       </dl>
       <div className="mt-3 flex justify-end gap-1">
-        <WorkerForm farmId={worker.farm_id} initial={worker} trigger={<Button size="icon" variant="ghost" aria-label="Edit worker"><Pencil className="h-4 w-4" /></Button>} />
-        <Button size="icon" variant="ghost" aria-label="Delete worker" onClick={() => del.mutate()} disabled={del.isPending}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+        <WorkerForm
+          farmId={worker.farm_id}
+          initial={worker}
+          trigger={
+            <Button size="icon" variant="ghost" aria-label="Edit worker">
+              <Pencil className="h-4 w-4" />
+            </Button>
+          }
+        />
+        <Button
+          size="icon"
+          variant="ghost"
+          aria-label="Delete worker"
+          onClick={() => del.mutate()}
+          disabled={del.isPending}
+        >
+          <Trash2 className="h-4 w-4 text-destructive" />
+        </Button>
       </div>
     </div>
   );

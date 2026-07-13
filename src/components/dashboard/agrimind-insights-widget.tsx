@@ -67,11 +67,14 @@ export function AgriMindInsightsWidget({ farmId }: { farmId: string }) {
               </span>
             </div>
             <p className="font-medium">{rec.title}</p>
-            <p className="line-clamp-2 text-sm text-muted-foreground">
-              {rec.recommendation}
-            </p>
+            <p className="line-clamp-2 text-sm text-muted-foreground">{rec.recommendation}</p>
             <div className="flex justify-end pt-1">
-              <Button size="sm" variant="outline" onClick={() => createTask.mutate(rec.id)} disabled={createTask.isPending}>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => createTask.mutate(rec.id)}
+                disabled={createTask.isPending}
+              >
                 <ClipboardPlus className="mr-2 h-3.5 w-3.5" />
                 {createTask.isPending ? "Creating…" : "Create task"}
               </Button>

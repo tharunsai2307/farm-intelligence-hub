@@ -25,7 +25,10 @@ export const Route = createFileRoute("/reset-password")({
   head: () => ({
     meta: [
       { title: "Set a new password — AgriTwin OS" },
-      { name: "description", content: "Choose a new password for your AgriTwin OS account after using a reset link." },
+      {
+        name: "description",
+        content: "Choose a new password for your AgriTwin OS account after using a reset link.",
+      },
       { property: "og:title", content: "Set a new password — AgriTwin OS" },
       { property: "og:description", content: "Securely set a new AgriTwin OS password." },
       { property: "og:url", content: "/reset-password" },
@@ -38,7 +41,10 @@ export const Route = createFileRoute("/reset-password")({
 function ResetPage() {
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
-  const form = useForm<Values>({ resolver: zodResolver(schema), defaultValues: { password: "", confirm: "" } });
+  const form = useForm<Values>({
+    resolver: zodResolver(schema),
+    defaultValues: { password: "", confirm: "" },
+  });
 
   const onSubmit = async ({ password }: Values) => {
     setSubmitting(true);
@@ -50,18 +56,31 @@ function ResetPage() {
   };
 
   return (
-    <AuthLayout title="Set a new password" subtitle="Choose a strong password you don't reuse elsewhere.">
+    <AuthLayout
+      title="Set a new password"
+      subtitle="Choose a strong password you don't reuse elsewhere."
+    >
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="password">New password</Label>
-          <Input id="password" type="password" autoComplete="new-password" {...form.register("password")} />
+          <Input
+            id="password"
+            type="password"
+            autoComplete="new-password"
+            {...form.register("password")}
+          />
           {form.formState.errors.password && (
             <p className="text-xs text-danger">{form.formState.errors.password.message}</p>
           )}
         </div>
         <div className="space-y-2">
           <Label htmlFor="confirm">Confirm password</Label>
-          <Input id="confirm" type="password" autoComplete="new-password" {...form.register("confirm")} />
+          <Input
+            id="confirm"
+            type="password"
+            autoComplete="new-password"
+            {...form.register("confirm")}
+          />
           {form.formState.errors.confirm && (
             <p className="text-xs text-danger">{form.formState.errors.confirm.message}</p>
           )}

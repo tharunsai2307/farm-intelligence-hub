@@ -32,8 +32,8 @@ export function AuthLayout({
             The intelligent operating system for every farm.
           </h2>
           <p className="text-base opacity-90">
-            Monitor, predict, and optimize your farm with an AI-powered digital twin —
-            built on real data, not guesses.
+            Monitor, predict, and optimize your farm with an AI-powered digital twin — built on real
+            data, not guesses.
           </p>
         </motion.div>
         <p className="text-xs opacity-70">© {new Date().getFullYear()} AgriTwin OS</p>

@@ -12,11 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 
@@ -43,7 +39,11 @@ export function Topbar() {
   const queryClient = useQueryClient();
 
   const initials =
-    (user?.user_metadata?.full_name as string | undefined)?.split(" ").map((p) => p[0]).slice(0, 2).join("") ??
+    (user?.user_metadata?.full_name as string | undefined)
+      ?.split(" ")
+      .map((p) => p[0])
+      .slice(0, 2)
+      .join("") ??
     user?.email?.[0]?.toUpperCase() ??
     "U";
 
@@ -52,11 +52,13 @@ export function Topbar() {
     navigate({ to: "/login", replace: true });
   };
 
-
   return (
     <div className="flex w-full min-w-0 items-center gap-3">
       {/* Breadcrumbs */}
-      <nav aria-label="Breadcrumb" className="hidden min-w-0 items-center gap-1 text-sm text-muted-foreground md:flex">
+      <nav
+        aria-label="Breadcrumb"
+        className="hidden min-w-0 items-center gap-1 text-sm text-muted-foreground md:flex"
+      >
         {crumbs.map((c, i) => (
           <span key={c.href} className="flex min-w-0 items-center gap-1">
             {i > 0 && <ChevronRight className="h-3 w-3 shrink-0" />}
@@ -88,15 +90,22 @@ export function Topbar() {
             <DropdownMenuLabel className="truncate">{user?.email ?? "Account"}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link to="/app/settings"><User2 className="mr-2 h-4 w-4" />Profile</Link>
+              <Link to="/app/settings">
+                <User2 className="mr-2 h-4 w-4" />
+                Profile
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link to="/app/settings"><Settings className="mr-2 h-4 w-4" />Settings</Link>
+              <Link to="/app/settings">
+                <Settings className="mr-2 h-4 w-4" />
+                Settings
+              </Link>
             </DropdownMenuItem>
 
             <DropdownMenuSeparator />
             <DropdownMenuItem onSelect={handleSignOut}>
-              <LogOut className="mr-2 h-4 w-4" />Sign out
+              <LogOut className="mr-2 h-4 w-4" />
+              Sign out
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -113,7 +122,11 @@ function GlobalSearch() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="sm" className="hidden h-9 w-64 justify-start gap-2 text-muted-foreground sm:flex">
+        <Button
+          variant="outline"
+          size="sm"
+          className="hidden h-9 w-64 justify-start gap-2 text-muted-foreground sm:flex"
+        >
           <Search className="h-4 w-4" />
           <span className="truncate">Search…</span>
         </Button>
@@ -134,18 +147,24 @@ function SearchInner({
 }) {
   return (
     <div className="space-y-2">
-      <Input autoFocus placeholder="Search modules…" id="topbar-search" onChange={(e) => {
-        const list = document.getElementById("topbar-search-results");
-        if (!list) return;
-        list.innerHTML = "";
-        for (const m of matches(e.target.value)) {
-          const btn = document.createElement("button");
-          btn.className = "flex w-full items-center gap-2 rounded-md px-2 py-2 text-sm hover:bg-accent";
-          btn.textContent = m.title;
-          btn.onclick = () => onSelect(m.url);
-          list.appendChild(btn);
-        }
-      }} />
+      <Input
+        autoFocus
+        placeholder="Search modules…"
+        id="topbar-search"
+        onChange={(e) => {
+          const list = document.getElementById("topbar-search-results");
+          if (!list) return;
+          list.innerHTML = "";
+          for (const m of matches(e.target.value)) {
+            const btn = document.createElement("button");
+            btn.className =
+              "flex w-full items-center gap-2 rounded-md px-2 py-2 text-sm hover:bg-accent";
+            btn.textContent = m.title;
+            btn.onclick = () => onSelect(m.url);
+            list.appendChild(btn);
+          }
+        }}
+      />
       <div id="topbar-search-results" className="space-y-1" />
       <p className="px-2 text-xs text-muted-foreground">Type to filter modules.</p>
     </div>

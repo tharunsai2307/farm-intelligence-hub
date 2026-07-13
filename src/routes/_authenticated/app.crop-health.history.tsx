@@ -48,9 +48,7 @@ function HistoryPage() {
       <Card>
         <CardContent className="p-0">
           {q.isLoading ? (
-            <div className="p-8 text-center text-sm text-muted-foreground">
-              Loading…
-            </div>
+            <div className="p-8 text-center text-sm text-muted-foreground">Loading…</div>
           ) : rows.length === 0 ? (
             <div className="flex flex-col items-center justify-center p-12 text-center">
               <ImageIcon className="mb-3 h-10 w-10 text-muted-foreground" />
@@ -84,9 +82,7 @@ function HistoryPage() {
                     <TableCell>{r.crop_type || "—"}</TableCell>
                     <TableCell className="font-medium">{r.prediction || "—"}</TableCell>
                     <TableCell>
-                      {r.confidence != null
-                        ? `${(Number(r.confidence) * 100).toFixed(1)}%`
-                        : "—"}
+                      {r.confidence != null ? `${(Number(r.confidence) * 100).toFixed(1)}%` : "—"}
                     </TableCell>
                     <TableCell>
                       <Badge variant="outline" className="capitalize">
@@ -94,18 +90,13 @@ function HistoryPage() {
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      <Badge
-                        variant={r.status === "completed" ? "secondary" : "outline"}
-                      >
+                      <Badge variant={r.status === "completed" ? "secondary" : "outline"}>
                         {r.status}
                       </Badge>
                     </TableCell>
                     <TableCell>
                       <Button asChild size="sm" variant="ghost">
-                        <Link
-                          to="/app/crop-health/details/$id"
-                          params={{ id: r.id }}
-                        >
+                        <Link to="/app/crop-health/details/$id" params={{ id: r.id }}>
                           View
                         </Link>
                       </Button>

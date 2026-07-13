@@ -7,12 +7,33 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { saveEquipmentItem, deleteEquipmentItem } from "@/lib/services/farmos.service";
 import type { EquipmentRow } from "@/lib/services/farmos.server";
 
-const TYPES = ["tractor", "pump_set", "drip_system", "sprayer", "harvest_machine", "sensor", "other"] as const;
+const TYPES = [
+  "tractor",
+  "pump_set",
+  "drip_system",
+  "sprayer",
+  "harvest_machine",
+  "sensor",
+  "other",
+] as const;
 const STATUSES = ["operational", "maintenance_due", "out_of_service"] as const;
 
 function statusTone(s: EquipmentRow["status"]) {
@@ -76,10 +97,16 @@ export function EquipmentForm({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        {trigger ?? <Button size="sm"><Plus className="mr-2 h-4 w-4" /> Add equipment</Button>}
+        {trigger ?? (
+          <Button size="sm">
+            <Plus className="mr-2 h-4 w-4" /> Add equipment
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className="max-w-xl">
-        <DialogHeader><DialogTitle>{initial ? "Edit equipment" : "Add equipment"}</DialogTitle></DialogHeader>
+        <DialogHeader>
+          <DialogTitle>{initial ? "Edit equipment" : "Add equipment"}</DialogTitle>
+        </DialogHeader>
         <div className="grid gap-3 sm:grid-cols-2">
           <div className="sm:col-span-2">
             <Label>Name</Label>
@@ -88,49 +115,99 @@ export function EquipmentForm({
           <div>
             <Label>Type</Label>
             <Select value={form.type} onValueChange={(v) => setForm({ ...form, type: v as any })}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>{TYPES.map((t) => <SelectItem key={t} value={t}>{t.replace("_", " ")}</SelectItem>)}</SelectContent>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {TYPES.map((t) => (
+                  <SelectItem key={t} value={t}>
+                    {t.replace("_", " ")}
+                  </SelectItem>
+                ))}
+              </SelectContent>
             </Select>
           </div>
           <div>
             <Label>Status</Label>
-            <Select value={form.status} onValueChange={(v) => setForm({ ...form, status: v as any })}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>{STATUSES.map((s) => <SelectItem key={s} value={s}>{s.replace("_", " ")}</SelectItem>)}</SelectContent>
+            <Select
+              value={form.status}
+              onValueChange={(v) => setForm({ ...form, status: v as any })}
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {STATUSES.map((s) => (
+                  <SelectItem key={s} value={s}>
+                    {s.replace("_", " ")}
+                  </SelectItem>
+                ))}
+              </SelectContent>
             </Select>
           </div>
           <div>
             <Label>Manufacturer</Label>
-            <Input value={form.manufacturer} onChange={(e) => setForm({ ...form, manufacturer: e.target.value })} />
+            <Input
+              value={form.manufacturer}
+              onChange={(e) => setForm({ ...form, manufacturer: e.target.value })}
+            />
           </div>
           <div>
             <Label>Serial number</Label>
-            <Input value={form.serial_number} onChange={(e) => setForm({ ...form, serial_number: e.target.value })} />
+            <Input
+              value={form.serial_number}
+              onChange={(e) => setForm({ ...form, serial_number: e.target.value })}
+            />
           </div>
           <div>
             <Label>Purchase date</Label>
-            <Input type="date" value={form.purchase_date} onChange={(e) => setForm({ ...form, purchase_date: e.target.value })} />
+            <Input
+              type="date"
+              value={form.purchase_date}
+              onChange={(e) => setForm({ ...form, purchase_date: e.target.value })}
+            />
           </div>
           <div>
             <Label>Operating hours</Label>
-            <Input type="number" step="0.1" value={form.operating_hours} onChange={(e) => setForm({ ...form, operating_hours: e.target.value as any })} />
+            <Input
+              type="number"
+              step="0.1"
+              value={form.operating_hours}
+              onChange={(e) => setForm({ ...form, operating_hours: e.target.value as any })}
+            />
           </div>
           <div>
             <Label>Last maintenance</Label>
-            <Input type="date" value={form.last_maintenance_date} onChange={(e) => setForm({ ...form, last_maintenance_date: e.target.value })} />
+            <Input
+              type="date"
+              value={form.last_maintenance_date}
+              onChange={(e) => setForm({ ...form, last_maintenance_date: e.target.value })}
+            />
           </div>
           <div>
             <Label>Next maintenance</Label>
-            <Input type="date" value={form.next_maintenance_date} onChange={(e) => setForm({ ...form, next_maintenance_date: e.target.value })} />
+            <Input
+              type="date"
+              value={form.next_maintenance_date}
+              onChange={(e) => setForm({ ...form, next_maintenance_date: e.target.value })}
+            />
           </div>
           <div className="sm:col-span-2">
             <Label>Notes</Label>
-            <Textarea rows={2} value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
+            <Textarea
+              rows={2}
+              value={form.notes}
+              onChange={(e) => setForm({ ...form, notes: e.target.value })}
+            />
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
-          <Button onClick={() => m.mutate()} disabled={!form.name.trim() || m.isPending}>{m.isPending ? "Saving…" : "Save"}</Button>
+          <Button variant="outline" onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
+          <Button onClick={() => m.mutate()} disabled={!form.name.trim() || m.isPending}>
+            {m.isPending ? "Saving…" : "Save"}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -160,19 +237,52 @@ export function EquipmentCard({ item }: { item: EquipmentRow }) {
             <Wrench className="h-4 w-4 text-muted-foreground" />
             <h3 className="truncate text-sm font-semibold">{item.name}</h3>
           </div>
-          <p className="mt-1 text-xs capitalize text-muted-foreground">{item.type.replace("_", " ")}{item.manufacturer ? ` · ${item.manufacturer}` : ""}</p>
+          <p className="mt-1 text-xs capitalize text-muted-foreground">
+            {item.type.replace("_", " ")}
+            {item.manufacturer ? ` · ${item.manufacturer}` : ""}
+          </p>
         </div>
-        <Badge className={`text-[10px] ${statusTone(item.status)}`} variant="outline">{item.status.replace("_", " ")}</Badge>
+        <Badge className={`text-[10px] ${statusTone(item.status)}`} variant="outline">
+          {item.status.replace("_", " ")}
+        </Badge>
       </div>
       <dl className="mt-3 grid grid-cols-2 gap-2 text-xs">
-        <div><dt className="text-muted-foreground">Hours</dt><dd>{item.operating_hours ?? "—"}</dd></div>
-        <div><dt className="text-muted-foreground">Serial</dt><dd className="truncate">{item.serial_number ?? "—"}</dd></div>
-        <div><dt className="text-muted-foreground">Last service</dt><dd>{item.last_maintenance_date ?? "—"}</dd></div>
-        <div><dt className="text-muted-foreground">Next service</dt><dd>{item.next_maintenance_date ?? "—"}</dd></div>
+        <div>
+          <dt className="text-muted-foreground">Hours</dt>
+          <dd>{item.operating_hours ?? "—"}</dd>
+        </div>
+        <div>
+          <dt className="text-muted-foreground">Serial</dt>
+          <dd className="truncate">{item.serial_number ?? "—"}</dd>
+        </div>
+        <div>
+          <dt className="text-muted-foreground">Last service</dt>
+          <dd>{item.last_maintenance_date ?? "—"}</dd>
+        </div>
+        <div>
+          <dt className="text-muted-foreground">Next service</dt>
+          <dd>{item.next_maintenance_date ?? "—"}</dd>
+        </div>
       </dl>
       <div className="mt-3 flex justify-end gap-1">
-        <EquipmentForm farmId={item.farm_id} initial={item} trigger={<Button size="icon" variant="ghost" aria-label="Edit equipment"><Pencil className="h-4 w-4" /></Button>} />
-        <Button size="icon" variant="ghost" aria-label="Delete equipment" onClick={() => del.mutate()} disabled={del.isPending}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+        <EquipmentForm
+          farmId={item.farm_id}
+          initial={item}
+          trigger={
+            <Button size="icon" variant="ghost" aria-label="Edit equipment">
+              <Pencil className="h-4 w-4" />
+            </Button>
+          }
+        />
+        <Button
+          size="icon"
+          variant="ghost"
+          aria-label="Delete equipment"
+          onClick={() => del.mutate()}
+          disabled={del.isPending}
+        >
+          <Trash2 className="h-4 w-4 text-destructive" />
+        </Button>
       </div>
     </div>
   );

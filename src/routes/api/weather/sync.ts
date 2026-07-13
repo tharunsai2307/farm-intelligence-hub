@@ -1,9 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 async function handle(request: Request) {
-  const { getRequestSupabase, jsonError, jsonOk } = await import(
-    "@/lib/server/request-auth.server"
-  );
+  const { getRequestSupabase, jsonError, jsonOk } =
+    await import("@/lib/server/request-auth.server");
   const auth = await getRequestSupabase(request);
   if (!auth) return jsonError("Unauthorized", 401);
 

@@ -145,7 +145,10 @@ async function fetchLegacy(lat: number, lon: number, key: string): Promise<OneCa
         weather: Array<{ main: string; description: string }>;
       }>;
     };
-    const byDay = new Map<string, ReturnType<() => NonNullable<OneCallResponse["daily"]>[number]>>();
+    const byDay = new Map<
+      string,
+      ReturnType<() => NonNullable<OneCallResponse["daily"]>[number]>
+    >();
     for (const it of j.list) {
       const dayKey = new Date(it.dt * 1000).toISOString().slice(0, 10);
       const existing = byDay.get(dayKey);
@@ -173,7 +176,6 @@ async function fetchLegacy(lat: number, lon: number, key: string): Promise<OneCa
   }
   return out;
 }
-
 
 export type CurrentWeather = {
   temperature: number | null;

@@ -58,9 +58,16 @@ export const Route = createFileRoute("/register")({
   head: () => ({
     meta: [
       { title: "Create account — AgriTwin OS" },
-      { name: "description", content: "Create a free AgriTwin OS account and start digitizing your farm with AI-powered monitoring and recommendations." },
+      {
+        name: "description",
+        content:
+          "Create a free AgriTwin OS account and start digitizing your farm with AI-powered monitoring and recommendations.",
+      },
       { property: "og:title", content: "Create account — AgriTwin OS" },
-      { property: "og:description", content: "Sign up free and start your farm digital twin in minutes." },
+      {
+        property: "og:description",
+        content: "Sign up free and start your farm digital twin in minutes.",
+      },
       { property: "og:url", content: "/register" },
     ],
     links: [{ rel: "canonical", href: "/register" }],
@@ -130,7 +137,9 @@ function RegisterPage() {
       footer={
         <>
           Already have an account?{" "}
-          <Link to="/login" className="text-primary hover:underline">Sign in</Link>
+          <Link to="/login" className="text-primary hover:underline">
+            Sign in
+          </Link>
         </>
       }
     >
@@ -153,7 +162,13 @@ function RegisterPage() {
 
         <div className="space-y-2">
           <Label htmlFor="phone">Phone number</Label>
-          <Input id="phone" type="tel" autoComplete="tel" placeholder="+91 98765 43210" {...form.register("phone")} />
+          <Input
+            id="phone"
+            type="tel"
+            autoComplete="tel"
+            placeholder="+91 98765 43210"
+            {...form.register("phone")}
+          />
           {form.formState.errors.phone && (
             <p className="text-xs text-danger">{form.formState.errors.phone.message}</p>
           )}
@@ -163,12 +178,18 @@ function RegisterPage() {
           <Label>I am a</Label>
           <Select
             value={form.watch("role")}
-            onValueChange={(v) => form.setValue("role", v as Values["role"], { shouldValidate: true })}
+            onValueChange={(v) =>
+              form.setValue("role", v as Values["role"], { shouldValidate: true })
+            }
           >
-            <SelectTrigger><SelectValue /></SelectTrigger>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
             <SelectContent>
               {ROLES.map((r) => (
-                <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>
+                <SelectItem key={r.value} value={r.value}>
+                  {r.label}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -176,7 +197,12 @@ function RegisterPage() {
 
         <div className="space-y-2">
           <Label htmlFor="password">Password</Label>
-          <Input id="password" type="password" autoComplete="new-password" {...form.register("password")} />
+          <Input
+            id="password"
+            type="password"
+            autoComplete="new-password"
+            {...form.register("password")}
+          />
           {form.formState.errors.password && (
             <p className="text-xs text-danger">{form.formState.errors.password.message}</p>
           )}
@@ -184,7 +210,12 @@ function RegisterPage() {
 
         <div className="space-y-2">
           <Label htmlFor="confirm">Confirm password</Label>
-          <Input id="confirm" type="password" autoComplete="new-password" {...form.register("confirm")} />
+          <Input
+            id="confirm"
+            type="password"
+            autoComplete="new-password"
+            {...form.register("confirm")}
+          />
           {form.formState.errors.confirm && (
             <p className="text-xs text-danger">{form.formState.errors.confirm.message}</p>
           )}
@@ -197,7 +228,13 @@ function RegisterPage() {
       </form>
 
       <Divider />
-      <Button type="button" variant="outline" className="w-full" disabled={submitting} onClick={handleGoogle}>
+      <Button
+        type="button"
+        variant="outline"
+        className="w-full"
+        disabled={submitting}
+        onClick={handleGoogle}
+      >
         <GoogleIcon className="mr-2 h-4 w-4" /> Continue with Google
       </Button>
     </AuthLayout>
@@ -207,7 +244,9 @@ function RegisterPage() {
 function Divider() {
   return (
     <div className="relative my-4">
-      <div className="absolute inset-0 flex items-center"><span className="w-full border-t" /></div>
+      <div className="absolute inset-0 flex items-center">
+        <span className="w-full border-t" />
+      </div>
       <div className="relative flex justify-center text-xs uppercase">
         <span className="bg-background px-2 text-muted-foreground">or</span>
       </div>

@@ -39,7 +39,11 @@ function CalendarPage() {
         description="Tasks, harvests, maintenance and custom events — combined from real records."
         actions={<FarmSelector value={activeFarm} onChange={setFarmId} />}
       />
-      {q.isLoading || !activeFarm ? <CardSkeleton /> : <TaskCalendar items={items} month={month} onMonthChange={setMonth} />}
+      {q.isLoading || !activeFarm ? (
+        <CardSkeleton />
+      ) : (
+        <TaskCalendar items={items} month={month} onMonthChange={setMonth} />
+      )}
     </div>
   );
 }

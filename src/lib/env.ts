@@ -23,9 +23,7 @@ if (!SUPABASE_PUBLISHABLE_KEY) missingRequired.push("VITE_SUPABASE_PUBLISHABLE_K
 
 if (typeof window !== "undefined" && missingRequired.length > 0) {
   // eslint-disable-next-line no-console
-  console.error(
-    `[AgriTwin] Missing required env vars: ${missingRequired.join(", ")}.`,
-  );
+  console.error(`[AgriTwin] Missing required env vars: ${missingRequired.join(", ")}.`);
 }
 
 export const clientEnv = {
@@ -47,7 +45,10 @@ export function getDataSourceStatuses(): Record<string, Status> {
     supabase: SUPABASE_URL
       ? { configured: true }
       : { configured: false, reason: "Backend URL missing." },
-    mapbox: { configured: true, reason: "Using OpenStreetMap / Esri satellite tiles — no key required." },
+    mapbox: {
+      configured: true,
+      reason: "Using OpenStreetMap / Esri satellite tiles — no key required.",
+    },
 
     weather: { configured: false, reason: "Check Settings → Data sources for live status." },
     ai_crop: { configured: false, reason: "Phase 2 — not yet configured." },

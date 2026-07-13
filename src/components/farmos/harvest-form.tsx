@@ -7,13 +7,32 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { EmptyState } from "@/components/common/empty-state";
 import { saveFarmHarvest, deleteFarmHarvest } from "@/lib/services/farmos.service";
 import type { HarvestRow } from "@/lib/services/farmos.server";
 
-const STATUSES: HarvestRow["status"][] = ["planned", "in_progress", "completed", "sold", "cancelled"];
+const STATUSES: HarvestRow["status"][] = [
+  "planned",
+  "in_progress",
+  "completed",
+  "sold",
+  "cancelled",
+];
 
 function statusTone(s: HarvestRow["status"]) {
   if (s === "planned") return "bg-blue-500/15 text-blue-700 dark:text-blue-400";
@@ -79,31 +98,107 @@ export function HarvestForm({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        {trigger ?? <Button size="sm"><Plus className="mr-2 h-4 w-4" /> Plan harvest</Button>}
+        {trigger ?? (
+          <Button size="sm">
+            <Plus className="mr-2 h-4 w-4" /> Plan harvest
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className="max-w-xl">
-        <DialogHeader><DialogTitle>{initial ? "Edit harvest" : "Plan harvest"}</DialogTitle></DialogHeader>
+        <DialogHeader>
+          <DialogTitle>{initial ? "Edit harvest" : "Plan harvest"}</DialogTitle>
+        </DialogHeader>
         <div className="grid gap-3 sm:grid-cols-2">
-          <div><Label>Crop</Label><Input value={form.crop} onChange={(e) => setForm({ ...form, crop: e.target.value })} /></div>
+          <div>
+            <Label>Crop</Label>
+            <Input value={form.crop} onChange={(e) => setForm({ ...form, crop: e.target.value })} />
+          </div>
           <div>
             <Label>Status</Label>
-            <Select value={form.status} onValueChange={(v) => setForm({ ...form, status: v as any })}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>{STATUSES.map((s) => <SelectItem key={s} value={s}>{s.replace("_", " ")}</SelectItem>)}</SelectContent>
+            <Select
+              value={form.status}
+              onValueChange={(v) => setForm({ ...form, status: v as any })}
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {STATUSES.map((s) => (
+                  <SelectItem key={s} value={s}>
+                    {s.replace("_", " ")}
+                  </SelectItem>
+                ))}
+              </SelectContent>
             </Select>
           </div>
-          <div><Label>Expected date</Label><Input type="date" value={form.expected_harvest_date} onChange={(e) => setForm({ ...form, expected_harvest_date: e.target.value })} /></div>
-          <div><Label>Actual date</Label><Input type="date" value={form.actual_harvest_date} onChange={(e) => setForm({ ...form, actual_harvest_date: e.target.value })} /></div>
-          <div><Label>Expected qty</Label><Input type="number" step="0.01" value={form.expected_quantity} onChange={(e) => setForm({ ...form, expected_quantity: e.target.value as any })} /></div>
-          <div><Label>Actual qty</Label><Input type="number" step="0.01" value={form.actual_quantity} onChange={(e) => setForm({ ...form, actual_quantity: e.target.value as any })} /></div>
-          <div><Label>Unit</Label><Input value={form.unit} onChange={(e) => setForm({ ...form, unit: e.target.value })} /></div>
-          <div><Label>Buyer</Label><Input value={form.buyer} onChange={(e) => setForm({ ...form, buyer: e.target.value })} /></div>
-          <div className="sm:col-span-2"><Label>Storage location</Label><Input value={form.storage_location} onChange={(e) => setForm({ ...form, storage_location: e.target.value })} /></div>
-          <div className="sm:col-span-2"><Label>Notes</Label><Textarea rows={2} value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} /></div>
+          <div>
+            <Label>Expected date</Label>
+            <Input
+              type="date"
+              value={form.expected_harvest_date}
+              onChange={(e) => setForm({ ...form, expected_harvest_date: e.target.value })}
+            />
+          </div>
+          <div>
+            <Label>Actual date</Label>
+            <Input
+              type="date"
+              value={form.actual_harvest_date}
+              onChange={(e) => setForm({ ...form, actual_harvest_date: e.target.value })}
+            />
+          </div>
+          <div>
+            <Label>Expected qty</Label>
+            <Input
+              type="number"
+              step="0.01"
+              value={form.expected_quantity}
+              onChange={(e) => setForm({ ...form, expected_quantity: e.target.value as any })}
+            />
+          </div>
+          <div>
+            <Label>Actual qty</Label>
+            <Input
+              type="number"
+              step="0.01"
+              value={form.actual_quantity}
+              onChange={(e) => setForm({ ...form, actual_quantity: e.target.value as any })}
+            />
+          </div>
+          <div>
+            <Label>Unit</Label>
+            <Input value={form.unit} onChange={(e) => setForm({ ...form, unit: e.target.value })} />
+          </div>
+          <div>
+            <Label>Buyer</Label>
+            <Input
+              value={form.buyer}
+              onChange={(e) => setForm({ ...form, buyer: e.target.value })}
+            />
+          </div>
+          <div className="sm:col-span-2">
+            <Label>Storage location</Label>
+            <Input
+              value={form.storage_location}
+              onChange={(e) => setForm({ ...form, storage_location: e.target.value })}
+            />
+          </div>
+          <div className="sm:col-span-2">
+            <Label>Notes</Label>
+            <Textarea
+              rows={2}
+              value={form.notes}
+              onChange={(e) => setForm({ ...form, notes: e.target.value })}
+            />
+          </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
-          <Button onClick={() => m.mutate()} disabled={!form.crop.trim() || m.isPending}>{m.isPending ? "Saving…" : "Save"}</Button>
+          <Button variant="outline" onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
+          <Button onClick={() => m.mutate()} disabled={!form.crop.trim() || m.isPending}>
+            {m.isPending ? "Saving…" : "Save"}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -150,17 +245,53 @@ export function HarvestPlanner({ items, farmId }: { items: HarvestRow[]; farmId:
                 <p className="text-xs text-muted-foreground">Actual: {h.actual_harvest_date}</p>
               )}
             </div>
-            <Badge className={`text-[10px] capitalize ${statusTone(h.status)}`} variant="outline">{h.status.replace("_", " ")}</Badge>
+            <Badge className={`text-[10px] capitalize ${statusTone(h.status)}`} variant="outline">
+              {h.status.replace("_", " ")}
+            </Badge>
           </div>
           <dl className="mt-3 grid grid-cols-2 gap-2 text-xs">
-            <div><dt className="text-muted-foreground">Expected</dt><dd>{h.expected_quantity != null ? `${Number(h.expected_quantity)} ${h.unit ?? ""}` : "—"}</dd></div>
-            <div><dt className="text-muted-foreground">Actual</dt><dd>{h.actual_quantity != null ? `${Number(h.actual_quantity)} ${h.unit ?? ""}` : "—"}</dd></div>
-            <div><dt className="text-muted-foreground">Storage</dt><dd className="truncate">{h.storage_location ?? "—"}</dd></div>
-            <div><dt className="text-muted-foreground">Buyer</dt><dd className="truncate">{h.buyer ?? "—"}</dd></div>
+            <div>
+              <dt className="text-muted-foreground">Expected</dt>
+              <dd>
+                {h.expected_quantity != null
+                  ? `${Number(h.expected_quantity)} ${h.unit ?? ""}`
+                  : "—"}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-muted-foreground">Actual</dt>
+              <dd>
+                {h.actual_quantity != null ? `${Number(h.actual_quantity)} ${h.unit ?? ""}` : "—"}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-muted-foreground">Storage</dt>
+              <dd className="truncate">{h.storage_location ?? "—"}</dd>
+            </div>
+            <div>
+              <dt className="text-muted-foreground">Buyer</dt>
+              <dd className="truncate">{h.buyer ?? "—"}</dd>
+            </div>
           </dl>
           <div className="mt-3 flex justify-end gap-1">
-            <HarvestForm farmId={farmId} initial={h} trigger={<Button size="icon" variant="ghost" aria-label="Edit harvest record"><Pencil className="h-4 w-4" /></Button>} />
-            <Button size="icon" variant="ghost" aria-label="Delete harvest record" onClick={() => del.mutate(h.id)} disabled={del.isPending}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+            <HarvestForm
+              farmId={farmId}
+              initial={h}
+              trigger={
+                <Button size="icon" variant="ghost" aria-label="Edit harvest record">
+                  <Pencil className="h-4 w-4" />
+                </Button>
+              }
+            />
+            <Button
+              size="icon"
+              variant="ghost"
+              aria-label="Delete harvest record"
+              onClick={() => del.mutate(h.id)}
+              disabled={del.isPending}
+            >
+              <Trash2 className="h-4 w-4 text-destructive" />
+            </Button>
           </div>
         </div>
       ))}

@@ -64,12 +64,12 @@ export const getWeatherAlerts = createServerFn({ method: "GET" })
     return fn(context.supabase, data.farmId);
   });
 
-export const getWeatherSourceStatus = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth]).handler(async () => {
-  const configured = Boolean(
-    process.env.OPENWEATHER_API_KEY || process.env.WEATHER_API_KEY,
-  );
-  const result: ServiceResult<{ configured: boolean; provider: string }> = configured
-    ? { success: true, data: { configured: true, provider: "openweather" }, error: null }
-    : fail("Weather API key not configured.");
-  return result;
-});
+export const getWeatherSourceStatus = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async () => {
+    const configured = Boolean(process.env.OPENWEATHER_API_KEY || process.env.WEATHER_API_KEY);
+    const result: ServiceResult<{ configured: boolean; provider: string }> = configured
+      ? { success: true, data: { configured: true, provider: "openweather" }, error: null }
+      : fail("Weather API key not configured.");
+    return result;
+  });

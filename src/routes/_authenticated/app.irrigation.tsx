@@ -13,9 +13,22 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { FarmSelector, useFarms } from "@/components/farmos/farm-selector";
 import {
   createIrrigationRecord,
@@ -27,7 +40,10 @@ export const Route = createFileRoute("/_authenticated/app/irrigation")({
   head: () => ({
     meta: [
       { title: "Irrigation Records — AgriTwin OS" },
-      { name: "description", content: "Log every irrigation event by source, method, volume, and duration." },
+      {
+        name: "description",
+        content: "Log every irrigation event by source, method, volume, and duration.",
+      },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),
@@ -50,7 +66,9 @@ function IrrigationPage() {
 
   const totals = useMemo(() => {
     const items = q.data?.items ?? [];
-    const last30 = items.filter((r) => new Date(r.started_at) >= new Date(Date.now() - 30 * 86400_000));
+    const last30 = items.filter(
+      (r) => new Date(r.started_at) >= new Date(Date.now() - 30 * 86400_000),
+    );
     return {
       events: items.length,
       last30Events: last30.length,
@@ -72,17 +90,26 @@ function IrrigationPage() {
       />
 
       {!activeFarmId ? (
-        <EmptyState icon={Droplets} title="Add a farm to log irrigation" description="Create a farm first to start tracking." />
+        <EmptyState
+          icon={Droplets}
+          title="Add a farm to log irrigation"
+          description="Create a farm first to start tracking."
+        />
       ) : (
         <div className="grid gap-6">
           <div className="grid grid-cols-3 gap-3">
             <Stat label="Total events" value={totals.events.toString()} />
             <Stat label="Last 30 days" value={totals.last30Events.toString()} />
-            <Stat label="Water used (30d)" value={`${Math.round(totals.last30Liters).toLocaleString()} L`} />
+            <Stat
+              label="Water used (30d)"
+              value={`${Math.round(totals.last30Liters).toLocaleString()} L`}
+            />
           </div>
 
           <Card>
-            <CardHeader><CardTitle className="text-base">Recent events</CardTitle></CardHeader>
+            <CardHeader>
+              <CardTitle className="text-base">Recent events</CardTitle>
+            </CardHeader>
             <CardContent>
               {q.isLoading ? (
                 <Skeleton className="h-32 w-full" />
@@ -215,7 +242,9 @@ function NewRecordDialog({ farmId }: { farmId: string | undefined }) {
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader><DialogTitle>Log irrigation event</DialogTitle></DialogHeader>
+        <DialogHeader>
+          <DialogTitle>Log irrigation event</DialogTitle>
+        </DialogHeader>
         <div className="grid gap-3">
           <div className="grid gap-1.5">
             <Label htmlFor="when">When</Label>
@@ -229,30 +258,55 @@ function NewRecordDialog({ farmId }: { farmId: string | undefined }) {
           <div className="grid gap-1.5">
             <Label htmlFor="method">Method</Label>
             <Select value={form.method} onValueChange={(v) => setForm({ ...form, method: v })}>
-              <SelectTrigger id="method"><SelectValue /></SelectTrigger>
+              <SelectTrigger id="method">
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
-                {METHODS.map((m) => <SelectItem key={m} value={m} className="capitalize">{m}</SelectItem>)}
+                {METHODS.map((m) => (
+                  <SelectItem key={m} value={m} className="capitalize">
+                    {m}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="grid gap-1.5">
               <Label htmlFor="vol">Volume (L)</Label>
-              <Input id="vol" inputMode="decimal" value={form.volume_liters} onChange={(e) => setForm({ ...form, volume_liters: e.target.value })} />
+              <Input
+                id="vol"
+                inputMode="decimal"
+                value={form.volume_liters}
+                onChange={(e) => setForm({ ...form, volume_liters: e.target.value })}
+              />
             </div>
             <div className="grid gap-1.5">
               <Label htmlFor="dur">Duration (min)</Label>
-              <Input id="dur" inputMode="decimal" value={form.duration_minutes} onChange={(e) => setForm({ ...form, duration_minutes: e.target.value })} />
+              <Input
+                id="dur"
+                inputMode="decimal"
+                value={form.duration_minutes}
+                onChange={(e) => setForm({ ...form, duration_minutes: e.target.value })}
+              />
             </div>
           </div>
           <div className="grid gap-1.5">
             <Label htmlFor="notes">Notes</Label>
-            <Textarea id="notes" rows={3} value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
+            <Textarea
+              id="notes"
+              rows={3}
+              value={form.notes}
+              onChange={(e) => setForm({ ...form, notes: e.target.value })}
+            />
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
-          <Button onClick={() => create.mutate()} disabled={create.isPending}>Save</Button>
+          <Button variant="outline" onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
+          <Button onClick={() => create.mutate()} disabled={create.isPending}>
+            Save
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

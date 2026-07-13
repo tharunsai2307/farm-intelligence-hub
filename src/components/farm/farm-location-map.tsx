@@ -51,17 +51,17 @@ export function FarmLocationMap({
     L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
       {
-        attribution:
-          "Imagery © Esri, Maxar, Earthstar Geographics | © OpenStreetMap contributors",
+        attribution: "Imagery © Esri, Maxar, Earthstar Geographics | © OpenStreetMap contributors",
         maxZoom: 19,
       },
     ).addTo(map);
 
     // Roads + labels overlay
-    L.tileLayer(
-      "https://stamen-tiles.a.ssl.fastly.net/toner-lines/{z}/{x}/{y}.png",
-      { opacity: 0.35, maxZoom: 19, attribution: "" },
-    ).addTo(map);
+    L.tileLayer("https://stamen-tiles.a.ssl.fastly.net/toner-lines/{z}/{x}/{y}.png", {
+      opacity: 0.35,
+      maxZoom: 19,
+      attribution: "",
+    }).addTo(map);
 
     markerLayerRef.current = L.layerGroup().addTo(map);
     map.on("click", (e: L.LeafletMouseEvent) => {

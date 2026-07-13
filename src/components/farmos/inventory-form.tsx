@@ -7,21 +7,74 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { EmptyState } from "@/components/common/empty-state";
 import { saveInventoryItem, deleteInventoryItem } from "@/lib/services/farmos.service";
-import type { InventoryRow, InventoryWithAlerts, InventoryAlertKind } from "@/lib/services/farmos.server";
+import type {
+  InventoryRow,
+  InventoryWithAlerts,
+  InventoryAlertKind,
+} from "@/lib/services/farmos.server";
 
-const CATEGORIES = ["seeds", "fertilizers", "pesticides", "organic_inputs", "tools", "spare_parts", "storage_materials", "other"] as const;
+const CATEGORIES = [
+  "seeds",
+  "fertilizers",
+  "pesticides",
+  "organic_inputs",
+  "tools",
+  "spare_parts",
+  "storage_materials",
+  "other",
+] as const;
 
 function alertLabel(a: InventoryAlertKind): { label: string; icon: ReactNode; tone: string } {
   switch (a) {
-    case "out_of_stock": return { label: "Out of stock", icon: <PackageX className="h-3 w-3" />, tone: "bg-destructive/15 text-destructive" };
-    case "expired": return { label: "Expired", icon: <AlertTriangle className="h-3 w-3" />, tone: "bg-destructive/15 text-destructive" };
-    case "low_stock": return { label: "Low stock", icon: <AlertTriangle className="h-3 w-3" />, tone: "bg-amber-500/15 text-amber-700 dark:text-amber-400" };
-    case "expiring_soon": return { label: "Expiring soon", icon: <Clock className="h-3 w-3" />, tone: "bg-amber-500/15 text-amber-700 dark:text-amber-400" };
+    case "out_of_stock":
+      return {
+        label: "Out of stock",
+        icon: <PackageX className="h-3 w-3" />,
+        tone: "bg-destructive/15 text-destructive",
+      };
+    case "expired":
+      return {
+        label: "Expired",
+        icon: <AlertTriangle className="h-3 w-3" />,
+        tone: "bg-destructive/15 text-destructive",
+      };
+    case "low_stock":
+      return {
+        label: "Low stock",
+        icon: <AlertTriangle className="h-3 w-3" />,
+        tone: "bg-amber-500/15 text-amber-700 dark:text-amber-400",
+      };
+    case "expiring_soon":
+      return {
+        label: "Expiring soon",
+        icon: <Clock className="h-3 w-3" />,
+        tone: "bg-amber-500/15 text-amber-700 dark:text-amber-400",
+      };
   }
 }
 
@@ -103,52 +156,100 @@ export function InventoryForm({
           </div>
           <div>
             <Label>Category</Label>
-            <Select value={form.category} onValueChange={(v) => setForm({ ...form, category: v as any })}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
+            <Select
+              value={form.category}
+              onValueChange={(v) => setForm({ ...form, category: v as any })}
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
-                {CATEGORIES.map((c) => <SelectItem key={c} value={c}>{c.replace("_", " ")}</SelectItem>)}
+                {CATEGORIES.map((c) => (
+                  <SelectItem key={c} value={c}>
+                    {c.replace("_", " ")}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
           <div>
             <Label>Storage location</Label>
-            <Input value={form.storage_location} onChange={(e) => setForm({ ...form, storage_location: e.target.value })} />
+            <Input
+              value={form.storage_location}
+              onChange={(e) => setForm({ ...form, storage_location: e.target.value })}
+            />
           </div>
           <div>
             <Label>Quantity</Label>
-            <Input type="number" step="0.01" value={form.quantity} onChange={(e) => setForm({ ...form, quantity: Number(e.target.value) })} />
+            <Input
+              type="number"
+              step="0.01"
+              value={form.quantity}
+              onChange={(e) => setForm({ ...form, quantity: Number(e.target.value) })}
+            />
           </div>
           <div>
             <Label>Unit</Label>
-            <Input value={form.unit} onChange={(e) => setForm({ ...form, unit: e.target.value })} placeholder="kg, l, bag" />
+            <Input
+              value={form.unit}
+              onChange={(e) => setForm({ ...form, unit: e.target.value })}
+              placeholder="kg, l, bag"
+            />
           </div>
           <div>
             <Label>Min stock level</Label>
-            <Input type="number" step="0.01" value={form.min_stock_level} onChange={(e) => setForm({ ...form, min_stock_level: e.target.value as any })} />
+            <Input
+              type="number"
+              step="0.01"
+              value={form.min_stock_level}
+              onChange={(e) => setForm({ ...form, min_stock_level: e.target.value as any })}
+            />
           </div>
           <div>
             <Label>Cost</Label>
-            <Input type="number" step="0.01" value={form.cost} onChange={(e) => setForm({ ...form, cost: e.target.value as any })} />
+            <Input
+              type="number"
+              step="0.01"
+              value={form.cost}
+              onChange={(e) => setForm({ ...form, cost: e.target.value as any })}
+            />
           </div>
           <div>
             <Label>Supplier</Label>
-            <Input value={form.supplier} onChange={(e) => setForm({ ...form, supplier: e.target.value })} />
+            <Input
+              value={form.supplier}
+              onChange={(e) => setForm({ ...form, supplier: e.target.value })}
+            />
           </div>
           <div>
             <Label>Purchase date</Label>
-            <Input type="date" value={form.purchase_date} onChange={(e) => setForm({ ...form, purchase_date: e.target.value })} />
+            <Input
+              type="date"
+              value={form.purchase_date}
+              onChange={(e) => setForm({ ...form, purchase_date: e.target.value })}
+            />
           </div>
           <div>
             <Label>Expiry date</Label>
-            <Input type="date" value={form.expiry_date} onChange={(e) => setForm({ ...form, expiry_date: e.target.value })} />
+            <Input
+              type="date"
+              value={form.expiry_date}
+              onChange={(e) => setForm({ ...form, expiry_date: e.target.value })}
+            />
           </div>
           <div className="sm:col-span-2">
             <Label>Notes</Label>
-            <Textarea rows={2} value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
+            <Textarea
+              rows={2}
+              value={form.notes}
+              onChange={(e) => setForm({ ...form, notes: e.target.value })}
+            />
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
+          <Button variant="outline" onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
           <Button onClick={() => m.mutate()} disabled={!form.name.trim() || m.isPending}>
             {m.isPending ? "Saving…" : "Save"}
           </Button>
@@ -208,11 +309,15 @@ export function InventoryTable({
           {items.map((i) => (
             <TableRow key={i.id}>
               <TableCell className="font-medium">{i.name}</TableCell>
-              <TableCell className="capitalize text-muted-foreground">{i.category.replace("_", " ")}</TableCell>
+              <TableCell className="capitalize text-muted-foreground">
+                {i.category.replace("_", " ")}
+              </TableCell>
               <TableCell>
                 {Number(i.quantity)} {i.unit}
                 {i.min_stock_level ? (
-                  <span className="ml-1 text-xs text-muted-foreground">/ min {Number(i.min_stock_level)}</span>
+                  <span className="ml-1 text-xs text-muted-foreground">
+                    / min {Number(i.min_stock_level)}
+                  </span>
                 ) : null}
               </TableCell>
               <TableCell className="text-muted-foreground">{i.storage_location ?? "—"}</TableCell>
@@ -220,12 +325,17 @@ export function InventoryTable({
               <TableCell>
                 <div className="flex flex-wrap gap-1">
                   {i.alerts.length === 0 ? (
-                    <Badge variant="outline" className="text-[10px]">OK</Badge>
+                    <Badge variant="outline" className="text-[10px]">
+                      OK
+                    </Badge>
                   ) : (
                     i.alerts.map((a) => {
                       const v = alertLabel(a);
                       return (
-                        <span key={a} className={`inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[10px] ${v.tone}`}>
+                        <span
+                          key={a}
+                          className={`inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[10px] ${v.tone}`}
+                        >
                           {v.icon} {v.label}
                         </span>
                       );
@@ -238,9 +348,19 @@ export function InventoryTable({
                   <InventoryForm
                     farmId={farmId}
                     initial={i}
-                    trigger={<Button size="icon" variant="ghost" aria-label="Edit inventory item"><Pencil className="h-4 w-4" /></Button>}
+                    trigger={
+                      <Button size="icon" variant="ghost" aria-label="Edit inventory item">
+                        <Pencil className="h-4 w-4" />
+                      </Button>
+                    }
                   />
-                  <Button size="icon" variant="ghost" aria-label="Delete inventory item" onClick={() => del.mutate(i.id)} disabled={del.isPending}>
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    aria-label="Delete inventory item"
+                    onClick={() => del.mutate(i.id)}
+                    disabled={del.isPending}
+                  >
                     <Trash2 className="h-4 w-4 text-destructive" />
                   </Button>
                 </div>

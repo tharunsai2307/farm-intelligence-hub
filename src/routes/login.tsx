@@ -27,7 +27,11 @@ export const Route = createFileRoute("/login")({
   head: () => ({
     meta: [
       { title: "Sign in — AgriTwin OS" },
-      { name: "description", content: "Sign in to AgriTwin OS to view your farm dashboard, weather, sensors, and AI recommendations." },
+      {
+        name: "description",
+        content:
+          "Sign in to AgriTwin OS to view your farm dashboard, weather, sensors, and AI recommendations.",
+      },
       { property: "og:title", content: "Sign in — AgriTwin OS" },
       { property: "og:description", content: "Access your AgriTwin OS farm dashboard." },
       { property: "og:url", content: "/login" },
@@ -119,7 +123,8 @@ function LoginPage() {
               Decisions, grounded in real field data.
             </h2>
             <p className="text-sm text-[oklch(0.98_0.012_150)]/85 mt-4 leading-relaxed">
-              Weather intelligence, crop vision, soil signals and AgriMind recommendations — unified in one calm operating surface.
+              Weather intelligence, crop vision, soil signals and AgriMind recommendations — unified
+              in one calm operating surface.
             </p>
           </div>
 
@@ -131,7 +136,6 @@ function LoginPage() {
             <Feature icon={ShieldCheck} label="Private &amp; secure" delay={1.2} />
           </div>
         </div>
-
 
         <p className="relative z-10 text-xs text-[oklch(0.92_0.06_142)]/55">
           © {new Date().getFullYear()} AgriTwin OS · Crafted by Tharun Sai
@@ -157,9 +161,12 @@ function LoginPage() {
           {/* Mobile 3D scene */}
           <div className="lg:hidden relative h-48 -mx-2 mb-6 rounded-2xl overflow-hidden border border-border bg-gradient-to-br from-[oklch(0.62_0.10_158)] via-[oklch(0.52_0.10_160)] to-[oklch(0.46_0.09_162)]">
             <Login3DScene />
-            <div className="login-orb" style={{ top: "-30%", right: "-15%", width: 220, height: 220 }} aria-hidden />
+            <div
+              className="login-orb"
+              style={{ top: "-30%", right: "-15%", width: 220, height: 220 }}
+              aria-hidden
+            />
           </div>
-
 
           <div className="login-card p-7 sm:p-9">
             <div className="mb-7">
@@ -167,9 +174,7 @@ function LoginPage() {
                 Account
               </p>
               <h1 className="font-serif text-3xl tracking-tight">Sign in to AgriTwin&nbsp;OS</h1>
-              <p className="text-sm text-muted-foreground mt-2">
-                Continue to your farm dashboard.
-              </p>
+              <p className="text-sm text-muted-foreground mt-2">Continue to your farm dashboard.</p>
             </div>
 
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -203,7 +208,9 @@ function LoginPage() {
                   {...form.register("password")}
                 />
                 {form.formState.errors.password && (
-                  <p className="text-xs text-destructive">{form.formState.errors.password.message}</p>
+                  <p className="text-xs text-destructive">
+                    {form.formState.errors.password.message}
+                  </p>
                 )}
               </div>
               <Button
@@ -248,7 +255,15 @@ function LoginPage() {
   );
 }
 
-function Feature({ icon: Icon, label, delay = 0 }: { icon: typeof Leaf; label: string; delay?: number }) {
+function Feature({
+  icon: Icon,
+  label,
+  delay = 0,
+}: {
+  icon: typeof Leaf;
+  label: string;
+  delay?: number;
+}) {
   return (
     <div className="space-y-2">
       <div
@@ -261,4 +276,3 @@ function Feature({ icon: Icon, label, delay = 0 }: { icon: typeof Leaf; label: s
     </div>
   );
 }
-

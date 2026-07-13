@@ -16,7 +16,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { FarmSelector, useFarms } from "@/components/farmos/farm-selector";
 import {
   browseListings,
@@ -30,7 +37,11 @@ export const Route = createFileRoute("/_authenticated/app/marketplace")({
   head: () => ({
     meta: [
       { title: "Marketplace — AgriTwin OS" },
-      { name: "description", content: "List your produce and discover what other farmers are selling. Direct, no middlemen, no payment processing." },
+      {
+        name: "description",
+        content:
+          "List your produce and discover what other farmers are selling. Direct, no middlemen, no payment processing.",
+      },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),
@@ -57,11 +68,21 @@ function MarketplacePage() {
 
       <Tabs defaultValue="browse">
         <TabsList>
-          <TabsTrigger value="browse"><Search className="mr-2 h-4 w-4" />Browse</TabsTrigger>
-          <TabsTrigger value="mine"><Package className="mr-2 h-4 w-4" />My listings</TabsTrigger>
+          <TabsTrigger value="browse">
+            <Search className="mr-2 h-4 w-4" />
+            Browse
+          </TabsTrigger>
+          <TabsTrigger value="mine">
+            <Package className="mr-2 h-4 w-4" />
+            My listings
+          </TabsTrigger>
         </TabsList>
-        <TabsContent value="browse" className="mt-4"><BrowseTab /></TabsContent>
-        <TabsContent value="mine" className="mt-4"><MineTab /></TabsContent>
+        <TabsContent value="browse" className="mt-4">
+          <BrowseTab />
+        </TabsContent>
+        <TabsContent value="mine" className="mt-4">
+          <MineTab />
+        </TabsContent>
       </Tabs>
     </div>
   );
@@ -79,17 +100,28 @@ function BrowseTab() {
   return (
     <div className="grid gap-4">
       <div className="grid grid-cols-2 gap-2 sm:max-w-md">
-        <Input placeholder="Commodity (e.g. tomato)" value={commodity} onChange={(e) => setCommodity(e.target.value)} />
+        <Input
+          placeholder="Commodity (e.g. tomato)"
+          value={commodity}
+          onChange={(e) => setCommodity(e.target.value)}
+        />
         <Input placeholder="State" value={state} onChange={(e) => setState(e.target.value)} />
       </div>
-      {q.isLoading ? <Skeleton className="h-40 w-full" /> :
-        !q.data?.items.length ? (
-          <EmptyState icon={ShoppingBag} title="No active listings" description="Try clearing filters, or check back later as farmers list new produce." />
-        ) : (
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
-            {q.data.items.map((l) => <ListingCard key={l.id} listing={l} />)}
-          </div>
-        )}
+      {q.isLoading ? (
+        <Skeleton className="h-40 w-full" />
+      ) : !q.data?.items.length ? (
+        <EmptyState
+          icon={ShoppingBag}
+          title="No active listings"
+          description="Try clearing filters, or check back later as farmers list new produce."
+        />
+      ) : (
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+          {q.data.items.map((l) => (
+            <ListingCard key={l.id} listing={l} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -99,11 +131,19 @@ function MineTab() {
   const q = useQuery({ queryKey: ["marketplace", "mine"], queryFn: () => fn() });
   if (q.isLoading) return <Skeleton className="h-40 w-full" />;
   if (!q.data?.items.length) {
-    return <EmptyState icon={Package} title="No listings yet" description='Click "New listing" to publish produce for sale.' />;
+    return (
+      <EmptyState
+        icon={Package}
+        title="No listings yet"
+        description='Click "New listing" to publish produce for sale.'
+      />
+    );
   }
   return (
     <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
-      {q.data.items.map((l) => <ListingCard key={l.id} listing={l} mine />)}
+      {q.data.items.map((l) => (
+        <ListingCard key={l.id} listing={l} mine />
+      ))}
     </div>
   );
 }
@@ -112,7 +152,8 @@ function ListingCard({ listing, mine }: { listing: MarketplaceListingRow; mine?:
   const qc = useQueryClient();
   const updFn = useServerFn(updateListingStatus);
   const upd = useMutation({
-    mutationFn: (status: "sold" | "withdrawn" | "active") => updFn({ data: { id: listing.id, status } }),
+    mutationFn: (status: "sold" | "withdrawn" | "active") =>
+      updFn({ data: { id: listing.id, status } }),
     onSuccess: () => {
       toast.success("Updated");
       qc.invalidateQueries({ queryKey: ["marketplace"] });
@@ -120,7 +161,10 @@ function ListingCard({ listing, mine }: { listing: MarketplaceListingRow; mine?:
     onError: (e) => toast.error(e instanceof Error ? e.message : "Failed"),
   });
   const statusTone: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
-    active: "default", sold: "secondary", withdrawn: "outline", draft: "outline",
+    active: "default",
+    sold: "secondary",
+    withdrawn: "outline",
+    draft: "outline",
   };
   return (
     <Card>
@@ -128,27 +172,51 @@ function ListingCard({ listing, mine }: { listing: MarketplaceListingRow; mine?:
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
             <div className="truncate font-semibold">{listing.title}</div>
-            <div className="text-xs text-muted-foreground capitalize">{listing.commodity}{listing.variety ? ` · ${listing.variety}` : ""}{listing.grade ? ` · Grade ${listing.grade}` : ""}</div>
+            <div className="text-xs text-muted-foreground capitalize">
+              {listing.commodity}
+              {listing.variety ? ` · ${listing.variety}` : ""}
+              {listing.grade ? ` · Grade ${listing.grade}` : ""}
+            </div>
           </div>
-          <Badge variant={statusTone[listing.status] ?? "outline"} className="capitalize">{listing.status}</Badge>
+          <Badge variant={statusTone[listing.status] ?? "outline"} className="capitalize">
+            {listing.status}
+          </Badge>
         </div>
         <div className="text-2xl font-bold tabular-nums">
           {listing.currency} {listing.price_per_unit}
           <span className="text-sm font-normal text-muted-foreground">/{listing.unit}</span>
         </div>
         <div className="flex items-center gap-3 text-xs text-muted-foreground">
-          <span><Package className="mr-1 inline h-3 w-3" />{listing.quantity} {listing.unit}</span>
+          <span>
+            <Package className="mr-1 inline h-3 w-3" />
+            {listing.quantity} {listing.unit}
+          </span>
           {(listing.pickup_district || listing.pickup_state) && (
-            <span><MapPin className="mr-1 inline h-3 w-3" />{[listing.pickup_district, listing.pickup_state].filter(Boolean).join(", ")}</span>
+            <span>
+              <MapPin className="mr-1 inline h-3 w-3" />
+              {[listing.pickup_district, listing.pickup_state].filter(Boolean).join(", ")}
+            </span>
           )}
         </div>
-        {listing.description && <p className="line-clamp-2 text-sm text-muted-foreground">{listing.description}</p>}
+        {listing.description && (
+          <p className="line-clamp-2 text-sm text-muted-foreground">{listing.description}</p>
+        )}
         {mine && listing.status === "active" && (
           <div className="flex gap-2 pt-2">
-            <Button size="sm" variant="outline" onClick={() => upd.mutate("sold")} disabled={upd.isPending}>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => upd.mutate("sold")}
+              disabled={upd.isPending}
+            >
               <CheckCircle2 className="mr-1 h-3.5 w-3.5" /> Mark sold
             </Button>
-            <Button size="sm" variant="ghost" onClick={() => upd.mutate("withdrawn")} disabled={upd.isPending}>
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => upd.mutate("withdrawn")}
+              disabled={upd.isPending}
+            >
               <XCircle className="mr-1 h-3.5 w-3.5" /> Withdraw
             </Button>
           </div>
@@ -174,8 +242,16 @@ const listingSchema = z.object({
 function NewListingDialog({ farmId }: { farmId: string | undefined }) {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({
-    title: "", commodity: "", quantity: "", unit: "kg", price_per_unit: "",
-    variety: "", grade: "", description: "", pickup_district: "", pickup_state: "",
+    title: "",
+    commodity: "",
+    quantity: "",
+    unit: "kg",
+    price_per_unit: "",
+    variety: "",
+    grade: "",
+    description: "",
+    pickup_district: "",
+    pickup_state: "",
   });
   const qc = useQueryClient();
   const fn = useServerFn(createListing);
@@ -204,7 +280,18 @@ function NewListingDialog({ farmId }: { farmId: string | undefined }) {
       toast.success("Listing published");
       qc.invalidateQueries({ queryKey: ["marketplace"] });
       setOpen(false);
-      setForm({ title: "", commodity: "", quantity: "", unit: "kg", price_per_unit: "", variety: "", grade: "", description: "", pickup_district: "", pickup_state: "" });
+      setForm({
+        title: "",
+        commodity: "",
+        quantity: "",
+        unit: "kg",
+        price_per_unit: "",
+        variety: "",
+        grade: "",
+        description: "",
+        pickup_district: "",
+        pickup_state: "",
+      });
     },
     onError: (e) => toast.error(e instanceof Error ? e.message : "Failed"),
   });
@@ -212,30 +299,89 @@ function NewListingDialog({ farmId }: { farmId: string | undefined }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="sm" disabled={!farmId}><Plus className="mr-2 h-4 w-4" /> New listing</Button>
+        <Button size="sm" disabled={!farmId}>
+          <Plus className="mr-2 h-4 w-4" /> New listing
+        </Button>
       </DialogTrigger>
       <DialogContent className="max-w-lg">
-        <DialogHeader><DialogTitle>Publish a listing</DialogTitle></DialogHeader>
+        <DialogHeader>
+          <DialogTitle>Publish a listing</DialogTitle>
+        </DialogHeader>
         <div className="grid gap-3">
-          <Field label="Title"><Input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder="e.g. Premium Alphonso mangoes" /></Field>
+          <Field label="Title">
+            <Input
+              value={form.title}
+              onChange={(e) => setForm({ ...form, title: e.target.value })}
+              placeholder="e.g. Premium Alphonso mangoes"
+            />
+          </Field>
           <div className="grid grid-cols-2 gap-3">
-            <Field label="Commodity"><Input value={form.commodity} onChange={(e) => setForm({ ...form, commodity: e.target.value })} placeholder="e.g. mango" /></Field>
-            <Field label="Variety"><Input value={form.variety} onChange={(e) => setForm({ ...form, variety: e.target.value })} placeholder="Optional" /></Field>
+            <Field label="Commodity">
+              <Input
+                value={form.commodity}
+                onChange={(e) => setForm({ ...form, commodity: e.target.value })}
+                placeholder="e.g. mango"
+              />
+            </Field>
+            <Field label="Variety">
+              <Input
+                value={form.variety}
+                onChange={(e) => setForm({ ...form, variety: e.target.value })}
+                placeholder="Optional"
+              />
+            </Field>
           </div>
           <div className="grid grid-cols-3 gap-3">
-            <Field label="Quantity"><Input inputMode="decimal" value={form.quantity} onChange={(e) => setForm({ ...form, quantity: e.target.value })} /></Field>
-            <Field label="Unit"><Input value={form.unit} onChange={(e) => setForm({ ...form, unit: e.target.value })} /></Field>
-            <Field label="Price / unit"><Input inputMode="decimal" value={form.price_per_unit} onChange={(e) => setForm({ ...form, price_per_unit: e.target.value })} /></Field>
+            <Field label="Quantity">
+              <Input
+                inputMode="decimal"
+                value={form.quantity}
+                onChange={(e) => setForm({ ...form, quantity: e.target.value })}
+              />
+            </Field>
+            <Field label="Unit">
+              <Input
+                value={form.unit}
+                onChange={(e) => setForm({ ...form, unit: e.target.value })}
+              />
+            </Field>
+            <Field label="Price / unit">
+              <Input
+                inputMode="decimal"
+                value={form.price_per_unit}
+                onChange={(e) => setForm({ ...form, price_per_unit: e.target.value })}
+              />
+            </Field>
           </div>
           <div className="grid grid-cols-2 gap-3">
-            <Field label="District"><Input value={form.pickup_district} onChange={(e) => setForm({ ...form, pickup_district: e.target.value })} /></Field>
-            <Field label="State"><Input value={form.pickup_state} onChange={(e) => setForm({ ...form, pickup_state: e.target.value })} /></Field>
+            <Field label="District">
+              <Input
+                value={form.pickup_district}
+                onChange={(e) => setForm({ ...form, pickup_district: e.target.value })}
+              />
+            </Field>
+            <Field label="State">
+              <Input
+                value={form.pickup_state}
+                onChange={(e) => setForm({ ...form, pickup_state: e.target.value })}
+              />
+            </Field>
           </div>
-          <Field label="Description"><Textarea rows={3} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} /></Field>
+          <Field label="Description">
+            <Textarea
+              rows={3}
+              value={form.description}
+              onChange={(e) => setForm({ ...form, description: e.target.value })}
+            />
+          </Field>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
-          <Button onClick={() => create.mutate()} disabled={create.isPending}>Publish</Button>
+          <Button variant="outline" onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
+          <Button onClick={() => create.mutate()} disabled={create.isPending}>
+            Publish
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

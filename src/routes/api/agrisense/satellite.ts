@@ -17,9 +17,8 @@ export const Route = createFileRoute("/api/agrisense/satellite")({
         const url = new URL(request.url);
         const farmId = url.searchParams.get("farm_id");
         if (!farmId) return jsonError("farm_id required", 400);
-        const { listSatelliteRecords, isSatelliteConfigured } = await import(
-          "@/lib/services/agrisense.server"
-        );
+        const { listSatelliteRecords, isSatelliteConfigured } =
+          await import("@/lib/services/agrisense.server");
         const result = await listSatelliteRecords(auth.supabase, farmId);
         return jsonOk({
           configured: isSatelliteConfigured(),

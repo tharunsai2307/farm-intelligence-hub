@@ -47,10 +47,7 @@ import {
   listIrrigationRecords,
   listSoilRecords,
 } from "@/lib/services/records.functions";
-import {
-  getLatestSensorReadings,
-  listSensorDevices,
-} from "@/lib/services/agrisense.service";
+import { getLatestSensorReadings, listSensorDevices } from "@/lib/services/agrisense.service";
 import { getCurrentWeatherByFarm } from "@/lib/services/weather.service";
 import { listAgriMindRecommendations } from "@/lib/services/agrimind.service";
 import { supabase } from "@/integrations/supabase/client";
@@ -59,10 +56,18 @@ export const Route = createFileRoute("/_authenticated/app/digital-twin")({
   head: () => ({
     meta: [
       { title: "Digital Farm Twin — AgriTwin OS" },
-      { name: "description", content: "Living digital replica of your farm: plots, sensors, satellite signals, and AI-driven recommendations updated in real time." },
+      {
+        name: "description",
+        content:
+          "Living digital replica of your farm: plots, sensors, satellite signals, and AI-driven recommendations updated in real time.",
+      },
       { name: "robots", content: "noindex, nofollow" },
       { property: "og:title", content: "Digital Farm Twin — AgriTwin OS" },
-      { property: "og:description", content: "A real-time digital twin of your farm combining IoT, satellite, and AI insight into one operational view." },
+      {
+        property: "og:description",
+        content:
+          "A real-time digital twin of your farm combining IoT, satellite, and AI insight into one operational view.",
+      },
       { property: "og:url", content: "https://agri-twin-os.lovable.app/app/digital-twin" },
     ],
     links: [{ rel: "canonical", href: "https://agri-twin-os.lovable.app/app/digital-twin" }],
@@ -157,7 +162,12 @@ function DigitalTwinPage() {
       )
       .on(
         "postgres_changes",
-        { event: "*", schema: "public", table: "farm_recommendations", filter: `farm_id=eq.${farmId}` },
+        {
+          event: "*",
+          schema: "public",
+          table: "farm_recommendations",
+          filter: `farm_id=eq.${farmId}`,
+        },
         () => {
           setLastEventAt(new Date().toISOString());
           qc.invalidateQueries({ queryKey: ["agrimind", "list", farmId] });
@@ -184,8 +194,7 @@ function DigitalTwinPage() {
   const sensorReadings = sensorsQ.data?.success ? sensorsQ.data.data : [];
   const recommendations = recsQ.data?.success ? recsQ.data.data : [];
 
-  const weatherSnapshot =
-    weatherQ.data?.success && weatherQ.data.data ? weatherQ.data.data : null;
+  const weatherSnapshot = weatherQ.data?.success && weatherQ.data.data ? weatherQ.data.data : null;
   const latestRec = recommendations[0] ?? null;
 
   // Per-plot latest data — keyed by plot_id.
@@ -202,7 +211,9 @@ function DigitalTwinPage() {
     >();
     for (const p of plots) {
       const sensors = sensorReadings.filter(
-        (r) => r.plot_id === p.id || (!r.plot_id && devices.find((d) => d.id === r.device_id)?.plot_id === p.id),
+        (r) =>
+          r.plot_id === p.id ||
+          (!r.plot_id && devices.find((d) => d.id === r.device_id)?.plot_id === p.id),
       );
       data.set(p.id, {
         latestObservation:
@@ -218,8 +229,7 @@ function DigitalTwinPage() {
             .filter((s) => s.plot_id === p.id)
             .sort((a, b) => (a.recorded_at < b.recorded_at ? 1 : -1))[0] ?? null,
         sensors,
-        recommendation:
-          recommendations.find((r) => r.plot_id === p.id) ?? null,
+        recommendation: recommendations.find((r) => r.plot_id === p.id) ?? null,
       });
     }
     return data;
@@ -227,12 +237,37 @@ function DigitalTwinPage() {
 
   // Twin live sources panel
   const twinSources: TwinStatusItem[] = [
-    { label: "Farm location", state: locQ.data?.location ? "connected" : "unavailable", detail: locQ.data?.location ? undefined : "Set coordinates" },
-    { label: "Plots", state: plots.length > 0 ? "connected" : "unavailable", detail: `${plots.length} created` },
-    { label: "Weather", state: weatherSnapshot ? "connected" : "unavailable", detail: weatherSnapshot ? "Live" : "Not synced" },
-    { label: "Sensors", state: sensorReadings.length > 0 ? "connected" : devices.length > 0 ? "partial" : "unavailable", detail: `${devices.length} devices · ${sensorReadings.length} live signals` },
-    { label: "Crop observations", state: observations.length > 0 ? "connected" : "unavailable", detail: `${observations.length} logged` },
-    { label: "AgriMind insights", state: recommendations.length > 0 ? "connected" : "unavailable", detail: `${recommendations.length} active` },
+    {
+      label: "Farm location",
+      state: locQ.data?.location ? "connected" : "unavailable",
+      detail: locQ.data?.location ? undefined : "Set coordinates",
+    },
+    {
+      label: "Plots",
+      state: plots.length > 0 ? "connected" : "unavailable",
+      detail: `${plots.length} created`,
+    },
+    {
+      label: "Weather",
+      state: weatherSnapshot ? "connected" : "unavailable",
+      detail: weatherSnapshot ? "Live" : "Not synced",
+    },
+    {
+      label: "Sensors",
+      state:
+        sensorReadings.length > 0 ? "connected" : devices.length > 0 ? "partial" : "unavailable",
+      detail: `${devices.length} devices · ${sensorReadings.length} live signals`,
+    },
+    {
+      label: "Crop observations",
+      state: observations.length > 0 ? "connected" : "unavailable",
+      detail: `${observations.length} logged`,
+    },
+    {
+      label: "AgriMind insights",
+      state: recommendations.length > 0 ? "connected" : "unavailable",
+      detail: `${recommendations.length} active`,
+    },
   ];
 
   // Timeline events (real only)
@@ -246,10 +281,20 @@ function DigitalTwinPage() {
     });
   }
   for (const p of plots) {
-    events.push({ id: `plot-${p.id}`, ts: p.created_at, kind: "plot", title: `Plot created — ${p.name}` });
+    events.push({
+      id: `plot-${p.id}`,
+      ts: p.created_at,
+      kind: "plot",
+      title: `Plot created — ${p.name}`,
+    });
   }
   for (const s of soils) {
-    events.push({ id: `soil-${s.id}`, ts: s.recorded_at, kind: "soil", title: "Soil record added" });
+    events.push({
+      id: `soil-${s.id}`,
+      ts: s.recorded_at,
+      kind: "soil",
+      title: "Soil record added",
+    });
   }
   for (const i of irrigations) {
     events.push({
@@ -331,7 +376,9 @@ function DigitalTwinPage() {
           <div className="space-y-8">
             <section>
               <header className="mb-3 flex items-center justify-between">
-                <h2 className="text-sm font-semibold text-muted-foreground">Interactive Farm Layout</h2>
+                <h2 className="text-sm font-semibold text-muted-foreground">
+                  Interactive Farm Layout
+                </h2>
                 {weatherSnapshot && (
                   <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
                     <CloudSun className="h-3.5 w-3.5" /> {weatherSnapshot.temp_c ?? "?"}°C
@@ -390,7 +437,10 @@ function DigitalTwinPage() {
                                 : "—"
                             }
                           />
-                          <Mini label="Updated" value={new Date(p.updated_at).toLocaleDateString()} />
+                          <Mini
+                            label="Updated"
+                            value={new Date(p.updated_at).toLocaleDateString()}
+                          />
                         </dl>
 
                         {/* Live overlays — render only when real data exists */}
@@ -409,7 +459,11 @@ function DigitalTwinPage() {
                               <Overlay
                                 Icon={Droplets}
                                 label="Irrigation"
-                                value={d.latestIrrigation.volume_liters ? `${d.latestIrrigation.volume_liters} L` : "logged"}
+                                value={
+                                  d.latestIrrigation.volume_liters
+                                    ? `${d.latestIrrigation.volume_liters} L`
+                                    : "logged"
+                                }
                                 ts={d.latestIrrigation.started_at}
                               />
                             )}
@@ -425,7 +479,9 @@ function DigitalTwinPage() {
                               <Overlay
                                 Icon={FlaskConical}
                                 label="Soil"
-                                value={d.latestSoil.ph != null ? `pH ${d.latestSoil.ph}` : "sampled"}
+                                value={
+                                  d.latestSoil.ph != null ? `pH ${d.latestSoil.ph}` : "sampled"
+                                }
                                 ts={d.latestSoil.recorded_at}
                               />
                             )}
@@ -458,7 +514,11 @@ function DigitalTwinPage() {
             <section>
               <h2 className="mb-3 text-sm font-semibold text-muted-foreground">Farm Timeline</h2>
               {events.length === 0 ? (
-                <EmptyState icon={Eye} title="No twin events yet" description="Activity will appear as you add plots and records." />
+                <EmptyState
+                  icon={Eye}
+                  title="No twin events yet"
+                  description="Activity will appear as you add plots and records."
+                />
               ) : (
                 <FarmTimeline events={events} limit={25} />
               )}
@@ -475,7 +535,8 @@ function DigitalTwinPage() {
               </h3>
               {locQ.data?.location ? (
                 <p className="mt-2 text-xs text-muted-foreground">
-                  {locQ.data.location.latitude.toFixed(4)}, {locQ.data.location.longitude.toFixed(4)}
+                  {locQ.data.location.latitude.toFixed(4)},{" "}
+                  {locQ.data.location.longitude.toFixed(4)}
                 </p>
               ) : (
                 <p className="mt-2 text-xs text-muted-foreground">Location not set.</p>
@@ -515,7 +576,11 @@ function DigitalTwinPage() {
                           : "border-border text-muted-foreground",
                       )}
                     >
-                      {c.state === "connected" ? <Check className="h-3 w-3" /> : <CircleDashed className="h-3 w-3" />}
+                      {c.state === "connected" ? (
+                        <Check className="h-3 w-3" />
+                      ) : (
+                        <CircleDashed className="h-3 w-3" />
+                      )}
                     </span>
                     <span className={cn(c.state !== "connected" && "text-muted-foreground")}>
                       {c.label}
@@ -558,9 +623,7 @@ function Overlay({
         <span className="truncate">{label}</span>
       </span>
       <span className="shrink-0 font-medium">{value}</span>
-      <span className="shrink-0 text-[10px] text-muted-foreground">
-        {timeAgo(ts)}
-      </span>
+      <span className="shrink-0 text-[10px] text-muted-foreground">{timeAgo(ts)}</span>
     </div>
   );
 }

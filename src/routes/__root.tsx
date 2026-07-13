@@ -87,11 +87,31 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "AgriTwin OS" },
       { property: "og:title", content: "AgriTwin OS" },
       { name: "twitter:title", content: "AgriTwin OS" },
-      { name: "description", content: "AgriTwin OS is an AI-powered digital twin platform for farm monitoring, prediction, and operations." },
-      { property: "og:description", content: "AgriTwin OS is an AI-powered digital twin platform for farm monitoring, prediction, and operations." },
-      { name: "twitter:description", content: "AgriTwin OS is an AI-powered digital twin platform for farm monitoring, prediction, and operations." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/iFhklxQP16Vot2Yssc7gvKUmN9c2/social-images/social-1782714339411-ChatGPT_Image_Jun_29,_2026,_11_54_10_AM.webp" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/iFhklxQP16Vot2Yssc7gvKUmN9c2/social-images/social-1782714339411-ChatGPT_Image_Jun_29,_2026,_11_54_10_AM.webp" },
+      {
+        name: "description",
+        content:
+          "AgriTwin OS is an AI-powered digital twin platform for farm monitoring, prediction, and operations.",
+      },
+      {
+        property: "og:description",
+        content:
+          "AgriTwin OS is an AI-powered digital twin platform for farm monitoring, prediction, and operations.",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "AgriTwin OS is an AI-powered digital twin platform for farm monitoring, prediction, and operations.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://storage.googleapis.com/gpt-engineer-file-uploads/iFhklxQP16Vot2Yssc7gvKUmN9c2/social-images/social-1782714339411-ChatGPT_Image_Jun_29,_2026,_11_54_10_AM.webp",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://storage.googleapis.com/gpt-engineer-file-uploads/iFhklxQP16Vot2Yssc7gvKUmN9c2/social-images/social-1782714339411-ChatGPT_Image_Jun_29,_2026,_11_54_10_AM.webp",
+      },
       { name: "google-site-verification", content: "9sGGl5UZRL7MnbKonNyzS5AvBBnkz1flBu75kIpTN4c" },
     ],
     links: [{ rel: "stylesheet", href: appCss }],

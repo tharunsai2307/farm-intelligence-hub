@@ -49,10 +49,18 @@ export const Route = createFileRoute("/_authenticated/app/dashboard")({
   head: () => ({
     meta: [
       { title: "Farm Dashboard — AgriTwin OS" },
-      { name: "description", content: "Real-time overview of your farms: plots, soil, irrigation, weather alerts, and AI recommendations in one place." },
+      {
+        name: "description",
+        content:
+          "Real-time overview of your farms: plots, soil, irrigation, weather alerts, and AI recommendations in one place.",
+      },
       { name: "robots", content: "noindex, nofollow" },
       { property: "og:title", content: "Farm Dashboard — AgriTwin OS" },
-      { property: "og:description", content: "Real-time overview of your farms: plots, soil, irrigation, weather, and AI recommendations." },
+      {
+        property: "og:description",
+        content:
+          "Real-time overview of your farms: plots, soil, irrigation, weather, and AI recommendations.",
+      },
       { property: "og:url", content: "https://agri-twin-os.lovable.app/app/dashboard" },
     ],
     links: [{ rel: "canonical", href: "https://agri-twin-os.lovable.app/app/dashboard" }],
@@ -107,7 +115,9 @@ function DashboardPage() {
 
       {farmsQ.isLoading && (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {Array.from({ length: 4 }).map((_, i) => <CardSkeleton key={i} />)}
+          {Array.from({ length: 4 }).map((_, i) => (
+            <CardSkeleton key={i} />
+          ))}
         </div>
       )}
 
@@ -132,16 +142,11 @@ function DashboardPage() {
         <div className="space-y-10">
           <FarmSummary farm={primary} />
 
-          <Alerts
-            farm={primary}
-            availability={summaryQ.data?.availability}
-          />
+          <Alerts farm={primary} availability={summaryQ.data?.availability} />
 
           <AgriMindInsightsWidget farmId={primary.id} />
 
           <FarmOSDashboardWidget farmId={primary.id} />
-
-
 
           <QuickActions />
 
@@ -168,11 +173,17 @@ function FarmSummary({ farm }: { farm: FarmRow }) {
     d ? new Date(d).toLocaleDateString(undefined, { dateStyle: "medium" }) : "Not set";
 
   const facts = [
-    { icon: MapPin, label: "Location", value: [farm.village, farm.district, farm.state].filter(Boolean).join(", ") || "Not set" },
+    {
+      icon: MapPin,
+      label: "Location",
+      value: [farm.village, farm.district, farm.state].filter(Boolean).join(", ") || "Not set",
+    },
     {
       icon: Sprout,
       label: "Primary crop",
-      value: farm.primary_crop ? `${farm.primary_crop}${farm.crop_variety ? ` · ${farm.crop_variety}` : ""}` : "Not set",
+      value: farm.primary_crop
+        ? `${farm.primary_crop}${farm.crop_variety ? ` · ${farm.crop_variety}` : ""}`
+        : "Not set",
     },
     {
       icon: Boxes,
@@ -180,7 +191,11 @@ function FarmSummary({ farm }: { farm: FarmRow }) {
       value: farm.area_hectares ? `${farm.area_hectares.toFixed(2)} ha` : "Not set",
     },
     { icon: Leaf, label: "Soil type", value: farm.soil_type ?? "Not set" },
-    { icon: Droplets, label: "Irrigation", value: [farm.irrigation_type, farm.water_source].filter(Boolean).join(" · ") || "Not set" },
+    {
+      icon: Droplets,
+      label: "Irrigation",
+      value: [farm.irrigation_type, farm.water_source].filter(Boolean).join(" · ") || "Not set",
+    },
     {
       icon: CalendarDays,
       label: "Sowing → harvest",
@@ -189,7 +204,9 @@ function FarmSummary({ farm }: { farm: FarmRow }) {
   ];
   return (
     <section aria-labelledby="farm-summary-heading" className="space-y-3">
-      <h2 id="farm-summary-heading" className="sr-only">Farm summary</h2>
+      <h2 id="farm-summary-heading" className="sr-only">
+        Farm summary
+      </h2>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {facts.map((f) => (
           <div key={f.label} className="surface-card flex items-start gap-3 p-4">
@@ -207,7 +224,6 @@ function FarmSummary({ farm }: { farm: FarmRow }) {
   );
 }
 
-
 function Alerts({
   farm,
   availability,
@@ -219,7 +235,10 @@ function Alerts({
   const alerts: { msg: string; href?: string }[] = [];
   if (availability) {
     if (availability.farm_location === "missing")
-      alerts.push({ msg: "Farm location is missing. Add coordinates to enable map view.", href: "/app/farm/location" });
+      alerts.push({
+        msg: "Farm location is missing. Add coordinates to enable map view.",
+        href: "/app/farm/location",
+      });
     if (availability.farm_plots === "none")
       alerts.push({ msg: "No farm plots created yet.", href: "/app/farm/plots" });
     if (availability.soil_sensors === "no_records")
@@ -270,7 +289,6 @@ function useDummy() {
   };
 }
 
-
 function QuickActions() {
   const items = [
     { label: "Add Farm Plot", icon: Boxes, href: "/app/farm/plots" },
@@ -285,7 +303,12 @@ function QuickActions() {
       <h2 className="mb-3 text-sm font-semibold text-muted-foreground">Quick actions</h2>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((it) => (
-          <Button asChild key={it.label} variant="outline" className="h-auto justify-start gap-3 p-4">
+          <Button
+            asChild
+            key={it.label}
+            variant="outline"
+            className="h-auto justify-start gap-3 p-4"
+          >
             <Link to={it.href}>
               <it.icon className="h-4 w-4 text-primary" />
               <span className="text-sm font-medium">{it.label}</span>
@@ -299,9 +322,20 @@ function QuickActions() {
 
 function DataAvailability({ availability }: { availability?: ReturnType<typeof useDummy> }) {
   if (!availability) return null;
-  const rows: Array<{ label: string; status: Parameters<typeof DataSourceStatusBadge>[0]["status"] }> = [
+  const rows: Array<{
+    label: string;
+    status: Parameters<typeof DataSourceStatusBadge>[0]["status"];
+  }> = [
     { label: "Weather API", status: availability.weather_api },
-    { label: "Soil Sensors", status: availability.soil_sensors === "has_records" ? "has_records" : availability.soil_sensors === "no_records" ? "no_records" : "not_configured" },
+    {
+      label: "Soil Sensors",
+      status:
+        availability.soil_sensors === "has_records"
+          ? "has_records"
+          : availability.soil_sensors === "no_records"
+            ? "no_records"
+            : "not_configured",
+    },
     { label: "Crop Images / Observations", status: availability.crop_images },
     { label: "Irrigation Records", status: availability.irrigation_records },
     { label: "Yield Records", status: availability.yield_records },
@@ -384,7 +418,13 @@ function Charts({
                 <XAxis dataKey="t" fontSize={10} tickLine={false} axisLine={false} />
                 <YAxis fontSize={10} tickLine={false} axisLine={false} domain={[0, 100]} />
                 <Tooltip />
-                <Line type="monotone" dataKey="moisture" stroke="#10b981" strokeWidth={2} dot={false} />
+                <Line
+                  type="monotone"
+                  dataKey="moisture"
+                  stroke="#10b981"
+                  strokeWidth={2}
+                  dot={false}
+                />
               </RLineChart>
             </ResponsiveContainer>
           )}
@@ -433,7 +473,9 @@ function ChartCard({ title, children }: { title: string; children: React.ReactNo
     <div className="surface-card p-4">
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-semibold">{title}</h3>
-        <Badge variant="outline" className="text-[10px]">Real records</Badge>
+        <Badge variant="outline" className="text-[10px]">
+          Real records
+        </Badge>
       </div>
       <div className="mt-3">{children}</div>
     </div>
@@ -471,7 +513,9 @@ function RecentActivity({
               </span>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm">{s.title}</p>
-                <p className="text-xs text-muted-foreground">{new Date(s.timestamp).toLocaleString()}</p>
+                <p className="text-xs text-muted-foreground">
+                  {new Date(s.timestamp).toLocaleString()}
+                </p>
               </div>
             </li>
           ))}

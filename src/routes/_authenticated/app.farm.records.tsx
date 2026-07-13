@@ -187,7 +187,17 @@ function SoilSection({ farmId, plots }: { farmId: string; plots: PlotLite[] }) {
     },
     onSuccess: () => {
       toast.success("Soil record added");
-      form.reset({ ...form.getValues(), moisture: "", ph: "", nitrogen: "", phosphorus: "", potassium: "", temperature: "", notes: "", recorded_at: nowLocal() });
+      form.reset({
+        ...form.getValues(),
+        moisture: "",
+        ph: "",
+        nitrogen: "",
+        phosphorus: "",
+        potassium: "",
+        temperature: "",
+        notes: "",
+        recorded_at: nowLocal(),
+      });
       qc.invalidateQueries({ queryKey: ["soil-records"] });
       qc.invalidateQueries({ queryKey: ["dashboard-summary"] });
     },
@@ -204,23 +214,44 @@ function SoilSection({ farmId, plots }: { farmId: string; plots: PlotLite[] }) {
 
   return (
     <div className="grid gap-6 lg:grid-cols-[380px_minmax(0,1fr)]">
-      <form className="surface-card flex flex-col gap-3 p-5" onSubmit={form.handleSubmit((v) => createMut.mutate(v))}>
+      <form
+        className="surface-card flex flex-col gap-3 p-5"
+        onSubmit={form.handleSubmit((v) => createMut.mutate(v))}
+      >
         <h3 className="text-sm font-semibold">Add soil record</h3>
         <FieldRow label="Plot">
-          <PlotSelect plots={plots} value={form.watch("plot_id")} onChange={(v) => form.setValue("plot_id", v)} />
+          <PlotSelect
+            plots={plots}
+            value={form.watch("plot_id")}
+            onChange={(v) => form.setValue("plot_id", v)}
+          />
         </FieldRow>
         <FieldRow label="Date / time">
           <Input type="datetime-local" {...form.register("recorded_at", { required: true })} />
         </FieldRow>
         <div className="grid grid-cols-2 gap-3">
-          <FieldRow label="Moisture %"><Input type="number" step="0.1" {...form.register("moisture")} /></FieldRow>
-          <FieldRow label="pH"><Input type="number" step="0.1" {...form.register("ph")} /></FieldRow>
-          <FieldRow label="Nitrogen"><Input type="number" step="0.1" {...form.register("nitrogen")} /></FieldRow>
-          <FieldRow label="Phosphorus"><Input type="number" step="0.1" {...form.register("phosphorus")} /></FieldRow>
-          <FieldRow label="Potassium"><Input type="number" step="0.1" {...form.register("potassium")} /></FieldRow>
-          <FieldRow label="Temp °C"><Input type="number" step="0.1" {...form.register("temperature")} /></FieldRow>
+          <FieldRow label="Moisture %">
+            <Input type="number" step="0.1" {...form.register("moisture")} />
+          </FieldRow>
+          <FieldRow label="pH">
+            <Input type="number" step="0.1" {...form.register("ph")} />
+          </FieldRow>
+          <FieldRow label="Nitrogen">
+            <Input type="number" step="0.1" {...form.register("nitrogen")} />
+          </FieldRow>
+          <FieldRow label="Phosphorus">
+            <Input type="number" step="0.1" {...form.register("phosphorus")} />
+          </FieldRow>
+          <FieldRow label="Potassium">
+            <Input type="number" step="0.1" {...form.register("potassium")} />
+          </FieldRow>
+          <FieldRow label="Temp °C">
+            <Input type="number" step="0.1" {...form.register("temperature")} />
+          </FieldRow>
         </div>
-        <FieldRow label="Notes"><Textarea rows={2} {...form.register("notes")} /></FieldRow>
+        <FieldRow label="Notes">
+          <Textarea rows={2} {...form.register("notes")} />
+        </FieldRow>
         <Button type="submit" disabled={createMut.isPending}>
           {createMut.isPending ? "Saving…" : "Save soil record"}
         </Button>
@@ -233,7 +264,11 @@ function SoilSection({ farmId, plots }: { farmId: string; plots: PlotLite[] }) {
         emptyLabel="No soil records yet."
         onRetry={() => listQ.refetch()}
         columns={[
-          { key: "recorded_at", label: "Date", render: (r) => new Date(r.recorded_at).toLocaleString() },
+          {
+            key: "recorded_at",
+            label: "Date",
+            render: (r) => new Date(r.recorded_at).toLocaleString(),
+          },
           { key: "moisture", label: "Moisture", render: (r) => fmt(r.moisture, "%") },
           { key: "ph", label: "pH", render: (r) => fmt(r.ph) },
           { key: "temperature", label: "Temp", render: (r) => fmt(r.temperature, "°C") },
@@ -293,7 +328,14 @@ function IrrigationSection({ farmId, plots }: { farmId: string; plots: PlotLite[
       }),
     onSuccess: () => {
       toast.success("Irrigation logged");
-      form.reset({ ...form.getValues(), volume_liters: "", duration_minutes: "", energy_used: "", notes: "", started_at: nowLocal() });
+      form.reset({
+        ...form.getValues(),
+        volume_liters: "",
+        duration_minutes: "",
+        energy_used: "",
+        notes: "",
+        started_at: nowLocal(),
+      });
       qc.invalidateQueries({ queryKey: ["irrigation-records"] });
       qc.invalidateQueries({ queryKey: ["dashboard-summary"] });
     },
@@ -310,30 +352,49 @@ function IrrigationSection({ farmId, plots }: { farmId: string; plots: PlotLite[
 
   return (
     <div className="grid gap-6 lg:grid-cols-[380px_minmax(0,1fr)]">
-      <form className="surface-card flex flex-col gap-3 p-5" onSubmit={form.handleSubmit((v) => createMut.mutate(v))}>
+      <form
+        className="surface-card flex flex-col gap-3 p-5"
+        onSubmit={form.handleSubmit((v) => createMut.mutate(v))}
+      >
         <h3 className="text-sm font-semibold">Add irrigation record</h3>
         <FieldRow label="Plot">
-          <PlotSelect plots={plots} value={form.watch("plot_id")} onChange={(v) => form.setValue("plot_id", v)} />
+          <PlotSelect
+            plots={plots}
+            value={form.watch("plot_id")}
+            onChange={(v) => form.setValue("plot_id", v)}
+          />
         </FieldRow>
         <FieldRow label="Started at">
           <Input type="datetime-local" {...form.register("started_at", { required: true })} />
         </FieldRow>
         <FieldRow label="Method">
           <Select value={form.watch("method")} onValueChange={(v) => form.setValue("method", v)}>
-            <SelectTrigger><SelectValue /></SelectTrigger>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
             <SelectContent>
               {["drip", "sprinkler", "flood", "furrow", "manual", "other"].map((m) => (
-                <SelectItem key={m} value={m}>{m}</SelectItem>
+                <SelectItem key={m} value={m}>
+                  {m}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </FieldRow>
         <div className="grid grid-cols-2 gap-3">
-          <FieldRow label="Volume (L)"><Input type="number" step="0.1" {...form.register("volume_liters")} /></FieldRow>
-          <FieldRow label="Duration (min)"><Input type="number" step="1" {...form.register("duration_minutes")} /></FieldRow>
+          <FieldRow label="Volume (L)">
+            <Input type="number" step="0.1" {...form.register("volume_liters")} />
+          </FieldRow>
+          <FieldRow label="Duration (min)">
+            <Input type="number" step="1" {...form.register("duration_minutes")} />
+          </FieldRow>
         </div>
-        <FieldRow label="Energy used"><Input type="number" step="0.1" {...form.register("energy_used")} /></FieldRow>
-        <FieldRow label="Notes"><Textarea rows={2} {...form.register("notes")} /></FieldRow>
+        <FieldRow label="Energy used">
+          <Input type="number" step="0.1" {...form.register("energy_used")} />
+        </FieldRow>
+        <FieldRow label="Notes">
+          <Textarea rows={2} {...form.register("notes")} />
+        </FieldRow>
         <Button type="submit" disabled={createMut.isPending}>
           {createMut.isPending ? "Saving…" : "Save irrigation record"}
         </Button>
@@ -346,10 +407,18 @@ function IrrigationSection({ farmId, plots }: { farmId: string; plots: PlotLite[
         emptyLabel="No irrigation records yet."
         onRetry={() => listQ.refetch()}
         columns={[
-          { key: "started_at", label: "Date", render: (r) => new Date(r.started_at).toLocaleString() },
+          {
+            key: "started_at",
+            label: "Date",
+            render: (r) => new Date(r.started_at).toLocaleString(),
+          },
           { key: "method", label: "Method", render: (r) => r.method ?? "—" },
           { key: "volume_liters", label: "Volume (L)", render: (r) => fmt(r.volume_liters) },
-          { key: "duration_minutes", label: "Duration (min)", render: (r) => fmt(r.duration_minutes) },
+          {
+            key: "duration_minutes",
+            label: "Duration (min)",
+            render: (r) => fmt(r.duration_minutes),
+          },
           { key: "energy_used", label: "Energy", render: (r) => fmt(r.energy_used) },
         ]}
         onDelete={(id) => deleteMut.mutateAsync(id)}
@@ -393,7 +462,7 @@ function ObservationSection({ farmId, plots }: { farmId: string; plots: PlotLite
         setUploading(true);
         const { data: u } = await supabase.auth.getUser();
         if (!u.user) throw new Error("Not authenticated");
-        const path = `${u.user.id}/${crypto.randomUUID()}-${file.name.replace(/[^\w.\-]/g, "_")}`;
+        const path = `${u.user.id}/${crypto.randomUUID()}-${file.name.replace(/[^\w.-]/g, "_")}`;
         const { error } = await supabase.storage
           .from("crop-observations")
           .upload(path, file, { upsert: false });
@@ -419,7 +488,13 @@ function ObservationSection({ farmId, plots }: { farmId: string; plots: PlotLite
     onSuccess: () => {
       toast.success("Observation saved");
       if (fileRef.current) fileRef.current.value = "";
-      form.reset({ ...form.getValues(), crop_stage: "", visual_condition: "", notes: "", recorded_at: nowLocal() });
+      form.reset({
+        ...form.getValues(),
+        crop_stage: "",
+        visual_condition: "",
+        notes: "",
+        recorded_at: nowLocal(),
+      });
       qc.invalidateQueries({ queryKey: ["crop-observations"] });
       qc.invalidateQueries({ queryKey: ["dashboard-summary"] });
     },
@@ -436,10 +511,17 @@ function ObservationSection({ farmId, plots }: { farmId: string; plots: PlotLite
 
   return (
     <div className="grid gap-6 lg:grid-cols-[380px_minmax(0,1fr)]">
-      <form className="surface-card flex flex-col gap-3 p-5" onSubmit={form.handleSubmit((v) => createMut.mutate(v))}>
+      <form
+        className="surface-card flex flex-col gap-3 p-5"
+        onSubmit={form.handleSubmit((v) => createMut.mutate(v))}
+      >
         <h3 className="text-sm font-semibold">Add crop observation</h3>
         <FieldRow label="Plot">
-          <PlotSelect plots={plots} value={form.watch("plot_id")} onChange={(v) => form.setValue("plot_id", v)} />
+          <PlotSelect
+            plots={plots}
+            value={form.watch("plot_id")}
+            onChange={(v) => form.setValue("plot_id", v)}
+          />
         </FieldRow>
         <FieldRow label="Date / time">
           <Input type="datetime-local" {...form.register("recorded_at", { required: true })} />
@@ -450,7 +532,9 @@ function ObservationSection({ farmId, plots }: { farmId: string; plots: PlotLite
         <FieldRow label="Visual condition">
           <Input {...form.register("visual_condition")} placeholder="Healthy / Stressed / Pest" />
         </FieldRow>
-        <FieldRow label="Notes"><Textarea rows={3} {...form.register("notes")} /></FieldRow>
+        <FieldRow label="Notes">
+          <Textarea rows={3} {...form.register("notes")} />
+        </FieldRow>
         <FieldRow label="Image (optional)">
           <Input ref={fileRef} type="file" accept="image/*" />
         </FieldRow>
@@ -467,7 +551,11 @@ function ObservationSection({ farmId, plots }: { farmId: string; plots: PlotLite
         emptyLabel="No crop observations yet."
         onRetry={() => listQ.refetch()}
         columns={[
-          { key: "recorded_at", label: "Date", render: (r) => new Date(r.recorded_at).toLocaleString() },
+          {
+            key: "recorded_at",
+            label: "Date",
+            render: (r) => new Date(r.recorded_at).toLocaleString(),
+          },
           { key: "crop_stage", label: "Stage", render: (r) => r.crop_stage ?? "—" },
           { key: "visual_condition", label: "Condition", render: (r) => r.visual_condition ?? "—" },
           {
@@ -527,7 +615,13 @@ function RecordsTable<T extends Row>({
   if (isLoading) return <CardSkeleton />;
   if (isError) return <ErrorState onRetry={onRetry} />;
   if (visible.length === 0) {
-    return <EmptyState icon={Eye} title={emptyLabel} description="Use the form to add the first record." />;
+    return (
+      <EmptyState
+        icon={Eye}
+        title={emptyLabel}
+        description="Use the form to add the first record."
+      />
+    );
   }
   return (
     <div className="surface-card overflow-x-auto">
@@ -552,7 +646,12 @@ function RecordsTable<T extends Row>({
                 <ConfirmDeleteDialog
                   onConfirm={() => onDelete(r.id)}
                   trigger={
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" aria-label="Delete record">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 text-destructive"
+                      aria-label="Delete record"
+                    >
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   }

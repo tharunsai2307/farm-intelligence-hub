@@ -17,7 +17,10 @@ export const Route = createFileRoute("/_authenticated/app/reports")({
   head: () => ({
     meta: [
       { title: "Reports & Exports — AgriTwin OS" },
-      { name: "description", content: "Export your farm data as CSV — soil, irrigation, and operations records." },
+      {
+        name: "description",
+        content: "Export your farm data as CSV — soil, irrigation, and operations records.",
+      },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),
@@ -52,7 +55,11 @@ function ReportsPage() {
       />
 
       {!activeFarmId ? (
-        <EmptyState icon={FileBarChart2} title="Add a farm to generate reports" description="Create a farm first." />
+        <EmptyState
+          icon={FileBarChart2}
+          title="Add a farm to generate reports"
+          description="Create a farm first."
+        />
       ) : (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <ReportCard
@@ -69,8 +76,16 @@ function ReportsPage() {
             loading={soilQ.isLoading}
             onDownload={() => downloadCsv("soil-records", soilQ.data?.items ?? [])}
           />
-          <ComingSoonCard icon={TrendingUp} title="Yield report" note="Available once harvests are logged across a full season." />
-          <ComingSoonCard icon={Wallet} title="Expense summary" note="Aggregates expenses by category — appears once you log expenses in FarmOS." />
+          <ComingSoonCard
+            icon={TrendingUp}
+            title="Yield report"
+            note="Available once harvests are logged across a full season."
+          />
+          <ComingSoonCard
+            icon={Wallet}
+            title="Expense summary"
+            note="Aggregates expenses by category — appears once you log expenses in FarmOS."
+          />
         </div>
       )}
     </div>
@@ -78,8 +93,18 @@ function ReportsPage() {
 }
 
 function ReportCard({
-  icon: Icon, title, count, loading, onDownload,
-}: { icon: typeof Droplets; title: string; count: number; loading: boolean; onDownload: () => void }) {
+  icon: Icon,
+  title,
+  count,
+  loading,
+  onDownload,
+}: {
+  icon: typeof Droplets;
+  title: string;
+  count: number;
+  loading: boolean;
+  onDownload: () => void;
+}) {
   return (
     <Card>
       <CardHeader>
@@ -88,7 +113,9 @@ function ReportCard({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        {loading ? <Skeleton className="h-16 w-full" /> : (
+        {loading ? (
+          <Skeleton className="h-16 w-full" />
+        ) : (
           <div className="flex items-center justify-between gap-3">
             <div>
               <div className="text-2xl font-semibold tabular-nums">{count}</div>
@@ -104,7 +131,15 @@ function ReportCard({
   );
 }
 
-function ComingSoonCard({ icon: Icon, title, note }: { icon: typeof TrendingUp; title: string; note: string }) {
+function ComingSoonCard({
+  icon: Icon,
+  title,
+  note,
+}: {
+  icon: typeof TrendingUp;
+  title: string;
+  note: string;
+}) {
   return (
     <Card className="opacity-70">
       <CardHeader>
@@ -135,7 +170,10 @@ function downloadCsv(name: string, rows: Record<string, unknown>[]) {
     const s = typeof v === "object" ? JSON.stringify(v) : String(v);
     return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   };
-  const csv = [headers.join(","), ...rows.map((r) => headers.map((h) => escape(r[h])).join(","))].join("\n");
+  const csv = [
+    headers.join(","),
+    ...rows.map((r) => headers.map((h) => escape(r[h])).join(",")),
+  ].join("\n");
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");

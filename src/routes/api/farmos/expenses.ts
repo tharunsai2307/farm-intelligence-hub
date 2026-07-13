@@ -16,16 +16,26 @@ export const Route = createFileRoute("/api/farmos/expenses")({
           to: u.searchParams.get("to") ?? undefined,
           category: (u.searchParams.get("category") ?? undefined) as any,
         });
-        return new Response(JSON.stringify(result), { status: result.success ? 200 : 500, headers: { "Content-Type": "application/json" } });
+        return new Response(JSON.stringify(result), {
+          status: result.success ? 200 : 500,
+          headers: { "Content-Type": "application/json" },
+        });
       },
       POST: async ({ request }) => {
         const auth = await getRequestSupabase(request);
         if (!auth) return jsonError("Unauthorized", 401);
         let body: any;
-        try { body = await request.json(); } catch { return jsonError("Invalid JSON", 400); }
+        try {
+          body = await request.json();
+        } catch {
+          return jsonError("Invalid JSON", 400);
+        }
         const { upsertExpense } = await import("@/lib/services/farmos.server");
         const result = await upsertExpense(auth.supabase, auth.userId, body);
-        return new Response(JSON.stringify(result), { status: result.success ? 200 : 400, headers: { "Content-Type": "application/json" } });
+        return new Response(JSON.stringify(result), {
+          status: result.success ? 200 : 400,
+          headers: { "Content-Type": "application/json" },
+        });
       },
       DELETE: async ({ request }) => {
         const auth = await getRequestSupabase(request);
@@ -34,7 +44,10 @@ export const Route = createFileRoute("/api/farmos/expenses")({
         if (!id) return jsonError("Missing id", 400);
         const { softDeleteExpense } = await import("@/lib/services/farmos.server");
         const result = await softDeleteExpense(auth.supabase, id);
-        return new Response(JSON.stringify(result), { status: result.success ? 200 : 400, headers: { "Content-Type": "application/json" } });
+        return new Response(JSON.stringify(result), {
+          status: result.success ? 200 : 400,
+          headers: { "Content-Type": "application/json" },
+        });
       },
     },
   },

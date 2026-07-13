@@ -33,7 +33,13 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 export const NAV_ITEMS = [
-  { title: "Dashboard", url: "/app/dashboard", icon: LayoutDashboard, group: "Overview", ready: true },
+  {
+    title: "Dashboard",
+    url: "/app/dashboard",
+    icon: LayoutDashboard,
+    group: "Overview",
+    ready: true,
+  },
   { title: "Digital Twin", url: "/app/digital-twin", icon: Boxes, group: "Overview", ready: true },
   { title: "AgriSense", url: "/app/agrisense", icon: Radio, group: "Overview", ready: true },
   { title: "Farm Plots", url: "/app/farm/plots", icon: MapPinned, group: "My Farm", ready: true },
@@ -41,10 +47,28 @@ export const NAV_ITEMS = [
   { title: "Records", url: "/app/farm/records", icon: FlaskConical, group: "My Farm", ready: true },
   { title: "Crop Health", url: "/app/crop-health", icon: Leaf, group: "Intelligence", ready: true },
   { title: "Weather", url: "/app/weather", icon: CloudSun, group: "Intelligence", ready: true },
-  { title: "Irrigation", url: "/app/irrigation", icon: Droplets, group: "Intelligence", ready: true },
-  { title: "Yield Prediction", url: "/app/yield-prediction", icon: LineChart, group: "Intelligence", ready: false },
+  {
+    title: "Irrigation",
+    url: "/app/irrigation",
+    icon: Droplets,
+    group: "Intelligence",
+    ready: true,
+  },
+  {
+    title: "Yield Prediction",
+    url: "/app/yield-prediction",
+    icon: LineChart,
+    group: "Intelligence",
+    ready: false,
+  },
   { title: "FarmOS", url: "/app/farmos", icon: Tractor, group: "Operations", ready: true },
-  { title: "Marketplace", url: "/app/marketplace", icon: ShoppingBag, group: "Operations", ready: true },
+  {
+    title: "Marketplace",
+    url: "/app/marketplace",
+    icon: ShoppingBag,
+    group: "Operations",
+    ready: true,
+  },
   { title: "Reports", url: "/app/reports", icon: FileBarChart2, group: "Operations", ready: true },
   { title: "AgriMind AI", url: "/app/agrimind", icon: Bot, group: "Intelligence", ready: true },
   { title: "Settings", url: "/app/settings", icon: Settings, group: "Account", ready: true },

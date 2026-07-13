@@ -23,7 +23,9 @@ function ExpensesPage() {
     enabled: !!activeFarm,
   });
 
-  const data = q.data?.success ? q.data.data : { items: [], totals: { byCategory: {}, byMonth: {}, grandTotal: 0 } };
+  const data = q.data?.success
+    ? q.data.data
+    : { items: [], totals: { byCategory: {}, byMonth: {}, grandTotal: 0 } };
 
   return (
     <div>

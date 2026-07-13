@@ -35,7 +35,10 @@ export function ComingSoonPage({
         {bullets && bullets.length > 0 && (
           <ul className="grid w-full gap-2 text-sm">
             {bullets.map((b) => (
-              <li key={b} className="flex items-start gap-2 rounded-lg border bg-muted/30 px-3 py-2">
+              <li
+                key={b}
+                className="flex items-start gap-2 rounded-lg border bg-muted/30 px-3 py-2"
+              >
                 <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                 <span>{b}</span>
               </li>

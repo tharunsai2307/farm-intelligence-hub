@@ -6,10 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type {
-  SensorDeviceRow,
-  SensorReadingRow,
-} from "@/lib/services/agrisense.server";
+import type { SensorDeviceRow, SensorReadingRow } from "@/lib/services/agrisense.server";
 
 /**
  * SensorTable — chronological list of incoming readings. Only real rows are

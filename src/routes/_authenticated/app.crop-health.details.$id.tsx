@@ -10,9 +10,7 @@ import { PredictionCard } from "@/components/crop-health/prediction-card";
 import { TreatmentCard } from "@/components/crop-health/treatment-card";
 import { getCropAnalysis } from "@/lib/services/ai-crop.service";
 
-export const Route = createFileRoute(
-  "/_authenticated/app/crop-health/details/$id",
-)({
+export const Route = createFileRoute("/_authenticated/app/crop-health/details/$id")({
   head: () => ({ meta: [{ title: "Analysis Details — AgriTwin OS" }] }),
   component: DetailsPage,
 });

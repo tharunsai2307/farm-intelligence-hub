@@ -15,11 +15,7 @@ export const Route = createFileRoute("/_authenticated")({
 
     // Pull profile + farm count to gate access to /app/*
     const [{ data: profile }, { count: farmCount }] = await Promise.all([
-      supabase
-        .from("profiles")
-        .select("onboarded, full_name")
-        .eq("id", data.user.id)
-        .maybeSingle(),
+      supabase.from("profiles").select("onboarded, full_name").eq("id", data.user.id).maybeSingle(),
       supabase
         .from("farms")
         .select("id", { count: "exact", head: true })
@@ -51,4 +47,3 @@ function AuthenticatedLayout() {
     </AppShell>
   );
 }
-

@@ -37,7 +37,11 @@ function HarvestPage() {
           </div>
         }
       />
-      {q.isLoading || !activeFarm ? <CardSkeleton /> : <HarvestPlanner items={items} farmId={activeFarm} />}
+      {q.isLoading || !activeFarm ? (
+        <CardSkeleton />
+      ) : (
+        <HarvestPlanner items={items} farmId={activeFarm} />
+      )}
     </div>
   );
 }

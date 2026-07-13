@@ -15,9 +15,7 @@ export type SensorReading = {
   source: string;
 };
 
-export async function getLatestReadings(
-  _farm_id: string,
-): Promise<ServiceResult<SensorReading[]>> {
+export async function getLatestReadings(_farm_id: string): Promise<ServiceResult<SensorReading[]>> {
   return fail(NOT_CONFIGURED);
 }
 

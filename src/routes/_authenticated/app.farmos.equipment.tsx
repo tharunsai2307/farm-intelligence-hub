@@ -50,7 +50,9 @@ function EquipmentPage() {
         />
       ) : (
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-          {items.map((e) => <EquipmentCard key={e.id} item={e} />)}
+          {items.map((e) => (
+            <EquipmentCard key={e.id} item={e} />
+          ))}
         </div>
       )}
     </div>

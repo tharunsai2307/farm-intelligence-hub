@@ -10,10 +10,10 @@ export const Route = createFileRoute("/_authenticated/app/yield-prediction")({
       title="Yield Prediction"
       description="Yield modeling will require real crop, soil, and historical records. Nothing is estimated until enough real data is captured."
       bullets={[
-    'Crop-specific yield models',
-    'Inputs: sowing date, variety, weather, soil',
-    'Confidence intervals — not point guesses',
-    'Season-over-season comparison',
+        "Crop-specific yield models",
+        "Inputs: sowing date, variety, weather, soil",
+        "Confidence intervals — not point guesses",
+        "Season-over-season comparison",
       ]}
     />
   ),

@@ -1,9 +1,9 @@
 /**
  * GET /api/agrisense/satellite-image?farm_id=uuid&zoom=16&w=640&h=400
  *
- * Proxies Google Maps Static API ("satellite" map type) using the server-side
- * GOOGLE_EARTH_ENGINE_API_KEY so the key is never exposed to the browser.
- * Returns the raw image bytes for the farm's GPS location.
+ * Authenticated fallback for Google Maps Static satellite basemaps. The managed
+ * browser renderer is preferred; server access requires a key permitting Static
+ * Maps. Returns raw image bytes for an RLS-accessible farm location.
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { getRequestSupabase, jsonError } from "@/lib/server/request-auth.server";

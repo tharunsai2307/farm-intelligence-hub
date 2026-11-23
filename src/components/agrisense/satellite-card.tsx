@@ -14,8 +14,9 @@ import type { SatelliteRecordRow } from "@/lib/services/agrisense.server";
  *
  * Renders the last imported satellite scene's headline metrics. When the
  * provider is configured but no scene has been imported yet, shows a live
- * Google Maps Static satellite tile centred on the farm's GPS coordinates
- * (proxied through /api/agrisense/satellite-image so the key stays server-side).
+ * Google Maps Static satellite basemap centred on the farm's GPS coordinates.
+ * Prefer the referrer-restricted browser key; otherwise fetch the image proxy
+ * with the user's bearer token and render a temporary local blob URL.
  */
 export function SatelliteCard({
   records,

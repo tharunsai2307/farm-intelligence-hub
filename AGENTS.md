@@ -10,3 +10,6 @@
 > the editor, so keep the branch in a working state.
 
 <!-- LOVABLE:END -->
+
+- Satellite basemaps prefer the managed browser Static Maps key on credential-free HTTPS origins; the authenticated image proxy is a fallback only, because image tags cannot send bearer tokens and server keys may lack Static Maps access.
+- Never label a Google satellite basemap as live imagery or infer vegetation measurements from it; acquisition dates and scientific metrics require an imported scene.

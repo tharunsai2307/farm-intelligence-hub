@@ -1,4 +1,10 @@
-import { Satellite } from "lucide-react";
+import { Satellite, RefreshCw } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { supabase } from "@/integrations/supabase/client";
+import { getSatelliteCoordinates } from "@/lib/services/agrisense.service";
+import { staticSatelliteUrl, isSafeMapOrigin } from "@/lib/satellite-image";
+import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/common/empty-state";
 import type { SatelliteRecordRow } from "@/lib/services/agrisense.server";
@@ -42,7 +48,7 @@ export function SatelliteCard({
           variant="outline"
           className={
             configured
-              ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
+              ? "border-success/30 bg-success/10 text-success"
               : "text-muted-foreground"
           }
         >
@@ -53,17 +59,7 @@ export function SatelliteCard({
       <div className="mt-4">
         {!latest ? (
           configured && farmId ? (
-            <figure className="overflow-hidden rounded-lg border">
-              <img
-                src={`/api/agrisense/satellite-image?farm_id=${farmId}&zoom=16`}
-                alt="Live satellite view of your farm"
-                className="h-48 w-full object-cover"
-                loading="lazy"
-              />
-              <figcaption className="px-3 py-2 text-xs text-muted-foreground">
-                Live satellite tile · centred on your farm GPS · {provider ?? "Google"}
-              </figcaption>
-            </figure>
+            <SatelliteImage key={farmId} farmId={farmId} />
           ) : (
             <EmptyState
               icon={Satellite}
@@ -88,6 +84,62 @@ export function SatelliteCard({
       </div>
     </div>
   );
+}
+
+function SatelliteImage({ farmId }: { farmId: string }) {
+  const getCoordinates = useServerFn(getSatelliteCoordinates);
+  const [source, setSource] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [attempt, setAttempt] = useState(0);
+  useEffect(() => {
+    const controller = new AbortController();
+    let objectUrl: string | null = null;
+    setSource(null);
+    setError(null);
+    async function load() {
+      try {
+        const browserKey = import.meta.env["VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_KEY"];
+        if (browserKey) {
+          if (!isSafeMapOrigin(window.location.origin)) throw new Error("Satellite imagery is available on your published, authorized HTTPS site.");
+          const location = await getCoordinates({ data: { farm_id: farmId } });
+          const url = staticSatelliteUrl(window.location.origin, browserKey, location.latitude, location.longitude,
+            import.meta.env["VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_TRACKING_ID"] ?? "");
+          if (!url) throw new Error("Your farm GPS coordinates are invalid.");
+          if (!controller.signal.aborted) setSource(url);
+          return;
+        }
+        const { data } = await supabase.auth.getSession();
+        if (!data.session) throw new Error("Please sign in again to view satellite imagery.");
+        const response = await fetch(`/api/agrisense/satellite-image?farm_id=${encodeURIComponent(farmId)}&zoom=16`, {
+          headers: { Authorization: `Bearer ${data.session.access_token}` }, signal: controller.signal,
+        });
+        if (!response.ok) {
+          const body = await response.json().catch(() => null);
+          throw new Error(body?.error ?? `Satellite imagery could not load (${response.status}).`);
+        }
+        if (!response.headers.get("content-type")?.startsWith("image/")) throw new Error("The satellite service did not return an image.");
+        const blob = await response.blob();
+        if (controller.signal.aborted) return;
+        objectUrl = URL.createObjectURL(blob);
+        setSource(objectUrl);
+      } catch (cause) {
+        if (!controller.signal.aborted) setError(cause instanceof Error ? cause.message : "Satellite imagery could not load.");
+      }
+    }
+    void load();
+    return () => { controller.abort(); if (objectUrl) URL.revokeObjectURL(objectUrl); };
+  }, [farmId, attempt, getCoordinates]);
+  return <figure className="overflow-hidden rounded-lg border">
+    {error ? <div className="flex min-h-48 flex-col items-center justify-center gap-3 p-4 text-center" role="alert">
+      <Satellite className="h-6 w-6 text-muted-foreground" />
+      <p className="text-sm">{error}</p>
+      <Button variant="outline" size="sm" onClick={() => setAttempt(value => value + 1)}><RefreshCw className="mr-2 h-4 w-4" />Retry</Button>
+    </div> : source ? <img crossOrigin="anonymous" referrerPolicy="strict-origin-when-cross-origin" src={source}
+      alt="Satellite imagery centered on your farm" className="aspect-[8/5] w-full object-contain"
+      onError={() => setError("Google could not display this image. Check Maps Static API access and that this website is authorized.")} />
+      : <div className="grid min-h-48 place-items-center bg-muted text-sm text-muted-foreground" role="status">Loading satellite imagery…</div>}
+    <figcaption className="px-3 py-2 text-xs text-muted-foreground">Google satellite basemap · farm GPS location · capture date unavailable</figcaption>
+  </figure>;
 }
 
 function Metric({ label, value }: { label: string; value: string }) {

@@ -45,9 +45,11 @@ export const Route = createFileRoute("/")({
         content:
           "AI-powered Digital Twin platform that helps farmers monitor, predict, and optimize using real data — never guesses.",
       },
-      { property: "og:url", content: "https://farm-intelligence-hub.pages.dev/" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "https://agri-twin-os.lovable.app/" },
     ],
-    links: [{ rel: "canonical", href: "https://farm-intelligence-hub.pages.dev/" }],
+    links: [{ rel: "canonical", href: "https://agri-twin-os.lovable.app/" }],
     scripts: [
       {
         type: "application/ld+json",
@@ -55,7 +57,7 @@ export const Route = createFileRoute("/")({
           "@context": "https://schema.org",
           "@type": "WebSite",
           name: "AgriTwin OS",
-          url: "https://farm-intelligence-hub.pages.dev/",
+          url: "https://agri-twin-os.lovable.app/",
           description: "AI-powered Digital Twin platform for modern agriculture.",
         }),
       },
@@ -65,8 +67,8 @@ export const Route = createFileRoute("/")({
           "@context": "https://schema.org",
           "@type": "Organization",
           name: "AgriTwin OS",
-          url: "https://farm-intelligence-hub.pages.dev/",
-          logo: "https://farm-intelligence-hub.pages.dev/favicon.ico",
+          url: "https://agri-twin-os.lovable.app/",
+          logo: "https://agri-twin-os.lovable.app/favicon.ico",
           description:
             "AgriTwin OS builds AI-powered digital twins for farms — unifying crop, soil, water, weather, and operations data.",
         }),

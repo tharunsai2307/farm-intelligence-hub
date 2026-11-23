@@ -146,7 +146,9 @@ export const getSatelliteStatus = createServerFn({ method: "GET" }).handler(asyn
   const result: ServiceResult<{ configured: boolean; provider: string | null }> = configured
     ? ok({
         configured: true,
-        provider: process.env.SENTINEL_HUB_API_KEY
+        provider: hasGmaps
+          ? "Google Maps Platform"
+          : process.env.SENTINEL_HUB_API_KEY
           ? "Sentinel Hub"
           : process.env.GOOGLE_EARTH_ENGINE_API_KEY
             ? "Google Earth Engine"
@@ -157,6 +159,17 @@ export const getSatelliteStatus = createServerFn({ method: "GET" }).handler(asyn
     : fail("Satellite service unavailable.");
   return result;
 });
+
+export const getSatelliteCoordinates = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: { farm_id: string }) => z.object({ farm_id: z.string().uuid() }).parse(input))
+  .handler(async ({ data, context }) => {
+    const { data: location, error } = await context.supabase.from("farm_locations")
+      .select("latitude, longitude").eq("farm_id", data.farm_id).maybeSingle();
+    if (error) throw new Error(error.message);
+    if (!location) throw new Error("Add your farm GPS coordinates before loading satellite imagery.");
+    return location;
+  });
 
 const createDroneInput = z.object({
   farm_id: z.string().uuid(),

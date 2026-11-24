@@ -1,8 +1,18 @@
 import { describe, test } from "node:test";
 import assert from "node:assert/strict";
-import { isSafeMapOrigin, staticSatelliteUrl } from "./satellite-image";
+import { isSafeMapOrigin, staticSatelliteUrl, parseFarmCoordinates, satelliteBasemapStatus } from "./satellite-image";
 
 describe("satellite image origin safety", () => {
+  test("blank GPS fields never become a farm at zero coordinates", () => {
+    assert.equal(parseFarmCoordinates("", ""), null);
+    assert.deepEqual(parseFarmCoordinates("0", "0"), { latitude: 0, longitude: 0 });
+  });
+  test("configuration requires a browser key or both gateway credentials", () => {
+    assert.equal(satelliteBasemapStatus().configured, false);
+    assert.equal(satelliteBasemapStatus(undefined, "gateway").configured, false);
+    assert.equal(satelliteBasemapStatus("browser").configured, true);
+    assert.equal(satelliteBasemapStatus(undefined, "gateway", "maps").provider, "Google Maps Platform");
+  });
   test("never sends a credential-bearing preview origin to Google", () => {
     assert.equal(isSafeMapOrigin("https://project-devserver-accesskey.lovableproject.com"), false);
     assert.equal(staticSatelliteUrl("https://project-devserver-accesskey.lovableproject.com", "public-test-key", 12, 77), null);

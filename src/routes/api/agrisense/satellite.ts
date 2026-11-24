@@ -7,6 +7,7 @@
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { getRequestSupabase, jsonError, jsonOk } from "@/lib/server/request-auth.server";
+import { z } from "zod";
 
 export const Route = createFileRoute("/api/agrisense/satellite")({
   server: {
@@ -15,15 +16,17 @@ export const Route = createFileRoute("/api/agrisense/satellite")({
         const auth = await getRequestSupabase(request);
         if (!auth) return jsonError("Unauthorized", 401);
         const url = new URL(request.url);
-        const farmId = url.searchParams.get("farm_id");
-        if (!farmId) return jsonError("farm_id required", 400);
+        const parsed = z.string().uuid().safeParse(url.searchParams.get("farm_id"));
+        if (!parsed.success) return jsonError("A valid farm ID is required", 400);
+        const farmId = parsed.data;
         const { listSatelliteRecords, isSatelliteConfigured } =
           await import("@/lib/services/agrisense.server");
         const result = await listSatelliteRecords(auth.supabase, farmId);
+        if (!result.success) return jsonError(result.error, 500);
         return jsonOk({
           configured: isSatelliteConfigured(),
-          records: result.success ? result.data : [],
-          error: result.success ? null : result.error,
+          records: result.data,
+          error: null,
         });
       },
     },

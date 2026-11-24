@@ -13,7 +13,7 @@ import type { SatelliteRecordRow } from "@/lib/services/agrisense.server";
  * SatelliteCard
  *
  * Renders the last imported satellite scene's headline metrics. When the
- * provider is configured but no scene has been imported yet, shows a live
+ * provider is configured but no scene has been imported yet, shows a
  * Google Maps Static satellite basemap centred on the farm's GPS coordinates.
  * Prefer the referrer-restricted browser key; otherwise fetch the image proxy
  * with the user's bearer token and render a temporary local blob URL.
@@ -41,7 +41,7 @@ export function SatelliteCard({
           <div>
             <h3 className="text-sm font-semibold">Satellite</h3>
             <p className="text-xs text-muted-foreground">
-              {provider ?? "Sentinel Hub / GEE / Planet"}
+              {latest?.provider ?? provider ?? "Google satellite basemap"}
             </p>
           </div>
         </div>
@@ -53,7 +53,7 @@ export function SatelliteCard({
               : "text-muted-foreground"
           }
         >
-          {configured ? "Configured" : "Not configured"}
+          {latest ? "Imported scene" : configured ? "Configured" : "Not configured"}
         </Badge>
       </header>
 
@@ -67,24 +67,39 @@ export function SatelliteCard({
               title={configured ? "No satellite imagery yet" : "Satellite service unavailable."}
               description={
                 configured
-                  ? "Add your farm GPS coordinates to see a live satellite view."
-                  : "Connect a Sentinel Hub, Google Earth Engine, or Planet Labs key to begin imports."
+                  ? "Select a farm with GPS coordinates to see satellite imagery."
+                  : "Connect Google Maps Platform for a satellite basemap. Imported scenes are shown separately."
               }
             />
           )
         ) : (
-          <dl className="grid grid-cols-3 gap-2 text-xs">
+          <div className="space-y-3">
+            {latest.image_url ? <ImportedScene key={latest.id} source={latest.image_url} date={latest.image_date} />
+              : configured && farmId ? <SatelliteImage key={farmId} farmId={farmId} />
+              : <p className="text-xs text-muted-foreground">This imported scene contains measurements but no image.</p>}
+            <dl className="grid grid-cols-3 gap-2 text-xs">
             <Metric label="NDVI" value={fmt(latest.ndvi)} />
             <Metric label="Moisture" value={fmt(latest.moisture_index)} />
             <Metric label="Vegetation" value={fmt(latest.vegetation_index)} />
             <Metric label="Resolution" value={latest.resolution ?? "—"} />
             <Metric label="Provider" value={latest.provider} />
             <Metric label="Captured" value={new Date(latest.image_date).toLocaleDateString()} />
-          </dl>
+            </dl>
+          </div>
         )}
       </div>
     </div>
   );
+}
+
+function ImportedScene({ source, date }: { source: string; date: string }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) return <p role="alert" className="text-sm">The imported scene image is unavailable. Its measurements are preserved below.</p>;
+  return <figure className="overflow-hidden rounded-lg border">
+    <img src={source} alt={`Imported satellite scene captured ${date}`} referrerPolicy="no-referrer"
+      className="aspect-[8/5] w-full object-contain" onError={() => setFailed(true)} />
+    <figcaption className="px-3 py-2 text-xs text-muted-foreground">Imported scene · {date}</figcaption>
+  </figure>;
 }
 
 function SatelliteImage({ farmId }: { farmId: string }) {

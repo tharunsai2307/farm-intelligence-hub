@@ -9,6 +9,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 import { fail, ok, type ServiceResult } from "./result";
+import { satelliteBasemapStatus } from "@/lib/satellite-image";
 
 type SB = SupabaseClient<Database>;
 
@@ -213,12 +214,8 @@ export async function ingestReading(
 // -------------------- Satellite --------------------
 
 export function isSatelliteConfigured(): boolean {
-  return Boolean(
-    process.env.SENTINEL_HUB_API_KEY ||
-    process.env.GOOGLE_EARTH_ENGINE_API_KEY ||
-    process.env.PLANET_LABS_API_KEY ||
-    (process.env.LOVABLE_API_KEY && process.env.GOOGLE_MAPS_API_KEY),
-  );
+  return satelliteBasemapStatus(process.env["GOOGLE_MAPS_BROWSER_KEY"],
+    process.env["LOVABLE_API_KEY"], process.env["GOOGLE_MAPS_API_KEY"]).configured;
 }
 
 export async function listSatelliteRecords(

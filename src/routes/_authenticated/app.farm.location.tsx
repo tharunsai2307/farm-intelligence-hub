@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { createFileRoute, ClientOnly } from "@tanstack/react-router";
+import { useEffect, lazy, Suspense } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -18,7 +18,10 @@ import {
   updateFarmLocation,
 } from "@/lib/services/farms.functions";
 import { listFarmPlots } from "@/lib/services/farm-plots.functions";
-import { FarmLocationMap, type MapMarker } from "@/components/farm/farm-location-map";
+import type { MapMarker } from "@/components/farm/farm-location-map";
+import { parseFarmCoordinates } from "@/lib/satellite-image";
+
+const FarmLocationMap = lazy(() => import("@/components/farm/farm-location-map").then(module => ({ default: module.FarmLocationMap })));
 
 export const Route = createFileRoute("/_authenticated/app/farm/location")({
   head: () => ({
@@ -76,13 +79,10 @@ function LocationPage() {
 
   const saveMut = useMutation({
     mutationFn: (v: Form) => {
-      const lat = Number(v.latitude);
-      const lng = Number(v.longitude);
-      if (!Number.isFinite(lat) || lat < -90 || lat > 90) throw new Error("Latitude out of range");
-      if (!Number.isFinite(lng) || lng < -180 || lng > 180)
-        throw new Error("Longitude out of range");
+      const coordinates = parseFarmCoordinates(v.latitude, v.longitude);
+      if (!coordinates || !farm) throw new Error("Enter valid latitude and longitude before saving.");
       return updateFarmLocation({
-        data: { farm_id: farm!.id, latitude: lat, longitude: lng, label: v.label || "Primary" },
+        data: { farm_id: farm.id, ...coordinates, label: v.label || "Primary" },
       });
     },
     onSuccess: () => {
@@ -108,16 +108,14 @@ function LocationPage() {
     );
   };
 
-  const lat = Number(form.watch("latitude"));
-  const lng = Number(form.watch("longitude"));
-  const hasCoords = Number.isFinite(lat) && Number.isFinite(lng);
+  const coordinates = parseFarmCoordinates(form.watch("latitude"), form.watch("longitude"));
+  const hasCoords = coordinates !== null;
 
   const markers: MapMarker[] = [];
-  if (hasCoords)
+  if (coordinates)
     markers.push({
       id: "farm",
-      latitude: lat,
-      longitude: lng,
+      ...coordinates,
       label: farm?.name,
       color: "#10b981",
     });
@@ -145,14 +143,14 @@ function LocationPage() {
 
       {farm && (
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-          <FarmLocationMap
-            center={hasCoords ? { latitude: lat, longitude: lng } : null}
+          <ClientOnly fallback={<CardSkeleton />}><Suspense fallback={<CardSkeleton />}><FarmLocationMap
+            center={coordinates}
             markers={markers}
             onPick={(c) => {
               form.setValue("latitude", c.latitude.toFixed(6));
               form.setValue("longitude", c.longitude.toFixed(6));
             }}
-          />
+          /></Suspense></ClientOnly>
 
           <form
             className="surface-card flex flex-col gap-4 p-5"

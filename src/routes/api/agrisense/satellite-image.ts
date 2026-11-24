@@ -25,9 +25,8 @@ export const Route = createFileRoute("/api/agrisense/satellite-image")({
 
         const lovableKey = process.env["LOVABLE_API_KEY"];
         const gmapsKey = process.env["GOOGLE_MAPS_API_KEY"];
-        const legacyKey = process.env["GOOGLE_EARTH_ENGINE_API_KEY"];
-        if (!legacyKey && !(lovableKey && gmapsKey))
-          return jsonError("Satellite provider not configured", 503);
+        if (!lovableKey || !gmapsKey)
+          return jsonError("Google satellite image service is not configured", 503);
 
         const url = new URL(request.url);
         const parsed = imageQuery.safeParse(Object.fromEntries(url.searchParams));
@@ -38,6 +37,7 @@ export const Route = createFileRoute("/api/agrisense/satellite-image")({
           .from("farm_locations")
           .select("latitude, longitude")
           .eq("farm_id", farmId)
+          .order("created_at", { ascending: true }).limit(1)
           .maybeSingle();
         if (error) return jsonError(error.message, 400);
         if (!farm || farm.latitude == null || farm.longitude == null)
@@ -52,22 +52,17 @@ export const Route = createFileRoute("/api/agrisense/satellite-image")({
         });
         params.append("markers", `color:red|${farm.latitude},${farm.longitude}`);
 
-        const useGateway = Boolean(lovableKey && gmapsKey);
-        const endpoint = useGateway
-          ? `https://connector-gateway.lovable.dev/google_maps/maps/api/staticmap?${params.toString()}`
-          : `https://maps.googleapis.com/maps/api/staticmap?${params.toString()}&key=${legacyKey}`;
+        const endpoint = `https://connector-gateway.lovable.dev/google_maps/maps/api/staticmap?${params.toString()}`;
 
         let upstream: Response;
         try { upstream = await fetch(
           endpoint,
-          useGateway
-            ? {
+          {
                 headers: {
                   Authorization: `Bearer ${lovableKey}`,
-                  "X-Connection-Api-Key": gmapsKey as string,
+                  "X-Connection-Api-Key": gmapsKey,
                 },
-              }
-            : undefined,
+              },
         ); } catch { return jsonError("Satellite service could not be reached. Please try again.", 502); }
         if (!upstream.ok) {
           const text = await upstream.text().catch(() => "");

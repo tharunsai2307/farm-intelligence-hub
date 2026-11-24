@@ -1,8 +1,7 @@
 import { useEffect, useRef } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { MapPin } from "lucide-react";
-import { EmptyState } from "@/components/common/empty-state";
+import { useState } from "react";
 
 export type MapMarker = {
   id: string;
@@ -35,6 +34,7 @@ export function FarmLocationMap({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<L.Map | null>(null);
   const markerLayerRef = useRef<L.LayerGroup | null>(null);
+  const [tileError, setTileError] = useState(false);
   const onPickRef = useRef(onPick);
   onPickRef.current = onPick;
 
@@ -48,7 +48,7 @@ export function FarmLocationMap({
     });
 
     // Satellite-style basemap (Esri World Imagery — no API key required, free for non-commercial use).
-    L.tileLayer(
+    const imagery = L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
       {
         attribution: "Imagery © Esri, Maxar, Earthstar Geographics | © OpenStreetMap contributors",
@@ -56,12 +56,8 @@ export function FarmLocationMap({
       },
     ).addTo(map);
 
-    // Roads + labels overlay
-    L.tileLayer("https://stamen-tiles.a.ssl.fastly.net/toner-lines/{z}/{x}/{y}.png", {
-      opacity: 0.35,
-      maxZoom: 19,
-      attribution: "",
-    }).addTo(map);
+    imagery.on("tileerror", () => setTileError(true));
+    imagery.on("tileload", () => setTileError(false));
 
     markerLayerRef.current = L.layerGroup().addTo(map);
     map.on("click", (e: L.LeafletMouseEvent) => {
@@ -108,21 +104,14 @@ export function FarmLocationMap({
     }
   }, [markers, center]);
 
-  if (!center && markers.length === 0) {
-    return (
-      <EmptyState
-        icon={MapPin}
-        title="Farm location not set"
-        description="Tap the map below or enter latitude and longitude to place your farm."
-      />
-    );
-  }
-
   return (
-    <div
+    <div className="space-y-2">
+      {tileError && <p role="alert" className="text-sm text-muted-foreground">Satellite tiles could not load. You can still enter or capture GPS coordinates.</p>}
+      <div
       ref={containerRef}
       className="w-full overflow-hidden rounded-xl border"
       style={{ height }}
     />
+    </div>
   );
 }

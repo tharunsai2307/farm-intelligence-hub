@@ -234,8 +234,8 @@ function AgriSensePage() {
         label: "Satellite imagery",
         configured: satelliteStatusQ.data?.success === true,
         detail: satelliteStatusQ.data?.success
-          ? `Provider: ${satelliteStatusQ.data.data.provider}`
-          : "Satellite service unavailable.",
+          ? `Provider: ${satelliteStatusQ.data.data.provider} · basemap, not a live scene feed`
+          : satelliteStatusQ.isPending ? "Checking…" : satelliteStatusQ.data?.error ?? "Satellite service unavailable.",
       },
       {
         key: "ai_crop",
@@ -369,7 +369,7 @@ function AgriSensePage() {
                           : "text-muted-foreground"
                       }
                     >
-                      {s.configured ? "Connected" : "Not configured"}
+                      {s.key === "satellite" ? satelliteStatusQ.isPending ? "Checking…" : s.configured ? "Configured" : "Unavailable" : s.configured ? "Connected" : "Not configured"}
                     </Badge>
                   </div>
                   {s.detail && <p className="mt-1 text-xs text-muted-foreground">{s.detail}</p>}
@@ -460,6 +460,11 @@ function AgriSensePage() {
             </Section>
 
             <Section title="Satellite Status" icon={SatelliteIcon}>
+              {satelliteRecordsQ.isPending || satelliteStatusQ.isPending ? <CardSkeleton /> : <>
+              {(satelliteRecordsQ.isError || satelliteRecordsQ.data?.success === false) && <p role="alert" className="mb-3 text-sm">
+                Imported scenes could not be loaded. {satelliteRecordsQ.data?.success === false ? satelliteRecordsQ.data.error : "Please retry."}
+                <Button variant="ghost" size="sm" onClick={() => satelliteRecordsQ.refetch()}><RefreshCw className="mr-2 h-4 w-4" />Retry</Button>
+              </p>}
               <SatelliteCard
                 records={satRecords}
                 configured={satelliteStatusQ.data?.success === true}
@@ -468,6 +473,7 @@ function AgriSensePage() {
                   satelliteStatusQ.data?.success ? satelliteStatusQ.data.data.provider : null
                 }
               />
+              </>}
             </Section>
           </div>
 

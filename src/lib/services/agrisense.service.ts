@@ -7,7 +7,8 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { fail, ok, type ServiceResult } from "./result";
+import { fail, ok } from "./result";
+import { satelliteBasemapStatus } from "@/lib/satellite-image";
 
 const deviceTypeEnum = z.enum([
   "esp32",
@@ -136,28 +137,9 @@ export const listSatelliteRecordsFn = createServerFn({ method: "GET" })
   });
 
 export const getSatelliteStatus = createServerFn({ method: "GET" }).handler(async () => {
-  const hasGmaps = Boolean(process.env.LOVABLE_API_KEY && process.env.GOOGLE_MAPS_API_KEY);
-  const configured = Boolean(
-    process.env.SENTINEL_HUB_API_KEY ||
-    process.env.GOOGLE_EARTH_ENGINE_API_KEY ||
-    process.env.PLANET_LABS_API_KEY ||
-    hasGmaps,
-  );
-  const result: ServiceResult<{ configured: boolean; provider: string | null }> = configured
-    ? ok({
-        configured: true,
-        provider: hasGmaps
-          ? "Google Maps Platform"
-          : process.env.SENTINEL_HUB_API_KEY
-          ? "Sentinel Hub"
-          : process.env.GOOGLE_EARTH_ENGINE_API_KEY
-            ? "Google Earth Engine"
-            : process.env.PLANET_LABS_API_KEY
-              ? "Planet Labs"
-              : "Google Maps Platform",
-      })
-    : fail("Satellite service unavailable.");
-  return result;
+  const status = satelliteBasemapStatus(process.env["GOOGLE_MAPS_BROWSER_KEY"],
+    process.env["LOVABLE_API_KEY"], process.env["GOOGLE_MAPS_API_KEY"]);
+  return status.configured ? ok(status) : fail("Google satellite basemap is not configured. Imported scenes remain available.");
 });
 
 export const getSatelliteCoordinates = createServerFn({ method: "GET" })
@@ -165,7 +147,8 @@ export const getSatelliteCoordinates = createServerFn({ method: "GET" })
   .inputValidator((input: { farm_id: string }) => z.object({ farm_id: z.string().uuid() }).parse(input))
   .handler(async ({ data, context }) => {
     const { data: location, error } = await context.supabase.from("farm_locations")
-      .select("latitude, longitude").eq("farm_id", data.farm_id).maybeSingle();
+      .select("latitude, longitude").eq("farm_id", data.farm_id)
+      .order("created_at", { ascending: true }).limit(1).maybeSingle();
     if (error) throw new Error(error.message);
     if (!location) throw new Error("Add your farm GPS coordinates before loading satellite imagery.");
     return location;

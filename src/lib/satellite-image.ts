@@ -1,4 +1,16 @@
 /** Only credential-free HTTPS origins may send Google the page's origin. */
+export function satelliteBasemapStatus(browserKey?: string, gatewayKey?: string, mapsKey?: string) {
+  const configured = Boolean(browserKey || (gatewayKey && mapsKey));
+  return { configured, provider: configured ? "Google Maps Platform" : null };
+}
+
+export function parseFarmCoordinates(latitude: string, longitude: string) {
+  if (!latitude.trim() || !longitude.trim()) return null;
+  const lat = Number(latitude), lng = Number(longitude);
+  if (!Number.isFinite(lat) || !Number.isFinite(lng) || Math.abs(lat) > 90 || Math.abs(lng) > 180) return null;
+  return { latitude: lat, longitude: lng };
+}
+
 export function isSafeMapOrigin(origin: string): boolean {
   try {
     const url = new URL(origin);

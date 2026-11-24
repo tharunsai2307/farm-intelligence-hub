@@ -111,12 +111,14 @@ export const updateFarmLocation = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     // Ensure the farm belongs to the caller (RLS will also block)
-    const { data: existing } = await context.supabase
+    const { data: existing, error: locationError } = await context.supabase
       .from("farm_locations")
       .select("id")
       .eq("farm_id", data.farm_id)
+      .order("created_at", { ascending: true })
       .limit(1)
       .maybeSingle();
+    if (locationError) throw new Error(locationError.message);
 
     if (existing) {
       const { error } = await context.supabase
